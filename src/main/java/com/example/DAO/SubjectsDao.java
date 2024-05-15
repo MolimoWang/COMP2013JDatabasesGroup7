@@ -1,7 +1,6 @@
 package com.example.DAO;
 
 import com.example.model.Subject;
-
 import java.util.List;
 
 public interface SubjectsDao {

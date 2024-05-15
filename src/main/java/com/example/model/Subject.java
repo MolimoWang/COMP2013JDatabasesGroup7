@@ -2,7 +2,15 @@ package com.example.model;
 
 public class Subject {
     private int subjectId;
-    // 其他相关字段
+    private String name;
+
+    public Subject() {
+    }
+
+    public Subject(int subjectId, String name) {
+        this.subjectId = subjectId;
+        this.name = name;
+    }
 
     public int getSubjectId() {
         return subjectId;
@@ -12,5 +20,11 @@ public class Subject {
         this.subjectId = subjectId;
     }
 
-    // 其他相关的getter和setter方法
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

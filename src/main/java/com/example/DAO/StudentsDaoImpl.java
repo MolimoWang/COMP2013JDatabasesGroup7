@@ -14,8 +14,10 @@ public class StudentsDaoImpl implements StudentsDao {
     public void insert(Student student) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Students (StudentID) VALUES (?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Students (StudentID, Name, PaperID) VALUES (?, ?, ?)");
             ps.setInt(1, student.getStudentId());
+            ps.setString(2, student.getName());
+            ps.setInt(3, student.getPaperId());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -49,7 +51,8 @@ public class StudentsDaoImpl implements StudentsDao {
             if (rs.next()) {
                 student = new Student();
                 student.setStudentId(rs.getInt("StudentID"));
-                // set other fields
+                student.setName(rs.getString("Name"));
+                student.setPaperId(rs.getInt("PaperID"));
             }
             rs.close();
             ps.close();
@@ -70,7 +73,8 @@ public class StudentsDaoImpl implements StudentsDao {
             while (rs.next()) {
                 Student student = new Student();
                 student.setStudentId(rs.getInt("StudentID"));
-                // set other fields
+                student.setName(rs.getString("Name"));
+                student.setPaperId(rs.getInt("PaperID"));
                 students.add(student);
             }
             rs.close();

@@ -14,8 +14,9 @@ public class SubjectsDaoImpl implements SubjectsDao {
     public void insert(Subject subject) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Subjects (SubjectID) VALUES (?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Subjects (SubjectID, Name) VALUES (?, ?)");
             ps.setInt(1, subject.getSubjectId());
+            ps.setString(2, subject.getName());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -49,7 +50,7 @@ public class SubjectsDaoImpl implements SubjectsDao {
             if (rs.next()) {
                 subject = new Subject();
                 subject.setSubjectId(rs.getInt("SubjectID"));
-                // set other fields
+                subject.setName(rs.getString("Name"));
             }
             rs.close();
             ps.close();
@@ -70,7 +71,7 @@ public class SubjectsDaoImpl implements SubjectsDao {
             while (rs.next()) {
                 Subject subject = new Subject();
                 subject.setSubjectId(rs.getInt("SubjectID"));
-                // set other fields
+                subject.setName(rs.getString("Name"));
                 subjects.add(subject);
             }
             rs.close();

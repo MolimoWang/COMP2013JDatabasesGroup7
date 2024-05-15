@@ -2,7 +2,8 @@ package com.example.model;
 
 public class Teacher {
     private int teacherId;
-    // 其他相关字段
+    private String name;
+    private int subjectId;
 
     public int getTeacherId() {
         return teacherId;
@@ -12,5 +13,19 @@ public class Teacher {
         this.teacherId = teacherId;
     }
 
-    // 其他相关的getter和setter方法
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
+    }
 }

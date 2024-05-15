@@ -14,9 +14,11 @@ public class PapersDaoImpl implements PapersDao {
     public void insert(Paper paper) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Papers (PaperID, Content) VALUES (?, ?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Papers (PaperID, Title, Year, SubjectID) VALUES (?, ?, ?, ?)");
             ps.setInt(1, paper.getPaperId());
-            ps.setString(2, paper.getContent());
+            ps.setString(2, paper.getTitle());
+            ps.setInt(3, paper.getYear());
+            ps.setInt(4, paper.getSubjectId());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -50,7 +52,9 @@ public class PapersDaoImpl implements PapersDao {
             if (rs.next()) {
                 paper = new Paper();
                 paper.setPaperId(rs.getInt("PaperID"));
-                paper.setContent(rs.getString("Content"));
+                paper.setTitle(rs.getString("Title"));
+                paper.setYear(rs.getInt("Year"));
+                paper.setSubjectId(rs.getInt("SubjectID"));
             }
             rs.close();
             ps.close();
@@ -71,7 +75,9 @@ public class PapersDaoImpl implements PapersDao {
             while (rs.next()) {
                 Paper paper = new Paper();
                 paper.setPaperId(rs.getInt("PaperID"));
-                paper.setContent(rs.getString("Content"));
+                paper.setTitle(rs.getString("Title"));
+                paper.setYear(rs.getInt("Year"));
+                paper.setSubjectId(rs.getInt("SubjectID"));
                 papers.add(paper);
             }
             rs.close();
@@ -87,9 +93,11 @@ public class PapersDaoImpl implements PapersDao {
     public void update(Paper paper) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE Papers SET Content = ? WHERE PaperID = ?");
-            ps.setString(1, paper.getContent());
-            ps.setInt(2, paper.getPaperId());
+            PreparedStatement ps = conn.prepareStatement("UPDATE Papers SET Title = ?, Year = ?, SubjectID = ? WHERE PaperID = ?");
+            ps.setString(1, paper.getTitle());
+            ps.setInt(2, paper.getYear());
+            ps.setInt(3, paper.getSubjectId());
+            ps.setInt(4, paper.getPaperId());
             ps.executeUpdate();
             ps.close();
             conn.close();

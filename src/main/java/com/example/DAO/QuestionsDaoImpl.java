@@ -14,9 +14,11 @@ public class QuestionsDaoImpl implements QuestionsDao {
     public void insert(Question question) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, Text) VALUES (?, ?)");  // 修改为Text
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, PaperID, Text, AnswerID) VALUES (?, ?, ?, ?)");
             ps.setInt(1, question.getQuestionId());
-            ps.setString(2, question.getText());  // 修改为getText
+            ps.setInt(2, question.getPaperId());
+            ps.setString(3, question.getText());
+            ps.setInt(4, question.getAnswerId());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -26,7 +28,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
     }
 
     @Override
-    public void deleteById(int questionId) {
+    public void delete(int questionId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
@@ -40,7 +42,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
     }
 
     @Override
-    public Question findById(int questionId) {
+    public Question find(int questionId) {
         Question question = null;
         try {
             Connection conn = DatabaseConnection.getConnection();
@@ -50,7 +52,9 @@ public class QuestionsDaoImpl implements QuestionsDao {
             if (rs.next()) {
                 question = new Question();
                 question.setQuestionId(rs.getInt("QuestionID"));
-                question.setText(rs.getString("Text"));  // 修改为setText
+                question.setPaperId(rs.getInt("PaperID"));
+                question.setText(rs.getString("Text"));
+                question.setAnswerId(rs.getInt("AnswerID"));
             }
             rs.close();
             ps.close();
@@ -71,7 +75,9 @@ public class QuestionsDaoImpl implements QuestionsDao {
             while (rs.next()) {
                 Question question = new Question();
                 question.setQuestionId(rs.getInt("QuestionID"));
-                question.setText(rs.getString("Content"));
+                question.setPaperId(rs.getInt("PaperID"));
+                question.setText(rs.getString("Text"));
+                question.setAnswerId(rs.getInt("AnswerID"));
                 questions.add(question);
             }
             rs.close();
@@ -81,20 +87,5 @@ public class QuestionsDaoImpl implements QuestionsDao {
             e.printStackTrace();
         }
         return questions;
-    }
-
-    @Override
-    public void update(Question question) {
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE Questions SET Text = ? WHERE QuestionID = ?");
-            ps.setString(1, question.getText());
-            ps.setInt(2, question.getQuestionId());
-            ps.executeUpdate();
-            ps.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

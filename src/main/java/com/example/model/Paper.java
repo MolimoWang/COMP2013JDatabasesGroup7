@@ -2,7 +2,9 @@ package com.example.model;
 
 public class Paper {
     private int paperId;
-    private String content;
+    private String title;
+    private int year;
+    private int subjectId;
 
     public int getPaperId() {
         return paperId;
@@ -12,11 +14,27 @@ public class Paper {
         this.paperId = paperId;
     }
 
-    public String getContent() {
-        return content;
+    public String getTitle() {
+        return title;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
     }
 }

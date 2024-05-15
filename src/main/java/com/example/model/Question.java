@@ -2,7 +2,9 @@ package com.example.model;
 
 public class Question {
     private int questionId;
-    private String text;  // 修改为text
+    private int paperId;
+    private String text;
+    private int answerId;
 
     public int getQuestionId() {
         return questionId;
@@ -12,11 +14,27 @@ public class Question {
         this.questionId = questionId;
     }
 
-    public String getText() {  // 修改为getText
+    public int getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(int paperId) {
+        this.paperId = paperId;
+    }
+
+    public String getText() {
         return text;
     }
 
-    public void setText(String text) {  // 修改为setText
+    public void setText(String text) {
         this.text = text;
+    }
+
+    public int getAnswerId() {
+        return answerId;
+    }
+
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
     }
 }

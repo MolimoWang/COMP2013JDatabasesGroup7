@@ -1,7 +1,6 @@
 package com.example.DAO;
 
 import com.example.model.Paper;
-
 import java.util.List;
 
 public interface PapersDao {
@@ -9,5 +8,5 @@ public interface PapersDao {
     void deleteById(int paperId);
     Paper findById(int paperId);
     List<Paper> findAll();
-    void update(Paper paper);  // 新增的方法
+    void update(Paper paper);
 }

@@ -14,8 +14,10 @@ public class TeachersDaoImpl implements TeachersDao {
     public void insert(Teacher teacher) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Teachers (TeacherID) VALUES (?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Teachers (TeacherID, Name, SubjectID) VALUES (?, ?, ?)");
             ps.setInt(1, teacher.getTeacherId());
+            ps.setString(2, teacher.getName());
+            ps.setInt(3, teacher.getSubjectId());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -49,7 +51,8 @@ public class TeachersDaoImpl implements TeachersDao {
             if (rs.next()) {
                 teacher = new Teacher();
                 teacher.setTeacherId(rs.getInt("TeacherID"));
-                // set other fields
+                teacher.setName(rs.getString("Name"));
+                teacher.setSubjectId(rs.getInt("SubjectID"));
             }
             rs.close();
             ps.close();
@@ -70,7 +73,8 @@ public class TeachersDaoImpl implements TeachersDao {
             while (rs.next()) {
                 Teacher teacher = new Teacher();
                 teacher.setTeacherId(rs.getInt("TeacherID"));
-                // set other fields
+                teacher.setName(rs.getString("Name"));
+                teacher.setSubjectId(rs.getInt("SubjectID"));
                 teachers.add(teacher);
             }
             rs.close();
