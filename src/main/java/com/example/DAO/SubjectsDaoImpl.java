@@ -26,7 +26,7 @@ public class SubjectsDaoImpl implements SubjectsDao {
     }
 
     @Override
-    public void delete(int subjectId) {
+    public void deleteById(int subjectId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Subjects WHERE SubjectID = ?");
@@ -40,7 +40,7 @@ public class SubjectsDaoImpl implements SubjectsDao {
     }
 
     @Override
-    public Subject find(int subjectId) {
+    public Subject findById(int subjectId) {
         Subject subject = null;
         try {
             Connection conn = DatabaseConnection.getConnection();

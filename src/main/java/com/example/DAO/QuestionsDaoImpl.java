@@ -28,7 +28,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
     }
 
     @Override
-    public void delete(int questionId) {
+    public void deleteById(int questionId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
@@ -42,7 +42,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
     }
 
     @Override
-    public Question find(int questionId) {
+    public Question findById(int questionId) {
         Question question = null;
         try {
             Connection conn = DatabaseConnection.getConnection();

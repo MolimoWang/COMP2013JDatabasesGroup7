@@ -33,8 +33,8 @@ public class PapersDaoImplTest {
     @AfterEach
     public void tearDown() {
         papersDao.deleteById(1);
-        subjectsDao.delete(1);
-        subjectsDao.delete(2);
+        subjectsDao.deleteById(1);
+        subjectsDao.deleteById(2);
     }
 
     @Test

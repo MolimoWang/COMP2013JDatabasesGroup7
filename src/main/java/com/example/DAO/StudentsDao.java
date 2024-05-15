@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface StudentsDao {
     void insert(Student student);
-    void delete(int studentId);
-    Student find(int studentId);
+    void deleteById(int studentId);
+    Student findById(int studentId);
     List<Student> findAll();
 }

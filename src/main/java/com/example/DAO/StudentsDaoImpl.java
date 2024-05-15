@@ -27,7 +27,7 @@ public class StudentsDaoImpl implements StudentsDao {
     }
 
     @Override
-    public void delete(int studentId) {
+    public void deleteById(int studentId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Students WHERE StudentID = ?");
@@ -41,7 +41,7 @@ public class StudentsDaoImpl implements StudentsDao {
     }
 
     @Override
-    public Student find(int studentId) {
+    public Student findById(int studentId) {
         Student student = null;
         try {
             Connection conn = DatabaseConnection.getConnection();
