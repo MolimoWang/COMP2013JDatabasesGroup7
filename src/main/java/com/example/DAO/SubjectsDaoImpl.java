@@ -82,4 +82,25 @@ public class SubjectsDaoImpl implements SubjectsDao {
         }
         return subjects;
     }
+
+    public Subject findByName(String name) {
+        Subject subject = null;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Subjects WHERE Name = ?");
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                subject = new Subject();
+                subject.setSubjectId(rs.getInt("SubjectID"));
+                subject.setName(rs.getString("Name"));
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return subject;
+    }
 }

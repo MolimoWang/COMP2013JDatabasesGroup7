@@ -105,4 +105,30 @@ public class PapersDaoImpl implements PapersDao {
             e.printStackTrace();
         }
     }
+
+    public List<Paper> findByConditions(String title, int subjectId, int year) {
+        List<Paper> papers = new ArrayList<>();
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Papers WHERE Title = ? AND SubjectID = ? AND Year = ?");
+            ps.setString(1, title);
+            ps.setInt(2, subjectId);
+            ps.setInt(3, year);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Paper paper = new Paper();
+                paper.setPaperId(rs.getInt("PaperID"));
+                paper.setTitle(rs.getString("Title"));
+                paper.setYear(rs.getInt("Year"));
+                paper.setSubjectId(rs.getInt("SubjectID"));
+                papers.add(paper);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return papers;
+    }
 }
