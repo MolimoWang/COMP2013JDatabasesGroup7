@@ -10,9 +10,8 @@
     <h1>Welcome to the Dashboard</h1>
     <h2>Select an option:</h2>
     <ul>
-        <li><a href="JSP/viewpaper.jsp">View Papers</a></li>
+        <li><a href="JSP/paperaction.jsp">Papers action</a></li>
         <li><a href="selectYear.jsp?action=upload">Upload Papers</a></li>
-        <li><a href="JSP/insertpaper.jsp">Insert Paper</a></li>
     </ul>
 </body>
 </html>
