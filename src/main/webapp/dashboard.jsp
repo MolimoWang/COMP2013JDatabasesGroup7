@@ -11,6 +11,7 @@
     <h2>Select an option:</h2>
     <ul>
         <li><a href="JSP/paperaction.jsp">Papers action</a></li>
+        <li><a href="JSP/insertsubject.jsp">Subject action</a></li>
         <li><a href="selectYear.jsp?action=upload">Upload Papers</a></li>
     </ul>
 </body>
