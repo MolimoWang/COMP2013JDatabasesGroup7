@@ -5,40 +5,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Delete Question</title>
+
+    <!-- Import Bootstrap CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<h1>Delete a Question</h1>
-<form method="post" action="deletequestion.jsp">
-    <label for="questionId">Question ID:</label>
-    <input type="text" id="questionId" name="questionId" required><br>
+<!-- Use Bootstrap classes to center and align items in the page -->
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div>
+        <!-- Use Bootstrap class to center the title -->
+        <h1 class="text-center">Delete a Question</h1>
 
-    <input type="submit" value="Delete">
-</form>
-<br>
-<form action="questionaction.jsp">
-    <input type="submit" value="Return to Question Actions">
-</form>
+        <form method="post" class="text-center">
+            <label for="questionId">Question ID:</label>
+            <input type="text" id="questionId" name="questionId" class="form-control" required><br>
 
-<%
-    if ("POST".equalsIgnoreCase(request.getMethod())) {
-        String questionIdStr = request.getParameter("questionId");
+            <input type="submit" value="Delete" class="btn btn-danger">
+        </form>
 
-        if (questionIdStr != null) {
-            try {
-                int questionId = Integer.parseInt(questionIdStr);
+        <%
+            // Process the delete operation
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                String questionIdStr = request.getParameter("questionId");
 
-                QuestionsDaoImpl questionsDao = new QuestionsDaoImpl();
-                questionsDao.deleteById(questionId);
+                if (questionIdStr != null) {
+                    try {
+                        int questionId = Integer.parseInt(questionIdStr);
 
-                out.println("<p>Question deleted successfully.</p>");
-            } catch (NumberFormatException e) {
-                out.println("<p>Invalid input format. Please enter a valid Question ID.</p>");
+                        QuestionsDaoImpl questionsDao = new QuestionsDaoImpl();
+                        questionsDao.deleteById(questionId);
+
+                        out.println("<p class='text-center'>Question deleted successfully.</p>");
+                    } catch (NumberFormatException e) {
+                        out.println("<p class='text-center text-danger'>Invalid input format. Please enter a valid Question ID.</p>");
+                    }
+                } else {
+                    out.println("<p class='text-center text-danger'>Please fill out the Question ID field.</p>");
+                }
             }
-        } else {
-            out.println("<p>Please fill out the Question ID field.</p>");
-        }
-    }
-%>
+        %>
+
+        <!-- Button to return to the question actions page -->
+        <form action="questionaction.jsp" class="mt-3">
+            <input type="submit" value="Return to Question Actions" class="btn btn-secondary d-block mx-auto">
+        </form>
+    </div>
+</div>
 </body>
 </html>
-

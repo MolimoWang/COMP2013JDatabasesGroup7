@@ -3,6 +3,10 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/student/deletestudent.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/student" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/student/viewallstudents.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/student" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/teacher/viewallteachers.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/teacher" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/fileUploadDo.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/loginDo.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
     </option>

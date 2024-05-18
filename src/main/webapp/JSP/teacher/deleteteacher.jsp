@@ -5,40 +5,52 @@
 <head>
   <meta charset="UTF-8">
   <title>Delete Teacher</title>
+
+  <!-- Import Bootstrap CSS from CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<h1>Delete a Teacher</h1>
-<form method="post" action="deleteteacher.jsp">
-  <label for="teacherId">Teacher ID:</label>
-  <input type="text" id="teacherId" name="teacherId" required><br>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div>
+        <!-- Title of the page -->
+        <h1 class="text-center">Delete a Teacher</h1>
 
-  <input type="submit" value="Delete">
-</form>
-<br>
-<form action="teacheraction.jsp">
-  <input type="submit" value="Return to Teacher Actions">
-</form>
+        <!-- Form to delete a teacher -->
+        <form method="post" action="deleteteacher.jsp" class="mt-4">
+            <div class="mb-3">
+                <label for="teacherId" class="form-label">Teacher ID:</label>
+                <input type="text" id="teacherId" name="teacherId" class="form-control" required>
+            </div>
+            <input type="submit" value="Delete" class="btn btn-primary d-block mx-auto">
+        </form>
 
-<%
-  if ("POST".equalsIgnoreCase(request.getMethod())) {
-    String teacherIdStr = request.getParameter("teacherId");
+        <!-- Button to return to the teacher actions page -->
+        <form action="teacheraction.jsp" class="mt-3">
+            <input type="submit" value="Return to Teacher Actions" class="btn btn-secondary d-block mx-auto">
+        </form>
 
-    if (teacherIdStr != null) {
-      try {
-        int teacherId = Integer.parseInt(teacherIdStr);
+        <!-- Server-side code to delete a teacher -->
+        <%
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                String teacherIdStr = request.getParameter("teacherId");
 
-        TeachersDaoImpl teachersDao = new TeachersDaoImpl();
-        teachersDao.deleteById(teacherId);
+                if (teacherIdStr != null) {
+                    try {
+                        int teacherId = Integer.parseInt(teacherIdStr);
 
-        out.println("<p>Teacher deleted successfully.</p>");
-      } catch (NumberFormatException e) {
-        out.println("<p>Invalid input format. Please enter a valid Teacher ID.</p>");
-      }
-    } else {
-      out.println("<p>Please fill out the Teacher ID field.</p>");
-    }
-  }
-%>
+                        TeachersDaoImpl teachersDao = new TeachersDaoImpl();
+                        teachersDao.deleteById(teacherId);
+
+                        out.println("<div class='alert alert-success mt-3'>Teacher deleted successfully.</div>");
+                    } catch (NumberFormatException e) {
+                        out.println("<div class='alert alert-danger mt-3'>Invalid input format. Please enter a valid Teacher ID.</div>");
+                    }
+                } else {
+                    out.println("<div class='alert alert-warning mt-3'>Please fill out the Teacher ID field.</div>");
+                }
+            }
+        %>
+    </div>
+</div>
 </body>
 </html>
-

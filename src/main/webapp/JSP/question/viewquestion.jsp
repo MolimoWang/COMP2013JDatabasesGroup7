@@ -3,48 +3,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>View Question</title>
+    <meta charset="UTF-8">
+    <title>View Question</title>
+
+    <!-- Import Bootstrap CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<h1>View Question</h1>
-<form method="post" action="viewquestion.jsp">
-  <label for="questionId">Question ID:</label>
-  <input type="text" id="questionId" name="questionId"><br>
+<!-- Use Bootstrap classes to center and align items in the page -->
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div>
+        <!-- Use Bootstrap class to center the title -->
+        <h1 class="text-center">View Question</h1>
 
-  <input type="submit" value="Search">
-</form>
-<br>
-<form action="questionaction.jsp">
-  <input type="submit" value="Return to Question Actions">
-</form>
+        <form method="post" action="viewquestion.jsp" class="text-center">
+            <label for="questionId">Question ID:</label>
+            <input type="text" id="questionId" name="questionId" class="form-control" required><br>
 
-<%
-  if ("POST".equalsIgnoreCase(request.getMethod())) {
-    String questionIdStr = request.getParameter("questionId");
+            <input type="submit" value="Search" class="btn btn-primary">
+        </form>
+        <br>
+        <form action="questionaction.jsp">
+            <input type="submit" value="Return to Question Actions" class="btn btn-secondary d-block mx-auto">
+        </form>
 
-    QuestionsDaoImpl questionsDao = new QuestionsDaoImpl();
-    Question question = null;
+        <%
+            // Process the search operation
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                String questionIdStr = request.getParameter("questionId");
 
-    if (questionIdStr != null && !questionIdStr.isEmpty()) {
-      try {
-        int questionId = Integer.parseInt(questionIdStr);
-        question = questionsDao.findById(questionId);
-      } catch (NumberFormatException e) {
-        out.println("<p>Invalid Question ID format. Please enter a valid integer.</p>");
-      }
-    }
+                QuestionsDaoImpl questionsDao = new QuestionsDaoImpl();
+                Question question = null;
+                if (questionIdStr != null && !questionIdStr.isEmpty()) {
+                    try {
+                        int questionId = Integer.parseInt(questionIdStr);
+                        question = questionsDao.findById(questionId);
+                    } catch (NumberFormatException e) {
+                        out.println("<p class='text-center text-danger'>Invalid Question ID format. Please enter a valid integer.</p>");
+                    }
+                }
 
-    if (question != null) {
-      out.println("<h2>Question Details:</h2>");
-      out.println("<p>Question ID: " + question.getQuestionId() + "</p>");
-      out.println("<p>Paper ID: " + question.getPaperId() + "</p>");
-      out.println("<p>Text: " + question.getText() + "</p>");
-      out.println("<p>Answer ID: " + question.getAnswerId() + "</p>");
-    } else {
-      out.println("<p>No question found with the given criteria.</p>");
-    }
-  }
-%>
+                if (question != null) {
+                    out.println("<h2 class='text-center'>Question Details:</h2>");
+                    out.println("<p class='text-center'>Question ID: " + question.getQuestionId() + "</p>");
+                    out.println("<p class='text-center'>Paper ID: " + question.getPaperId() + "</p>");
+                    out.println("<p class='text-center'>Text: " + question.getText() + "</p>");
+                    out.println("<p class='text-center'>Answer ID: " + question.getAnswerId() + "</p>");
+                } else {
+                    out.println("<p class='text-center text-danger'>No question found with the given criteria.</p>");
+                }
+            }
+        %>
+    </div>
+</div>
 </body>
 </html>
