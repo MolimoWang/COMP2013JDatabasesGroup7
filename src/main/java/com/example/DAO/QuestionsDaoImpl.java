@@ -88,4 +88,28 @@ public class QuestionsDaoImpl implements QuestionsDao {
         }
         return questions;
     }
+
+    public List<Question> findByPaperId(int paperId) {
+        List<Question> questions = new ArrayList<>();
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Questions WHERE PaperID = ?");
+            ps.setInt(1, paperId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Question question = new Question();
+                question.setQuestionId(rs.getInt("QuestionID"));
+                question.setPaperId(rs.getInt("PaperID"));
+                question.setText(rs.getString("Text"));
+                question.setAnswerId(rs.getInt("AnswerID"));
+                questions.add(question);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return questions;
+    }
 }

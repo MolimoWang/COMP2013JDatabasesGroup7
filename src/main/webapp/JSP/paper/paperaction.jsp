@@ -30,5 +30,8 @@
 <% response.sendRedirect("deletepaper.jsp"); %>
 <%  }
 } %>
+<form action="../../dashboard.jsp">
+    <input type="submit" value="Return to View Papers">
+</form>
 </body>
 </html>

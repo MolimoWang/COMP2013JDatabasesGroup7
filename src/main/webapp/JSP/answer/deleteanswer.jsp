@@ -33,6 +33,9 @@
                 out.println("<p>Answer deleted successfully.</p>");
             } catch (NumberFormatException e) {
                 out.println("<p>Invalid input format. Please enter a valid Answer ID.</p>");
+            } catch (Exception e) {
+                out.println("<p>Error occurred while deleting the answer. Please try again later.</p>");
+                e.printStackTrace();
             }
         } else {
             out.println("<p>Please fill out the Answer ID field.</p>");

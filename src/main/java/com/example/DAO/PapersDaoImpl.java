@@ -29,17 +29,49 @@ public class PapersDaoImpl implements PapersDao {
 
     @Override
     public void deleteById(int paperId) {
+        Connection conn = null;
+        PreparedStatement psQuestions = null;
+        PreparedStatement psPaper = null;
+
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM Papers WHERE PaperID = ?");
-            ps.setInt(1, paperId);
-            ps.executeUpdate();
-            ps.close();
-            conn.close();
+            conn = DatabaseConnection.getConnection();
+
+            // 开启事务
+            conn.setAutoCommit(false);
+
+            // 先删除与该 Paper 关联的 Questions
+            psQuestions = conn.prepareStatement("DELETE FROM Questions WHERE PaperID = ?");
+            psQuestions.setInt(1, paperId);
+            psQuestions.executeUpdate();
+
+            // 再删除 Paper
+            psPaper = conn.prepareStatement("DELETE FROM Papers WHERE PaperID = ?");
+            psPaper.setInt(1, paperId);
+            psPaper.executeUpdate();
+
+            // 提交事务
+            conn.commit();
         } catch (Exception e) {
+            if (conn != null) {
+                try {
+                    // 回滚事务
+                    conn.rollback();
+                } catch (Exception rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (psQuestions != null) psQuestions.close();
+                if (psPaper != null) psPaper.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
+
 
     @Override
     public Paper findById(int paperId) {
@@ -106,14 +138,43 @@ public class PapersDaoImpl implements PapersDao {
         }
     }
 
-    public List<Paper> findByConditions(String title, int subjectId, int year) {
+
+    public List<Paper> findByDynamicConditions(String title, String subjectName, String yearStr, String teacher) {
         List<Paper> papers = new ArrayList<>();
+        StringBuilder query = new StringBuilder(
+                "SELECT p.* FROM Papers p " +
+                        "JOIN Subjects s ON p.SubjectID = s.SubjectID " +
+                        "JOIN Teachers t ON s.SubjectID = t.SubjectID " +
+                        "WHERE 1=1"
+        );
+
+        List<Object> parameters = new ArrayList<>();
+
+        if (title != null && !title.isEmpty()) {
+            query.append(" AND p.Title LIKE ?");
+            parameters.add("%" + title + "%");
+        }
+        if (subjectName != null && !subjectName.isEmpty()) {
+            query.append(" AND s.Name LIKE ?");
+            parameters.add("%" + subjectName + "%");
+        }
+        if (yearStr != null && !yearStr.isEmpty()) {
+            query.append(" AND p.Year = ?");
+            parameters.add(Integer.parseInt(yearStr));
+        }
+        if (teacher != null && !teacher.isEmpty()) {
+            query.append(" AND t.Name LIKE ?");
+            parameters.add("%" + teacher + "%");
+        }
+
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Papers WHERE Title = ? AND SubjectID = ? AND Year = ?");
-            ps.setString(1, title);
-            ps.setInt(2, subjectId);
-            ps.setInt(3, year);
+            PreparedStatement ps = conn.prepareStatement(query.toString());
+
+            for (int i = 0; i < parameters.size(); i++) {
+                ps.setObject(i + 1, parameters.get(i));
+            }
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Paper paper = new Paper();
@@ -129,6 +190,10 @@ public class PapersDaoImpl implements PapersDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return papers;
     }
+
+
+
 }

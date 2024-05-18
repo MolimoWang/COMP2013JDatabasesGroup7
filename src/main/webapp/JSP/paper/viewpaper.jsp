@@ -17,9 +17,17 @@
     <label for="year">Year:</label>
     <input type="text" id="year" name="year"><br>
 
+    <label for="teacher">Teacher:</label>
+    <input type="text" id="teacher" name="teacher"><br>
+
     <input type="submit" value="Search">
     <input type="submit" name="allPapers" value="View All Papers">
 </form>
+<form action="paperaction.jsp">
+    <input type="submit" value="Return to Paper action">
+</form>
 </body>
 </html>
+
+
 

@@ -21,18 +21,13 @@
         out.println("<h2>All Papers:</h2>");
     } else {
         String title = request.getParameter("title");
-        String subjectStr = request.getParameter("subject");
+        String subjectName = request.getParameter("subject");
         String yearStr = request.getParameter("year");
+        String teacher = request.getParameter("teacher");
 
-        if (title != null && subjectStr != null && yearStr != null) {
-            int subjectId = Integer.parseInt(subjectStr);
-            int year = Integer.parseInt(yearStr);
-            papers = papersDao.findByConditions(title, subjectId, year);
+        papers = papersDao.findByDynamicConditions(title, subjectName, yearStr, teacher);
 
-            out.println("<h2>Search Results:</h2>");
-        } else {
-            papers = new ArrayList<>();
-        }
+        out.println("<h2>Search Results:</h2>");
     }
 
     if (papers.isEmpty()) {
@@ -40,7 +35,12 @@
     } else {
         out.println("<ul>");
         for (Paper paper : papers) {
-            out.println("<li>Paper ID: " + paper.getPaperId() + ", Title: " + paper.getTitle() + ", Year: " + paper.getYear() + ", Subject ID: " + paper.getSubjectId() + "</li>");
+            out.println("<li>Paper ID: " + paper.getPaperId() + ", Title: " + paper.getTitle() + ", Year: " + paper.getYear() + ", Subject ID: " + paper.getSubjectId());
+            out.println("<form method='get' action='showquestions.jsp'>");
+            out.println("<input type='hidden' name='paperId' value='" + paper.getPaperId() + "'>");
+            out.println("<input type='submit' value='Show Questions'>");
+            out.println("</form>");
+            out.println("</li>");
         }
         out.println("</ul>");
     }
@@ -52,4 +52,7 @@
 </form>
 </body>
 </html>
+
+
+
 

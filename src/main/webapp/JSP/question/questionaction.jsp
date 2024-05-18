@@ -11,6 +11,7 @@
     <li><a href="insertquestion.jsp">Insert Question</a></li>
     <li><a href="deletequestion.jsp">Delete Question</a></li>
     <li><a href="viewquestion.jsp">View Question</a></li>
+    <li><a href="changeanswer.jsp">Change answer</a></li>
 </ul>
 <br>
 <form action="../../dashboard.jsp">

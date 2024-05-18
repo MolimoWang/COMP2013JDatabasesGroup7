@@ -27,18 +27,55 @@ public class SubjectsDaoImpl implements SubjectsDao {
 
     @Override
     public void deleteById(int subjectId) {
+        Connection conn = null;
+        PreparedStatement psPapers = null;
+        PreparedStatement psTeachers = null;
+        PreparedStatement psSubject = null;
+
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM Subjects WHERE SubjectID = ?");
-            ps.setInt(1, subjectId);
-            ps.executeUpdate();
-            ps.close();
-            conn.close();
+            conn = DatabaseConnection.getConnection();
+
+            // 开启事务
+            conn.setAutoCommit(false);
+
+            // 先删除与该 Subject 关联的 Papers
+            psPapers = conn.prepareStatement("DELETE FROM Papers WHERE SubjectID = ?");
+            psPapers.setInt(1, subjectId);
+            psPapers.executeUpdate();
+
+            // 再删除与该 Subject 关联的 Teachers
+            psTeachers = conn.prepareStatement("DELETE FROM Teachers WHERE SubjectID = ?");
+            psTeachers.setInt(1, subjectId);
+            psTeachers.executeUpdate();
+
+            // 最后删除 Subject
+            psSubject = conn.prepareStatement("DELETE FROM Subjects WHERE SubjectID = ?");
+            psSubject.setInt(1, subjectId);
+            psSubject.executeUpdate();
+
+            // 提交事务
+            conn.commit();
         } catch (Exception e) {
+            if (conn != null) {
+                try {
+                    // 回滚事务
+                    conn.rollback();
+                } catch (Exception rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (psPapers != null) psPapers.close();
+                if (psTeachers != null) psTeachers.close();
+                if (psSubject != null) psSubject.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
-
     @Override
     public Subject findById(int subjectId) {
         Subject subject = null;

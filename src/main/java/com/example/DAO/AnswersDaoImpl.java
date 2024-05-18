@@ -27,15 +27,46 @@ public class AnswersDaoImpl implements AnswersDao {
 
     @Override
     public void deleteById(int answerId) {
+        Connection conn = null;
+        PreparedStatement psQuestions = null;
+        PreparedStatement psAnswer = null;
+
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM Answers WHERE AnswerID = ?");
-            ps.setInt(1, answerId);
-            ps.executeUpdate();
-            ps.close();
-            conn.close();
+            conn = DatabaseConnection.getConnection();
+
+            // 开启事务
+            conn.setAutoCommit(false);
+
+            // 先删除与该 Answer 关联的 Questions
+            psQuestions = conn.prepareStatement("DELETE FROM Questions WHERE AnswerID = ?");
+            psQuestions.setInt(1, answerId);
+            psQuestions.executeUpdate();
+
+            // 最后删除 Answer
+            psAnswer = conn.prepareStatement("DELETE FROM Answers WHERE AnswerID = ?");
+            psAnswer.setInt(1, answerId);
+            psAnswer.executeUpdate();
+
+            // 提交事务
+            conn.commit();
         } catch (Exception e) {
+            if (conn != null) {
+                try {
+                    // 回滚事务
+                    conn.rollback();
+                } catch (Exception rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (psQuestions != null) psQuestions.close();
+                if (psAnswer != null) psAnswer.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -119,4 +150,5 @@ public class AnswersDaoImpl implements AnswersDao {
             e.printStackTrace();
         }
     }
+
 }
