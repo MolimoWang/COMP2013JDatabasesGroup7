@@ -15,7 +15,7 @@ PreparedStatement pstmt = null;
 try {
    // STEP 2: Register JDBC driver and open a connection
    Class.forName("com.mysql.cj.jdbc.Driver");
-   conn = DriverManager.getConnection("jdbc:mysql://localhost/EMP?serverTimezone=Asia/Shanghai", "root", "N2y7c3t8wsh$");
+   conn = DriverManager.getConnection("jdbc:mysql://localhost/EMP?serverTimezone=Asia/Shanghai", "root", "st75s08mn07");
 
    // STEP 4: Execute a query to insert data
    String sql = "INSERT INTO t_user (username, password) VALUES (?, ?)";

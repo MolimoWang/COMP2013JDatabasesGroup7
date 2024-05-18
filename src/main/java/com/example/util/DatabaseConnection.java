@@ -16,6 +16,22 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() {
-        return DatabaseConnection.getConnection("localhost", "exampaperdatabase", "root", "5201314Zth!");
+        return DatabaseConnection.getConnection("localhost", "exampaperdatabase", "root", "st75s08mn07");
+    }
+    public static void main(String[] args) {
+        // Get connection
+        Connection connection = getConnection();
+        // Check if connection is successful
+        if (connection != null) {
+            System.out.println("Database connected successfully!");
+            // Close the connection to avoid resource leaks
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Failed to connect to the database.");
+        }
     }
 }

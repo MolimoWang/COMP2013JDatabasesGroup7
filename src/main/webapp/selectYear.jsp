@@ -22,6 +22,17 @@
         <li><a href="<%= action %>.jsp?year=3">Year 3</a></li>
         <li><a href="<%= action %>.jsp?year=4">Year 4</a></li>
     </ul>
+    <br>
+    <label>Enter Paper ID:</label>
+    <input type="text" name="paperId">
+    <br>
+    <label>Enter Paper Title:</label>
+    <input type="text" name="title">
+    <br>
+    <label>Select Subject ID:</label>
+    <input type="number" name="subjectId">
+    <br>
+    <input type="submit" value="Filter">
 </body>
 </html>
 
