@@ -39,6 +39,9 @@
     }
 %>
 </body>
+<form action="viewpaper.jsp">
+    <input type="submit" value="Return to View Papers">
+</form>
 </html>
 
 

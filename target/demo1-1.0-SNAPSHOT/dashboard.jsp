@@ -15,6 +15,7 @@
         <li><a href="JSP/answer/answeraction.jsp">Answer Actions</a></li>
         <li><a href="JSP/question/questionaction.jsp">Question Actions</a></li>
         <li><a href="JSP/teacher/teacheraction.jsp">Teacher Actions</a></li>
+        <li><a href="JSP/student/studentaction.jsp">Student Actions</a></li>
         <li><a href="selectYear.jsp?action=upload">Upload Papers</a></li>
     </ul>
 </body>

@@ -11,6 +11,7 @@
     <li><a href="insertsubject.jsp">Insert Subject</a></li>
     <li><a href="deletesubject.jsp">Delete Subject</a></li>
     <li><a href="viewsubject.jsp">View Subject</a></li>
+    <li><a href="viewallsubjects.jsp">View All Subjects</a></li>
 </ul>
 <br>
 <form action="../../dashboard.jsp">

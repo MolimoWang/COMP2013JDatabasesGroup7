@@ -85,4 +85,26 @@ public class StudentsDaoImpl implements StudentsDao {
         }
         return students;
     }
+    public List<Student> findByPaperId(int paperId) {
+        List<Student> students = new ArrayList<>();
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Students WHERE PaperID = ?");
+            ps.setInt(1, paperId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setStudentId(rs.getInt("StudentID"));
+                student.setName(rs.getString("Name"));
+                student.setPaperId(rs.getInt("PaperID"));
+                students.add(student);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
 }

@@ -40,6 +40,11 @@
             out.println("<input type='hidden' name='paperId' value='" + paper.getPaperId() + "'>");
             out.println("<input type='submit' value='Show Questions'>");
             out.println("</form>");
+            // Add a form to show students associated with the paper
+            out.println("<form method='get' action='showstudent.jsp'>");
+            out.println("<input type='hidden' name='paperId' value='" + paper.getPaperId() + "'>");
+            out.println("<input type='submit' value='Show Students'>");
+            out.println("</form>");
             out.println("</li>");
         }
         out.println("</ul>");
@@ -52,7 +57,6 @@
 </form>
 </body>
 </html>
-
 
 
 

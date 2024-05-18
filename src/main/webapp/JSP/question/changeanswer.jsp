@@ -45,8 +45,8 @@
 %>
 
 <!-- Button to return to the viewquestion page -->
-<form action="viewquestion.jsp">
-    <input type="submit" value="Return to View Question">
+<form action="questionaction.jsp">
+    <input type="submit" value="Return to Question action">
 </form>
 
 </body>

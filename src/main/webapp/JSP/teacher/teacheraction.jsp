@@ -11,6 +11,7 @@
     <li><a href="insertteacher.jsp">Insert Teacher</a></li>
     <li><a href="deleteteacher.jsp">Delete Teacher</a></li>
     <li><a href="viewteacher.jsp">View Teacher</a></li>
+    <li><a href="viewallteachers.jsp">View All Teachers</a></li>
 </ul>
 <br>
 <form action="../../dashboard.jsp">
