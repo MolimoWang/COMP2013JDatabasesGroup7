@@ -1,37 +1,54 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Paper Actions</title>
+
+    <!-- Import Bootstrap CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Import custom CSS -->
+    <link href="../../resources/css/styles.css" rel="stylesheet">
+    <link href="../../resources/css/paper.css" rel="stylesheet">
 </head>
 <body>
-<h1>Paper Actions</h1>
-<ul>
-    <li><a href="viewpaper.jsp">View Papers</a></li>
-    <li><a href="insertpaper.jsp">Insert Paper</a></li>
-    <li><a href="deletepaper.jsp">Delete Paper</a></li>
-</ul>
+<!-- Use Bootstrap classes to center and align items in the page -->
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div>
+        <!-- Use Bootstrap class to center the title -->
+        <h1 class="text-center">Paper Actions</h1>
+        <!-- Use Bootstrap classes to style the list -->
+        <ul class="list-group text-center">
+            <li class="list-group-item"><a href="viewpaper.jsp">View Papers</a></li>
+            <li class="list-group-item"><a href="insertpaper.jsp">Insert Paper</a></li>
+            <li class="list-group-item"><a href="deletepaper.jsp">Delete Paper</a></li>
+        </ul>
+        <br>
+        <!-- Use Bootstrap classes to style the button -->
+        <form action="../dashboard.jsp">
+            <input type="submit" value="Return to Dashboard" class="btn btn-primary d-block mx-auto">
+        </form>
+    </div>
+</div>
 
-<%-- 获取参数，决定要执行的操作 --%>
+<%-- Get the parameter to decide the operation to be performed --%>
 <% String action = request.getParameter("action"); %>
 
-<%-- 根据参数执行相应的操作 --%>
+<%-- Perform the corresponding operation based on the parameter --%>
 <% if (action != null) {
     if ("viewpaper".equals(action)) {
 %>
-<%-- 重定向到 viewpaper.jsp --%>
+<%-- Redirect to viewpaper.jsp --%>
 <% response.sendRedirect("viewpaper.jsp"); %>
 <%  } else if ("insertpaper".equals(action)) { %>
-<%-- 重定向到 insertpaper.jsp --%>
+<%-- Redirect to insertpaper.jsp --%>
 <% response.sendRedirect("insertpaper.jsp"); %>
 <%  } else if ("deletepaper".equals(action)) { %>
-<%-- 重定向到 deletepaper.jsp --%>
+<%-- Redirect to deletepaper.jsp --%>
 <% response.sendRedirect("deletepaper.jsp"); %>
 <%  }
 } %>
-<form action="../../dashboard.jsp">
-    <input type="submit" value="Return to View Papers">
-</form>
+
 </body>
 </html>
