@@ -1,0 +1,13 @@
+body {
+    background-size: cover; /* Cover the entire page */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image */
+    backdrop-filter: blur(10px); /* Add this line to blur the background */
+}
+
+.list-group-item {
+    background-color: rgba(255, 255, 255, 0.5); /* White background with 50% opacity */
+    border-radius: 10px; /* Rounded corners */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Light border */
+    margin-bottom: 10px; /* Space between items */
+}

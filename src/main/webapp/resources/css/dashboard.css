@@ -1,6 +1,3 @@
 body {
     background-image: url('../images/dashboardBackground.png');
-    background-size: cover; /* Cover the entire page */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-position: center; /* Center the image */
 }

@@ -21,7 +21,7 @@
             <li class="list-group-item"><a href="changeanswer.jsp">Change answer</a></li>
         </ul>
         <br>
-        <form action="../dashboard.jsp">
+        <form action="../../dashboard.jsp">
             <input type="submit" value="Return to Dashboard" class="btn btn-secondary d-block mx-auto">
         </form>
     </div>
