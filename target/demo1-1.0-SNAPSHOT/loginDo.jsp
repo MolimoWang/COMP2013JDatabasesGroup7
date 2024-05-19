@@ -28,7 +28,7 @@ try {
    rs = stmt.executeQuery();
 
    if(rs.next()){
-	   response.sendRedirect("dashboard.jsp");
+	   response.sendRedirect("JSP/dashboard.jsp");
    } else {
        out.println("Username or password error");
    }
