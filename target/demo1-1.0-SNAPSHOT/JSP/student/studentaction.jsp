@@ -23,7 +23,7 @@
         </ul>
         <br>
         <!-- Button to return to the dashboard -->
-        <form action="../../dashboard.jsp" class="mt-3">
+        <form action="../dashboard.jsp" class="mt-3">
           <input type="submit" value="Return to Dashboard" class="btn btn-secondary d-block mx-auto">
         </form>
     </div>

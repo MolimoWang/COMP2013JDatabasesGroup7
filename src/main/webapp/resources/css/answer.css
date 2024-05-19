@@ -1,0 +1,7 @@
+/* File: webapp/resources/css/answer.css */
+body {
+    background-image: url('../images/answerBackground.png');
+    background-size: cover; /* Cover the entire page */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image */
+}
