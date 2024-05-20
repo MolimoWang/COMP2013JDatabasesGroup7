@@ -26,7 +26,6 @@
             <li class="list-group-item"><a href="question/questionaction.jsp" class="text-primary">Question Actions</a></li>
             <li class="list-group-item"><a href="teacher/teacheraction.jsp" class="text-primary">Teacher Actions</a></li>
             <li class="list-group-item"><a href="student/studentaction.jsp" class="text-primary">Student Actions</a></li>
-            <li class="list-group-item"><a href="../selectYear.jsp?action=upload" class="text-primary">Upload Papers</a></li>
         </ul>
     </div>
 </div>
