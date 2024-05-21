@@ -13,7 +13,7 @@ String password = request.getParameter("password"); // 添加获取password的�
 final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver"; // 推荐使用新的驱动类名
 final String DB_URL = "jdbc:mysql://localhost/EMP?serverTimezone=Asia/Shanghai";
 final String USER = "root";
-final String PASS = "st75s08mn07";
+final String PASS = "N2y7c3t8wsh$";
 
 Connection conn = null;
 PreparedStatement stmt = null;
