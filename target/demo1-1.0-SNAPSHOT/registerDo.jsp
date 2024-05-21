@@ -69,7 +69,7 @@
 
       try {
          Class.forName("com.mysql.cj.jdbc.Driver");
-         conn = DriverManager.getConnection("jdbc:mysql://localhost/EMP?serverTimezone=Asia/Shanghai", "root", "N2y7c3t8wsh$");
+         conn = DriverManager.getConnection("jdbc:mysql://localhost/EMP?serverTimezone=Asia/Shanghai", "root", "st75s08mn07");
 
          String sql = "INSERT INTO t_user (username, password) VALUES (?, ?)";
          pstmt = conn.prepareStatement(sql);

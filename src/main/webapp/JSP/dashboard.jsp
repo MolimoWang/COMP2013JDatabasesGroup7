@@ -20,7 +20,7 @@
         <h2 class="text-center">Select an option:</h2>
         <!-- Use Bootstrap classes to style the list -->
         <ul class="list-group list-group-flush text-center mt-3">
-            <li class="list-group-item"><a href="paper/paperaction.jsp" class="text-primary">Papers action</a></li>
+            <li class="list-group-item"><a href="paper/paperaction.jsp" class="text-primary">Paper Actions</a></li>
             <li class="list-group-item"><a href="subject/subjectaction.jsp" class="text-primary">Subject Actions</a></li>
             <li class="list-group-item"><a href="answer/answeraction.jsp" class="text-primary">Answer Actions</a></li>
             <li class="list-group-item"><a href="question/questionaction.jsp" class="text-primary">Question Actions</a></li>
