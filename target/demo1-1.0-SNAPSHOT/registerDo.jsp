@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-   <meta charset="ISO-8859-1">
-   <title>注册</title>
+   <meta charset="UTF-8">
+   <title>Register</title>
    <style>
       body {
          font-family: Arial, sans-serif;
@@ -51,11 +51,11 @@
 <body>
 
 <div class="container">
-   <h1>注册</h1>
+   <h1>Register</h1>
    <form method="post">
-      <input type="text" name="username" placeholder="用户名" required>
-      <input type="password" name="password" placeholder="密码" required>
-      <input type="submit" value="注册">
+      <input type="text" name="username" placeholder="username" required>
+      <input type="password" name="password" placeholder="password" required>
+      <input type="submit" value="register">
    </form>
 </div>
 
@@ -78,14 +78,14 @@
          int result = pstmt.executeUpdate();
 
          if (result > 0) {
-            out.println("<div class='container'><h1>注册成功</h1><p>欢迎，" + username + "！</p></div>");
-            response.setHeader("Refresh", "3; URL=login.html"); // 3秒后跳转到登录页面
+            out.println("<div class='container'><h1>register successfully</h1><p>welcome，" + username + "！</p></div>");
+            response.setHeader("Refresh", "3; URL=login.html");
          } else {
-            out.println("<div class='container'><h1>注册失败</h1><p>请重试。</p></div>");
+            out.println("<div class='container'><h1>fail to register</h1><p>please try again</p></div>");
          }
       } catch (Exception e) {
          e.printStackTrace();
-         out.println("<div class='container'><h1>注册失败</h1><p>发生错误，请重试。</p></div>");
+         out.println("<div class='container'><h1>fail to register</h1><p>please try again</p></div>");
       } finally {
          try {
             if (pstmt != null) pstmt.close();
