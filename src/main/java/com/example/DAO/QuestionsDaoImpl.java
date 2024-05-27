@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsDaoImpl implements QuestionsDao {
+    // Method to insert a new question into the database
     @Override
     public void insert(Question question) {
         try {
@@ -27,6 +28,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
         }
     }
 
+    // Method to delete a question from the database by its ID
     @Override
     public void deleteById(int questionId) {
         try {
@@ -41,6 +43,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
         }
     }
 
+    // Method to find a question in the database by its ID
     @Override
     public Question findById(int questionId) {
         Question question = null;
@@ -65,6 +68,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
         return question;
     }
 
+    // Method to retrieve all questions from the database
     @Override
     public List<Question> findAll() {
         List<Question> questions = new ArrayList<>();
@@ -89,6 +93,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
         return questions;
     }
 
+    // Method to find questions in the database by the ID of the paper they are associated with
     public List<Question> findByPaperId(int paperId) {
         List<Question> questions = new ArrayList<>();
         try {

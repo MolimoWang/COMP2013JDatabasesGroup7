@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnswersDaoImpl implements AnswersDao {
+    // Method to insert a new answer into the database
     @Override
     public void insert(Answer answer) {
         try {
@@ -25,6 +26,7 @@ public class AnswersDaoImpl implements AnswersDao {
         }
     }
 
+    // Method to delete an answer from the database by its ID
     @Override
     public void deleteById(int answerId) {
         Connection conn = null;
@@ -34,25 +36,25 @@ public class AnswersDaoImpl implements AnswersDao {
         try {
             conn = DatabaseConnection.getConnection();
 
-            // 开启事务
+            // Start transaction
             conn.setAutoCommit(false);
 
-            // 先删除与该 Answer 关联的 Questions
+            // First delete the Questions associated with this Answer
             psQuestions = conn.prepareStatement("DELETE FROM Questions WHERE AnswerID = ?");
             psQuestions.setInt(1, answerId);
             psQuestions.executeUpdate();
 
-            // 最后删除 Answer
+            // Finally delete the Answer
             psAnswer = conn.prepareStatement("DELETE FROM Answers WHERE AnswerID = ?");
             psAnswer.setInt(1, answerId);
             psAnswer.executeUpdate();
 
-            // 提交事务
+            // Commit transaction
             conn.commit();
         } catch (Exception e) {
             if (conn != null) {
                 try {
-                    // 回滚事务
+                    // Rollback transaction
                     conn.rollback();
                 } catch (Exception rollbackEx) {
                     rollbackEx.printStackTrace();
@@ -70,6 +72,7 @@ public class AnswersDaoImpl implements AnswersDao {
         }
     }
 
+    // Method to find an answer in the database by its ID
     @Override
     public Answer findById(int answerId) {
         Answer answer = null;
@@ -92,6 +95,7 @@ public class AnswersDaoImpl implements AnswersDao {
         return answer;
     }
 
+    // Method to retrieve all answers from the database
     @Override
     public List<Answer> findAll() {
         List<Answer> answers = new ArrayList<>();
@@ -114,6 +118,7 @@ public class AnswersDaoImpl implements AnswersDao {
         return answers;
     }
 
+    // Method to find an answer in the database by the ID of the question it is associated with
     @Override
     public Answer findByQuestionId(int questionId) {
         Answer answer = null;
@@ -136,6 +141,7 @@ public class AnswersDaoImpl implements AnswersDao {
         return answer;
     }
 
+    // Method to update an existing answer in the database
     @Override
     public void update(Answer answer) {
         try {
@@ -150,5 +156,4 @@ public class AnswersDaoImpl implements AnswersDao {
             e.printStackTrace();
         }
     }
-
 }

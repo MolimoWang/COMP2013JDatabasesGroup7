@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PapersDaoImpl implements PapersDao {
+    // Method to insert a new paper into the database
     @Override
     public void insert(Paper paper) {
         try {
@@ -27,6 +28,7 @@ public class PapersDaoImpl implements PapersDao {
         }
     }
 
+    // Method to delete a paper from the database by its ID
     @Override
     public void deleteById(int paperId) {
         Connection conn = null;
@@ -36,25 +38,25 @@ public class PapersDaoImpl implements PapersDao {
         try {
             conn = DatabaseConnection.getConnection();
 
-            // 开启事务
+            // Start transaction
             conn.setAutoCommit(false);
 
-            // 先删除与该 Paper 关联的 Questions
+            // First delete the Questions associated with this Paper
             psQuestions = conn.prepareStatement("DELETE FROM Questions WHERE PaperID = ?");
             psQuestions.setInt(1, paperId);
             psQuestions.executeUpdate();
 
-            // 再删除 Paper
+            // Then delete the Paper
             psPaper = conn.prepareStatement("DELETE FROM Papers WHERE PaperID = ?");
             psPaper.setInt(1, paperId);
             psPaper.executeUpdate();
 
-            // 提交事务
+            // Commit transaction
             conn.commit();
         } catch (Exception e) {
             if (conn != null) {
                 try {
-                    // 回滚事务
+                    // Rollback transaction
                     conn.rollback();
                 } catch (Exception rollbackEx) {
                     rollbackEx.printStackTrace();
@@ -72,7 +74,7 @@ public class PapersDaoImpl implements PapersDao {
         }
     }
 
-
+    // Method to find a paper in the database by its ID
     @Override
     public Paper findById(int paperId) {
         Paper paper = null;
@@ -97,6 +99,7 @@ public class PapersDaoImpl implements PapersDao {
         return paper;
     }
 
+    // Method to retrieve all papers from the database
     @Override
     public List<Paper> findAll() {
         List<Paper> papers = new ArrayList<>();
@@ -121,6 +124,7 @@ public class PapersDaoImpl implements PapersDao {
         return papers;
     }
 
+    // Method to update an existing paper in the database
     @Override
     public void update(Paper paper) {
         try {
@@ -138,7 +142,7 @@ public class PapersDaoImpl implements PapersDao {
         }
     }
 
-
+    // Method to find papers in the database by dynamic conditions
     public List<Paper> findByDynamicConditions(String title, String subjectName, String yearStr, String teacher) {
         List<Paper> papers = new ArrayList<>();
         StringBuilder query = new StringBuilder(
@@ -193,7 +197,4 @@ public class PapersDaoImpl implements PapersDao {
 
         return papers;
     }
-
-
-
 }
