@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsDaoImpl implements StudentsDao {
+    // Method to insert a new student into the database
     @Override
     public void insert(Student student) {
         try {
@@ -26,6 +27,7 @@ public class StudentsDaoImpl implements StudentsDao {
         }
     }
 
+    // Method to delete a student from the database by its ID
     @Override
     public void deleteById(int studentId) {
         try {
@@ -40,6 +42,7 @@ public class StudentsDaoImpl implements StudentsDao {
         }
     }
 
+    // Method to find a student in the database by its ID
     @Override
     public Student findById(int studentId) {
         Student student = null;
@@ -63,6 +66,7 @@ public class StudentsDaoImpl implements StudentsDao {
         return student;
     }
 
+    // Method to retrieve all students from the database
     @Override
     public List<Student> findAll() {
         List<Student> students = new ArrayList<>();
@@ -85,6 +89,8 @@ public class StudentsDaoImpl implements StudentsDao {
         }
         return students;
     }
+
+    // Method to find students in the database by the ID of the paper they are associated with
     public List<Student> findByPaperId(int paperId) {
         List<Student> students = new ArrayList<>();
         try {

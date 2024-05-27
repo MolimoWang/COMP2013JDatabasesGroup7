@@ -11,9 +11,9 @@ String username = request.getParameter("username");
 String password = request.getParameter("password"); // 添加获取password的代码
 
 final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver"; // 推荐使用新的驱动类名
-final String DB_URL = "jdbc:mysql://localhost/EMP?serverTimezone=Asia/Shanghai";
+final String DB_URL = "jdbc:mysql://localhost/exampaperdatabase?serverTimezone=UTC";
 final String USER = "root";
-final String PASS = "N2y7c3t8wsh$";
+final String PASS = "5201314Zth!";
 
 Connection conn = null;
 PreparedStatement stmt = null;
