@@ -8,16 +8,18 @@ public class DatabaseConnection {
     public static Connection getConnection(String url, String dbname, String username, String password) {
         Connection conn = null;
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // 手动注册驱动程序
             conn = DriverManager.getConnection("jdbc:mysql://" + url + "/" + dbname + "?serverTimezone=UTC&" + "user=" + username + "&password=" + password);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return conn;
     }
 
     public static Connection getConnection() {
-        return DatabaseConnection.getConnection("localhost", "exampaperdatabase", "root", "st75s08mn07");
+        return DatabaseConnection.getConnection("localhost", "exampaperdatabase", "root", "N2y7c3t8wsh$");
     }
+
     public static void main(String[] args) {
         // Get connection
         Connection connection = getConnection();

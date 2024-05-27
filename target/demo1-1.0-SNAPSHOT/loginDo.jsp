@@ -1,46 +1,77 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" import="java.sql.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" import="com.example.DAO.LoginDaoImpl" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>Login</title>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container input[type="text"], .container input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+
+<div class="container">
+    <h1>Login</h1>
+    <form action="loginDo.jsp" method="post">
+        <input type="text" name="username" placeholder="username" required>
+        <input type="password" name="password" placeholder="password" required>
+        <input type="submit" value="Login">
+    </form>
+</div>
+
 <%
-String username = request.getParameter("username");
-String password = request.getParameter("password"); // 添加获取password的代码
+    if (request.getMethod().equalsIgnoreCase("post")) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver"; // 推荐使用新的驱动类名
-final String DB_URL = "jdbc:mysql://localhost/exampaperdatabase?serverTimezone=UTC";
-final String USER = "root";
-final String PASS = "5201314Zth!";
+        LoginDaoImpl loginDao = new LoginDaoImpl();
 
-Connection conn = null;
-PreparedStatement stmt = null;
-ResultSet rs = null; // 应为ResultSet
-try {
-   Class.forName(JDBC_DRIVER);
-   conn = DriverManager.getConnection(DB_URL, USER, PASS);
-   String sql = "SELECT * FROM t_user WHERE username= ? AND password=?";
-   stmt = conn.prepareStatement(sql); // 正确传递SQL
-   stmt.setString(1, username);
-   stmt.setString(2, password);
-   rs = stmt.executeQuery();
-
-   if(rs.next()){
-	   response.sendRedirect("JSP/dashboard.jsp");
-   } else {
-       out.println("Username or password error");
-   }
-} catch(SQLException se) {
-   se.printStackTrace();
-} catch(Exception e) {
-   e.printStackTrace();
-} finally {
-   try { if (rs != null) rs.close(); } catch (SQLException se) { se.printStackTrace(); }
-   try { if (stmt != null) stmt.close(); } catch (SQLException se) { se.printStackTrace(); }
-   try { if (conn != null) conn.close(); } catch (SQLException se) { se.printStackTrace(); }
-}
+        if (loginDao.validateUser(username, password)) {
+            response.sendRedirect("JSP/dashboard.jsp");
+        } else {
+            out.println("<script>alert('Username or password error');</script>");
+        }
+    }
 %>
+
 </body>
 </html>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ page import="com.example.DAO.RegisterDaoImpl" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -64,35 +64,13 @@
       String username = request.getParameter("username");
       String password = request.getParameter("password");
 
-      Connection conn = null;
-      PreparedStatement pstmt = null;
+      RegisterDaoImpl registerDao = new RegisterDaoImpl();
 
-      try {
-         Class.forName("com.mysql.cj.jdbc.Driver");
-         conn = DriverManager.getConnection("jdbc:mysql://localhost/EMP?serverTimezone=Asia/Shanghai", "root", "st75s08mn07");
-
-         String sql = "INSERT INTO t_user (username, password) VALUES (?, ?)";
-         pstmt = conn.prepareStatement(sql);
-         pstmt.setString(1, username);
-         pstmt.setString(2, password);
-         int result = pstmt.executeUpdate();
-
-         if (result > 0) {
-            out.println("<div class='container'><h1>register successfully</h1><p>welcome，" + username + "！</p></div>");
-            response.setHeader("Refresh", "3; URL=login.html");
-         } else {
-            out.println("<div class='container'><h1>fail to register</h1><p>please try again</p></div>");
-         }
-      } catch (Exception e) {
-         e.printStackTrace();
-         out.println("<div class='container'><h1>fail to register</h1><p>please try again</p></div>");
-      } finally {
-         try {
-            if (pstmt != null) pstmt.close();
-            if (conn != null) conn.close();
-         } catch (SQLException e) {
-            e.printStackTrace();
-         }
+      if (registerDao.registerUser(username, password)) {
+         out.println("<div class='container'><h1>Register successfully</h1><p>Welcome, " + username + "!</p></div>");
+         response.setHeader("Refresh", "3; URL=loginDo.jsp");
+      } else {
+         out.println("<div class='container'><h1>Failed to register</h1><p>Please try again</p></div>");
       }
    }
 %>
