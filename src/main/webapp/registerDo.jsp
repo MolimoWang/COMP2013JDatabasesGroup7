@@ -69,7 +69,7 @@
 
       try {
          Class.forName("com.mysql.cj.jdbc.Driver");
-         conn = DriverManager.getConnection("jdbc:mysql://localhost/EMP?serverTimezone=Asia/Shanghai", "root", "N2y7c3t8wsh$");
+         conn = DriverManager.getConnection("jdbc:mysql://localhost/exampaperdatabase?serverTimezone=Asia/Shanghai", "root", "N2y7c3t8wsh$");
 
          String sql = "INSERT INTO t_user (username, password) VALUES (?, ?)";
          pstmt = conn.prepareStatement(sql);
@@ -79,7 +79,7 @@
 
          if (result > 0) {
             out.println("<div class='container'><h1>register successfully</h1><p>welcome，" + username + "！</p></div>");
-            response.setHeader("Refresh", "3; URL=login.html");
+            response.setHeader("Refresh", "3; URL=loginDo.jsp");
          } else {
             out.println("<div class='container'><h1>fail to register</h1><p>please try again</p></div>");
          }
