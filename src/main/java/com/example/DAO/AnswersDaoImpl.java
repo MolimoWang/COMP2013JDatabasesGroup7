@@ -30,7 +30,7 @@ public class AnswersDaoImpl implements AnswersDao {
     @Override
     public void deleteById(int answerId) {
         Connection conn = null;
-        PreparedStatement psQuestions = null;
+        PreparedStatement psQuestionAnswers = null;
         PreparedStatement psAnswer = null;
 
         try {
@@ -39,10 +39,10 @@ public class AnswersDaoImpl implements AnswersDao {
             // Start transaction
             conn.setAutoCommit(false);
 
-            // First delete the Questions associated with this Answer
-            psQuestions = conn.prepareStatement("DELETE FROM Questions WHERE AnswerID = ?");
-            psQuestions.setInt(1, answerId);
-            psQuestions.executeUpdate();
+            // First delete the QuestionAnswers associated with this Answer
+            psQuestionAnswers = conn.prepareStatement("DELETE FROM QuestionAnswers WHERE AnswerID = ?");
+            psQuestionAnswers.setInt(1, answerId);
+            psQuestionAnswers.executeUpdate();
 
             // Finally delete the Answer
             psAnswer = conn.prepareStatement("DELETE FROM Answers WHERE AnswerID = ?");
@@ -63,7 +63,7 @@ public class AnswersDaoImpl implements AnswersDao {
             e.printStackTrace();
         } finally {
             try {
-                if (psQuestions != null) psQuestions.close();
+                if (psQuestionAnswers != null) psQuestionAnswers.close();
                 if (psAnswer != null) psAnswer.close();
                 if (conn != null) conn.close();
             } catch (Exception ex) {

@@ -63,14 +63,7 @@
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-<<<<<<< HEAD
-final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver"; // 推荐使用新的驱动类名
-final String DB_URL = "jdbc:mysql://localhost/exampaperdatabase?serverTimezone=UTC";
-final String USER = "root";
-final String PASS = "5201314Zth!";
-=======
         LoginDaoImpl loginDao = new LoginDaoImpl();
->>>>>>> origin/front-page-Login
 
         if (loginDao.validateUser(username, password)) {
             response.sendRedirect("JSP/dashboard.jsp");
