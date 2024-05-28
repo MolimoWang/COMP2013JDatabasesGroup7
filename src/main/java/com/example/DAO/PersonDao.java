@@ -1,2 +1,4 @@
-package com.example.DAO;public interface PersonDao {
+package com.example.DAO;
+
+public interface PersonDao {
 }

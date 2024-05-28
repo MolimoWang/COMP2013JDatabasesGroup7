@@ -1,2 +1,4 @@
-package com.example.DAO;public class StudentPapersDao {
+package com.example.DAO;
+
+public class StudentPapersDao {
 }

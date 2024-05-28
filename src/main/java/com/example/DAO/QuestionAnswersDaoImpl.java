@@ -1,2 +1,4 @@
-package com.example.DAO;public class QuestionAnswersDaoImpl {
+package com.example.DAO;
+
+public class QuestionAnswersDaoImpl {
 }

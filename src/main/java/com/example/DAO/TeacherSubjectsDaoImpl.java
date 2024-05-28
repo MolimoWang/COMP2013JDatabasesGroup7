@@ -1,2 +1,4 @@
-package com.example.DAO;public class TeacherSubjectsDaoImpl {
+package com.example.DAO;
+
+public class TeacherSubjectsDaoImpl {
 }
