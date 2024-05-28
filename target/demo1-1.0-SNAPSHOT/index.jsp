@@ -52,7 +52,7 @@
 <div class="container">
     <h1>Welcome to Our Site!</h1>
     <p class="button-container">
-        <a href="login.html"><button>Login</button></a>
+        <a href="loginDo.jsp"><button>Login</button></a>
         <a href="registerDo.jsp"><button>Register</button></a>
     </p>
 </div>
