@@ -15,4 +15,7 @@ public interface SubjectsDao {
 
     // Method to retrieve all subjects from the database
     List<Subject> findAll();
+
+    // Method to update an existing subject in the database
+    void update(Subject subject);
 }

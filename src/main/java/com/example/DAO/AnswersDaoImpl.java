@@ -118,29 +118,6 @@ public class AnswersDaoImpl implements AnswersDao {
         return answers;
     }
 
-    // Method to find an answer in the database by the ID of the question it is associated with
-    @Override
-    public Answer findByQuestionId(int questionId) {
-        Answer answer = null;
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Answers WHERE AnswerID = (SELECT AnswerID FROM Questions WHERE QuestionID = ?)");
-            ps.setInt(1, questionId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                answer = new Answer();
-                answer.setAnswerId(rs.getInt("AnswerID"));
-                answer.setText(rs.getString("Text"));
-            }
-            rs.close();
-            ps.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return answer;
-    }
-
     // Method to update an existing answer in the database
     @Override
     public void update(Answer answer) {

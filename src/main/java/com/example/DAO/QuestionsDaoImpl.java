@@ -117,4 +117,22 @@ public class QuestionsDaoImpl implements QuestionsDao {
         }
         return questions;
     }
+
+    // Method to update a question in the database
+    @Override
+    public void update(Question question) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE Questions SET PaperID = ?, Text = ?, AnswerID = ? WHERE QuestionID = ?");
+            ps.setInt(1, question.getPaperId());
+            ps.setString(2, question.getText());
+            ps.setInt(3, question.getAnswerId());
+            ps.setInt(4, question.getQuestionId());
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

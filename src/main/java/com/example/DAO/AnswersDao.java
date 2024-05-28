@@ -16,9 +16,6 @@ public interface AnswersDao {
     // Method to retrieve all answers from the database
     List<Answer> findAll();
 
-    // Method to find an answer in the database by the ID of the question it is associated with
-    Answer findByQuestionId(int questionId);
-
     // Method to update an existing answer in the database
     void update(Answer answer);
 }

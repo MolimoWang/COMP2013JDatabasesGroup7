@@ -113,4 +113,21 @@ public class StudentsDaoImpl implements StudentsDao {
         }
         return students;
     }
+
+    // Method to update a student in the database
+    @Override
+    public void update(Student student) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE Students SET Name = ?, PaperID = ? WHERE StudentID = ?");
+            ps.setString(1, student.getName());
+            ps.setInt(2, student.getPaperId());
+            ps.setInt(3, student.getStudentId());
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
