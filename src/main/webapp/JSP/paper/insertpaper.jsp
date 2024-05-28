@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.DAO.PapersDaoImpl,com.example.model.Paper" %>
+<%@ page import="java.sql.SQLIntegrityConstraintViolationException" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
     <title>Insert Paper</title>
 
     <!-- Import Bootstrap CSS from CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- Import custom CSS -->
     <link href="../../resources/css/styles.css" rel="stylesheet">
@@ -68,6 +69,8 @@
                 out.println("<p class='text-center text-success'>Paper inserted successfully.</p>");
             } catch (NumberFormatException e) {
                 out.println("<p class='text-center text-danger'>Invalid input format. Please ensure all fields are correctly filled.</p>");
+            } catch (SQLIntegrityConstraintViolationException e) {
+                out.println("<p class='text-center text-danger'>Subject ID does not exist. Please create the subject first.</p>");
             }
         } else {
             out.println("<p class='text-center text-danger'>Please fill out all fields.</p>");

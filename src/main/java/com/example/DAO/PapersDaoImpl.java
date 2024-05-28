@@ -6,13 +6,14 @@ import com.example.util.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PapersDaoImpl implements PapersDao {
     // Method to insert a new paper into the database
     @Override
-    public void insert(Paper paper) {
+    public void insert(Paper paper) throws SQLException {
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO Papers (PaperID, Title, Year, SubjectID) VALUES (?, ?, ?, ?)");

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PapersDaoImplTest {
@@ -38,7 +40,7 @@ public class PapersDaoImplTest {
     }
 
     @Test
-    public void testInsertAndFindById() {
+    public void testInsertAndFindById() throws SQLException {
         papersDao.insert(paper);
 
         Paper found = papersDao.findById(1);
@@ -50,7 +52,7 @@ public class PapersDaoImplTest {
     }
 
     @Test
-    public void testDeleteById() {
+    public void testDeleteById() throws SQLException {
         papersDao.insert(paper);
         papersDao.deleteById(1);
 
@@ -59,7 +61,7 @@ public class PapersDaoImplTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws SQLException {
         papersDao.insert(paper);
         paper.setTitle("Updated Paper Title");
         paper.setYear(2023);

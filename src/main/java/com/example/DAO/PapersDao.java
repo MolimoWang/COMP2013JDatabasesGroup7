@@ -1,11 +1,13 @@
 package com.example.DAO;
 
 import com.example.model.Paper;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public interface PapersDao {
     // Method to insert a new paper into the database
-    void insert(Paper paper);
+    void insert(Paper paper) throws SQLException;
 
     // Method to delete a paper from the database by its ID
     void deleteById(int paperId);
