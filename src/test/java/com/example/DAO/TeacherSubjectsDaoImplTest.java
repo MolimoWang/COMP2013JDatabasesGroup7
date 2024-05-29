@@ -82,6 +82,30 @@ class TeacherSubjectsDaoImplTest {
     }
 
     @Test
+    void deleteByTeacherId() {
+        // Delete all records related to the teacher from the database
+        teacherSubjectsDao.deleteByTeacherId(testTeacherId);
+
+        // Try to retrieve the deleted records from the database
+        List<Integer> deletedSubjectIds = teacherSubjectsDao.findSubjectIdsByTeacherId(testTeacherId);
+
+        // Assert that the deleted records cannot be retrieved (is empty)
+        assertTrue(deletedSubjectIds.isEmpty());
+    }
+
+    @Test
+    void deleteBySubjectId() {
+        // Delete all records related to the subject from the database
+        teacherSubjectsDao.deleteBySubjectId(testSubjectId);
+
+        // Try to retrieve the deleted records from the database
+        List<Integer> deletedTeacherIds = teacherSubjectsDao.findTeacherIdsBySubjectId(testSubjectId);
+
+        // Assert that the deleted records cannot be retrieved (is empty)
+        assertTrue(deletedTeacherIds.isEmpty());
+    }
+
+    @Test
     void findSubjectIdsByTeacherId() {
         // Retrieve the inserted record from the database
         List<Integer> foundSubjectIds = teacherSubjectsDao.findSubjectIdsByTeacherId(testTeacherId);

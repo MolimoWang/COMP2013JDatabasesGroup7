@@ -40,6 +40,34 @@ public class TeacherSubjectsDaoImpl implements TeacherSubjectsDao {
     }
 
     @Override
+    public void deleteByTeacherId(int teacherId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM TeacherSubjects WHERE TeacherID = ?");
+            ps.setInt(1, teacherId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteBySubjectId(int subjectId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM TeacherSubjects WHERE SubjectID = ?");
+            ps.setInt(1, subjectId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public List<Integer> findSubjectIdsByTeacherId(int teacherId) {
         List<Integer> subjectIds = new ArrayList<>();
         try {

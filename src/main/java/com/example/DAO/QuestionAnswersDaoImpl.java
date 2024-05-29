@@ -40,6 +40,34 @@ public class QuestionAnswersDaoImpl implements QuestionAnswersDao {
     }
 
     @Override
+    public void deleteByQuestionId(int questionId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM QuestionAnswers WHERE QuestionID = ?");
+            ps.setInt(1, questionId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteByAnswerId(int answerId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM QuestionAnswers WHERE AnswerID = ?");
+            ps.setInt(1, answerId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public List<Integer> findAnswerIdsByQuestionId(int questionId) {
         List<Integer> answerIds = new ArrayList<>();
         try {

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeachersDaoImpl implements TeachersDao {
+    TeacherSubjectsDao teacherSubjectsDao = new TeacherSubjectsDaoImpl();
+
     // Method to insert a new teacher into the database
     @Override
     public void insert(Teacher teacher) {
@@ -35,6 +37,10 @@ public class TeachersDaoImpl implements TeachersDao {
             ps.setInt(1, teacherId);
             ps.executeUpdate();
             ps.close();
+
+            // Delete all records related to the teacher from the TeacherSubjects table
+            teacherSubjectsDao.deleteByTeacherId(teacherId);
+
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
