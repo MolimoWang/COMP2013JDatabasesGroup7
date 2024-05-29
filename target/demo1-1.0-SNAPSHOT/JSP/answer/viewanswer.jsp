@@ -62,9 +62,9 @@
         }
 
         if (answer != null) {
-            out.println("<h2 class='text-center'>Answer Details:</h2>");
-            out.println("<p class='text-center'>Answer ID: " + answer.getAnswerId() + "</p>");
-            out.println("<p class='text-center'>Text: " + answer.getText() + "</p>");
+            out.println("<h2 class='text-center answer-details'>Answer Details:</h2>");
+            out.println("<p class='text-center answer-details'>Answer ID: " + answer.getAnswerId() + "</p>");
+            out.println("<p class='text-center answer-details'>Text: " + answer.getText() + "</p>");
         } else {
             out.println("<p class='text-center text-danger'>No answer found with the given criteria.</p>");
         }

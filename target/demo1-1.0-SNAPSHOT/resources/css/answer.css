@@ -1,3 +1,12 @@
 body {
     background-image: url('../images/answerBackground.png');
 }
+
+.answer-details {
+    margin-top: 2px;
+}
+
+form input, form label {
+    margin-bottom: 5px;
+    height: 20px;
+}
