@@ -17,6 +17,8 @@ public class QuestionsDaoImplTest {
     private PapersDaoImpl papersDao;
     private SubjectsDaoImpl subjectsDao;
     private AnswersDaoImpl answersDao;
+    private QuestionAnswersDaoImpl questionAnswersDao;  // Add this line
+
     private Question question;
     private Paper paper;
     private Subject subject;
@@ -29,6 +31,7 @@ public class QuestionsDaoImplTest {
         papersDao = new PapersDaoImpl();
         subjectsDao = new SubjectsDaoImpl();
         answersDao = new AnswersDaoImpl();
+        questionAnswersDao = new QuestionAnswersDaoImpl();  // Add this line
 
         // Create and insert a test Subject object into the database
         subject = new Subject();
@@ -57,6 +60,9 @@ public class QuestionsDaoImplTest {
         question.setText("Test Question");
         question.setAnswerId(1);  // This should match the AnswerID of the inserted Answer object
         questionsDao.insert(question);
+
+        // Insert the Question-Answer relationship into the database
+        questionAnswersDao.insert(1, 1);  // Add this line
     }
 
     @Test
@@ -71,7 +77,12 @@ public class QuestionsDaoImplTest {
         assertEquals(1, insertedQuestion.getQuestionId());
         assertEquals(1, insertedQuestion.getPaperId());
         assertEquals("Test Question", insertedQuestion.getText());
-        assertEquals(1, insertedQuestion.getAnswerId());
+
+        // Retrieve the associated Answer IDs from the database
+        List<Integer> answerIds = questionAnswersDao.findAnswerIdsByQuestionId(1);
+
+        // Assert that the retrieved Answer IDs include the expected Answer ID
+        assertTrue(answerIds.contains(1));
     }
 
     @Test
@@ -98,7 +109,12 @@ public class QuestionsDaoImplTest {
         assertEquals(1, foundQuestion.getQuestionId());
         assertEquals(1, foundQuestion.getPaperId());
         assertEquals("Test Question", foundQuestion.getText());
-        assertEquals(1, foundQuestion.getAnswerId());
+
+        // Retrieve the associated Answer IDs from the database
+        List<Integer> answerIds = questionAnswersDao.findAnswerIdsByQuestionId(1);
+
+        // Assert that the retrieved Answer IDs include the expected Answer ID
+        assertTrue(answerIds.contains(1));
     }
 
     @Test
@@ -131,6 +147,7 @@ public class QuestionsDaoImplTest {
     @AfterEach
     public void tearDown() {
         // Clean up the test data by deleting the test Question, Paper, Subject, and Answer objects from the database
+        questionAnswersDao.deleteByQuestionIdAndAnswerId(1, 1);  // Add this line
         questionsDao.deleteById(1);
         papersDao.deleteById(1);
         subjectsDao.deleteById(1);

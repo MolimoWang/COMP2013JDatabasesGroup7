@@ -14,10 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class TeachersDaoImplTest {
     private TeachersDaoImpl teachersDao;
     private SubjectsDaoImpl subjectsDao;
-    private PersonDaoImpl personDao; // Assuming you've created this DAO
+    private PersonDaoImpl personDao;
+    private TeacherSubjectsDaoImpl teacherSubjectsDao;
+
     private Teacher teacher;
     private Subject subject;
     private Person person; // Create a Person object
+
 
     @BeforeEach
     public void setUp() {
@@ -25,6 +28,7 @@ class TeachersDaoImplTest {
         teachersDao = new TeachersDaoImpl();
         subjectsDao = new SubjectsDaoImpl();
         personDao = new PersonDaoImpl(); // Initialize the PersonDao
+        teacherSubjectsDao = new TeacherSubjectsDaoImpl();
 
         // Create and insert a test Subject object into the database
         subject = new Subject();
@@ -42,16 +46,19 @@ class TeachersDaoImplTest {
         teacher = new Teacher();
         teacher.setTeacherId(1);
         teacher.setPersonId(1); // Set the PersonID instead of the name
-        teacher.setSubjectId(1);
         teachersDao.insert(teacher);
+
+        // Insert the Teacher-Subject relationship into the database
+        teacherSubjectsDao.insert(1, 1);  // Add this line
     }
 
     @AfterEach
     public void tearDown() {
         // Clean up the test data by deleting the test Teacher, Subject, and Person objects from the database
+        teacherSubjectsDao.deleteByTeacherIdAndSubjectId(1, 1);  // Add this line
         teachersDao.deleteById(1);
         subjectsDao.deleteById(1);
-        personDao.deleteById(1); // Delete the Person object from the database
+        personDao.deleteById(1);  // Add this line
     }
 
     @Test
@@ -65,7 +72,12 @@ class TeachersDaoImplTest {
         // Assert that the retrieved Teacher object has the expected properties
         assertEquals(1, insertedTeacher.getTeacherId());
         assertEquals(1, insertedTeacher.getPersonId()); // Check the PersonID instead of the name
-        assertEquals(1, insertedTeacher.getSubjectId());
+
+        // Retrieve the associated Subject IDs from the database
+        List<Integer> subjectIds = teacherSubjectsDao.findSubjectIdsByTeacherId(1);
+
+        // Assert that the retrieved Subject IDs include the expected Subject ID
+        assertTrue(subjectIds.contains(1));
     }
 
     @Test
@@ -92,6 +104,14 @@ class TeachersDaoImplTest {
         assertEquals(1, foundTeacher.getTeacherId());
         assertEquals(1, foundTeacher.getPersonId()); // Check the PersonID instead of the name
         assertEquals(1, foundTeacher.getSubjectId());
+
+        // Retrieve the associated Person and Subject objects from the database
+        Person associatedPerson = personDao.findById(foundTeacher.getPersonId());
+        Subject associatedSubject = subjectsDao.findById(foundTeacher.getSubjectId());
+
+        // Assert that the retrieved Person and Subject objects have the expected properties
+        assertEquals("Test Person", associatedPerson.getName());
+        assertEquals("Test Subject", associatedSubject.getName());
     }
 
     @Test
