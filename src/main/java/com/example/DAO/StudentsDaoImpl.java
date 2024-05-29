@@ -122,4 +122,28 @@ public class StudentsDaoImpl implements StudentsDao {
             e.printStackTrace();
         }
     }
+
+    // Method to find students in the database by paper ID
+    @Override
+    public List<Student> findByPaperId(int paperId) {
+        List<Student> students = new ArrayList<>();
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT Students.* FROM Students INNER JOIN StudentPapers ON Students.StudentID = StudentPapers.StudentID WHERE StudentPapers.PaperID = ?");
+            ps.setInt(1, paperId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setStudentId(rs.getInt("StudentID"));
+                student.setPersonId(rs.getInt("PersonID"));
+                students.add(student);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
 }

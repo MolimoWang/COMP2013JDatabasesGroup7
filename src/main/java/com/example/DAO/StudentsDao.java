@@ -20,4 +20,7 @@ public interface StudentsDao {
 
     // Method to update an existing student in the database
     void update(Student student);
+
+    // Method to find students in the database by paper ID
+    List<Student> findByPaperId(int paperId);
 }
