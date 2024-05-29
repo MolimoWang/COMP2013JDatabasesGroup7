@@ -3,6 +3,7 @@ package com.example.DAO;
 import com.example.model.Student;
 import com.example.model.Paper;
 import com.example.model.Person;
+import com.example.model.Subject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +17,12 @@ class StudentPapersDaoImplTest {
     private StudentsDaoImpl studentsDao;
     private PapersDaoImpl papersDao;
     private PersonDaoImpl personDao;
+    private SubjectsDaoImpl subjectsDao;
 
     private int testStudentId = 1;
     private int testPaperId = 1;
     private int testPersonId = 1;
+    private int testSubjectId = 1;
 
     @BeforeEach
     void setUp() {
@@ -27,12 +30,19 @@ class StudentPapersDaoImplTest {
         studentsDao = new StudentsDaoImpl();
         papersDao = new PapersDaoImpl();
         personDao = new PersonDaoImpl();
+        subjectsDao = new SubjectsDaoImpl();
 
         // Insert a test person into the database
         Person person = new Person();
         person.setPersonId(testPersonId);
         person.setName("Test Person");
         personDao.insert(person);
+
+        // Insert a test subject into the database
+        Subject subject = new Subject();
+        subject.setSubjectId(testSubjectId);
+        subject.setName("Test Subject");
+        subjectsDao.insert(subject);
 
         // Insert a test student into the database
         Student student = new Student();
@@ -44,6 +54,7 @@ class StudentPapersDaoImplTest {
         Paper paper = new Paper();
         paper.setPaperId(testPaperId);
         paper.setTitle("Test Paper");
+        paper.setSubjectId(testSubjectId);
         papersDao.insert(paper);
 
         // Insert a test record into the database
@@ -56,7 +67,9 @@ class StudentPapersDaoImplTest {
         studentsDao.deleteById(testStudentId);
         papersDao.deleteById(testPaperId);
         personDao.deleteById(testPersonId);
+        subjectsDao.deleteById(testSubjectId);
     }
+
     @Test
     void insert() {
         // Retrieve the inserted record from the database
