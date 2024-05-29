@@ -32,14 +32,17 @@ public class TeachersDaoImpl implements TeachersDao {
     @Override
     public void deleteById(int teacherId) {
         try {
+            // Delete all records related to the teacher from the TeacherSubjects table
+            teacherSubjectsDao.deleteByTeacherId(teacherId);
+
+            // Delete the teacher from the Teachers table
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Teachers WHERE TeacherID = ?");
             ps.setInt(1, teacherId);
             ps.executeUpdate();
             ps.close();
 
-            // Delete all records related to the teacher from the TeacherSubjects table
-            teacherSubjectsDao.deleteByTeacherId(teacherId);
+
 
             conn.close();
         } catch (Exception e) {
