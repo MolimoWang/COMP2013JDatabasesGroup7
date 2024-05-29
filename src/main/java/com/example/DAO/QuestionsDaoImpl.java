@@ -30,46 +30,20 @@ public class QuestionsDaoImpl implements QuestionsDao {
     // Method to delete a question from the database by its ID
     @Override
     public void deleteById(int questionId) {
-        Connection conn = null;
-        PreparedStatement psQuestionAnswers = null;
-        PreparedStatement psQuestion = null;
-
         try {
-            conn = DatabaseConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement psQA = conn.prepareStatement("DELETE FROM QuestionAnswers WHERE QuestionID = ?");
+            psQA.setInt(1, questionId);
+            psQA.executeUpdate();
+            psQA.close();
 
-            // Start transaction
-            conn.setAutoCommit(false);
-
-            // First delete the QuestionAnswers associated with this Question
-            psQuestionAnswers = conn.prepareStatement("DELETE FROM QuestionAnswers WHERE QuestionID = ?");
-            psQuestionAnswers.setInt(1, questionId);
-            psQuestionAnswers.executeUpdate();
-
-            // Finally delete the Question
-            psQuestion = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
-            psQuestion.setInt(1, questionId);
-            psQuestion.executeUpdate();
-
-            // Commit transaction
-            conn.commit();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
+            ps.setInt(1, questionId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
         } catch (Exception e) {
-            if (conn != null) {
-                try {
-                    // Rollback transaction
-                    conn.rollback();
-                } catch (Exception rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
             e.printStackTrace();
-        } finally {
-            try {
-                if (psQuestionAnswers != null) psQuestionAnswers.close();
-                if (psQuestion != null) psQuestion.close();
-                if (conn != null) conn.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
@@ -87,7 +61,6 @@ public class QuestionsDaoImpl implements QuestionsDao {
                 question.setQuestionId(rs.getInt("QuestionID"));
                 question.setPaperId(rs.getInt("PaperID"));
                 question.setText(rs.getString("Text"));
-                question.setAnswerId(rs.getInt("AnswerID"));
             }
             rs.close();
             ps.close();
@@ -111,32 +84,6 @@ public class QuestionsDaoImpl implements QuestionsDao {
                 question.setQuestionId(rs.getInt("QuestionID"));
                 question.setPaperId(rs.getInt("PaperID"));
                 question.setText(rs.getString("Text"));
-                question.setAnswerId(rs.getInt("AnswerID"));
-                questions.add(question);
-            }
-            rs.close();
-            ps.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return questions;
-    }
-
-    // Method to find questions in the database by the ID of the paper they are associated with
-    public List<Question> findByPaperId(int paperId) {
-        List<Question> questions = new ArrayList<>();
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Questions WHERE PaperID = ?");
-            ps.setInt(1, paperId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Question question = new Question();
-                question.setQuestionId(rs.getInt("QuestionID"));
-                question.setPaperId(rs.getInt("PaperID"));
-                question.setText(rs.getString("Text"));
-                question.setAnswerId(rs.getInt("AnswerID"));
                 questions.add(question);
             }
             rs.close();
