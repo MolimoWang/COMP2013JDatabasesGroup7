@@ -1,6 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.DAO.StudentsDaoImpl, com.example.model.Student" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.DAO.PersonDaoImpl" %>
+<%@ page import="com.example.model.Person" %>
+<%@ page import="com.example.DAO.StudentPapersDaoImpl" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +34,17 @@
           } else {
             out.println("<ul class='list-group list-group-flush text-center mt-3'>");
             for (Student student : students) {
-              out.println("<li class='list-group-item'>Student ID: " + student.getStudentId() + ", Name: " + student.getName() + ", Paper ID: " + student.getPaperId() + "</li>");
+              PersonDaoImpl personDao = new PersonDaoImpl();
+              Person person = personDao.findById(student.getPersonId());
+
+              StudentPapersDaoImpl studentPapersDao = new StudentPapersDaoImpl();
+              List<Integer> paperIds = studentPapersDao.findPaperIdsByStudentId(student.getStudentId());
+
+              out.println("<li class='list-group-item'>");
+              out.println("Student ID: " + student.getStudentId() + ", Name: " + person.getName() + "<br>");
+              out.println("Paper IDs: " + paperIds.toString());
+              out.println("</li>");
+
             }
             out.println("</ul>");
           }

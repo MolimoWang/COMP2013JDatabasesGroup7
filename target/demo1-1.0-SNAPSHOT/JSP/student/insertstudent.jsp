@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.StudentsDaoImpl, com.example.model.Student" %>
+<%@ page import="com.example.DAO.StudentsDaoImpl, com.example.model.Student,com.example.DAO.PersonDaoImpl, com.example.model.Person" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,14 +21,15 @@
         <h1 class="text-center">Insert a New Student</h1>
 
         <form method="post" action="insertstudent.jsp" class="text-center">
-            <label for="studentId">Student ID:</label>
-            <input type="text" id="studentId" name="studentId" class="form-control" required><br>
+            <label for="personId">Person ID:</label>
+            <input type="text" id="personId" name="personId" class="form-control" required><br>
 
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" class="form-control" required><br>
 
-            <label for="paperId">Paper ID:</label>
-            <input type="text" id="paperId" name="paperId" class="form-control" required><br>
+            <label for="studentId">Student ID:</label>
+            <input type="text" id="studentId" name="studentId" class="form-control" required><br>
+
 
             <input type="submit" value="Insert" class="btn btn-primary">
         </form>
@@ -40,19 +41,28 @@
 
         <%
             if ("POST".equalsIgnoreCase(request.getMethod())) {
-                String studentIdStr = request.getParameter("studentId");
+                String personIdStr = request.getParameter("personId");
                 String name = request.getParameter("name");
-                String paperIdStr = request.getParameter("paperId");
+                String studentIdStr = request.getParameter("studentId");
 
-                if (studentIdStr != null && name != null && paperIdStr != null) {
+
+                if (personIdStr != null && name != null && studentIdStr != null) {
                     try {
+                        int personId = Integer.parseInt(personIdStr);
                         int studentId = Integer.parseInt(studentIdStr);
-                        int paperId = Integer.parseInt(paperIdStr);
 
+                        // Insert into Person table
+                        Person person = new Person();
+                        person.setPersonId(personId);
+                        person.setName(name);
+
+                        PersonDaoImpl personDao = new PersonDaoImpl();
+                        personDao.insert(person);
+
+                        //Insert into Student table
                         Student student = new Student();
                         student.setStudentId(studentId);
-                        student.setName(name);
-                        student.setPaperId(paperId);
+                        student.setPersonId(personId);
 
                         StudentsDaoImpl studentsDao = new StudentsDaoImpl();
                         studentsDao.insert(student);

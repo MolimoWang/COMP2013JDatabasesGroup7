@@ -44,7 +44,7 @@
 
                     if (student != null) {
                         PersonDaoImpl personDao = new PersonDaoImpl();
-                        Person person = personDao.findById(student.getStudentId());
+                        Person person = personDao.findById(student.getPersonId());
 
                         StudentPapersDaoImpl studentPapersDao = new StudentPapersDaoImpl();
                         List<Integer> paperIds = studentPapersDao.findPaperIdsByStudentId(student.getStudentId());

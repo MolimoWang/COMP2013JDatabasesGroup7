@@ -35,7 +35,7 @@
             out.println("<ul class='list-group list-group-flush text-center mt-3'>");
             for (Student student : students) {
               PersonDaoImpl personDao = new PersonDaoImpl();
-              Person person = personDao.findById(student.getStudentId());
+              Person person = personDao.findById(student.getPersonId());
 
               StudentPapersDaoImpl studentPapersDao = new StudentPapersDaoImpl();
               List<Integer> paperIds = studentPapersDao.findPaperIdsByStudentId(student.getStudentId());
