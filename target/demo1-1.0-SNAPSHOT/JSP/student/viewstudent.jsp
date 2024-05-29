@@ -1,5 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.model.Student, com.example.DAO.StudentsDaoImpl" %>
+<%@ page import="com.example.DAO.PersonDaoImpl" %>
+<%@ page import="com.example.model.Person" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.DAO.StudentPapersDaoImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,9 +43,15 @@
                     Student student = studentsDao.findById(studentId);
 
                     if (student != null) {
+                        PersonDaoImpl personDao = new PersonDaoImpl();
+                        Person person = personDao.findById(student.getPersonId());
+
+                        StudentPapersDaoImpl studentPapersDao = new StudentPapersDaoImpl();
+                        List<Integer> paperIds = studentPapersDao.findPaperIdsByStudentId(student.getStudentId());
+
                         out.println("<p class='text-center mt-3'>Student ID: " + student.getStudentId() + "</p>");
-                        out.println("<p class='text-center'>Name: " + student.getName() + "</p>");
-                        out.println("<p class='text-center'>Paper ID: " + student.getPaperId() + "</p>");
+                        out.println("<p class='text-center'>Name: " + person.getName() + "</p>");
+                        out.println("<p class='text-center'>Paper ID: " + paperIds.toString() + "</p>");
                     } else {
                         out.println("<p class='text-center text-danger mt-3'>No student found with ID " + studentId + ".</p>");
                     }
