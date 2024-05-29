@@ -41,6 +41,13 @@ public class AnswersDaoImpl implements AnswersDao {
     public void deleteById(int answerId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
+            // Set the AnswerID to null for any questions that reference the answer being deleted
+            PreparedStatement psUpdate = conn.prepareStatement("UPDATE Questions SET AnswerID = NULL WHERE AnswerID = ?");
+            psUpdate.setInt(1, answerId);
+            psUpdate.executeUpdate();
+            psUpdate.close();
+
+            // Delete the answer
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Answers WHERE AnswerID = ?");
             ps.setInt(1, answerId);
             ps.executeUpdate();
