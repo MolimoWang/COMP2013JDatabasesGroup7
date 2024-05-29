@@ -38,8 +38,7 @@ public class StudentsDaoImplTest {
 
         student = new Student();
         student.setStudentId(1);
-        student.setName("Test Student");
-        student.setPaperId(1);
+        student.setPersonId(1);
         studentsDao.insert(student);
     }
 
@@ -55,8 +54,7 @@ public class StudentsDaoImplTest {
         Student insertedStudent = studentsDao.findById(1);
         assertNotNull(insertedStudent);
         assertEquals(1, insertedStudent.getStudentId());
-        assertEquals("Test Student", insertedStudent.getName());
-        assertEquals(1, insertedStudent.getPaperId());
+        assertEquals(1, insertedStudent.getPersonId());
     }
 
     @Test
@@ -71,8 +69,7 @@ public class StudentsDaoImplTest {
         Student foundStudent = studentsDao.findById(1);
         assertNotNull(foundStudent);
         assertEquals(1, foundStudent.getStudentId());
-        assertEquals("Test Student", foundStudent.getName());
-        assertEquals(1, foundStudent.getPaperId());
+        assertEquals(1, foundStudent.getPersonId());
     }
 
     @Test

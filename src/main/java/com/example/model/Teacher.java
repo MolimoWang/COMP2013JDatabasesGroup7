@@ -4,8 +4,8 @@ public class Teacher {
     // Unique identifier for the teacher
     private int teacherId;
 
-    // Name of the teacher
-    private String name;
+    // Identifier for the person the teacher is associated with
+    private int personId;
 
     // Identifier for the subject the teacher is associated with
     private int subjectId;
@@ -20,14 +20,14 @@ public class Teacher {
         this.teacherId = teacherId;
     }
 
-    // Getter method for name
-    public String getName() {
-        return name;
+    // Getter method for personId
+    public int getPersonId() {
+        return personId;
     }
 
-    // Setter method for name
-    public void setName(String name) {
-        this.name = name;
+    // Setter method for personId
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
     // Getter method for subjectId

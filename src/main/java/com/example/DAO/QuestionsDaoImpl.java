@@ -15,11 +15,10 @@ public class QuestionsDaoImpl implements QuestionsDao {
     public void insert(Question question) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, PaperID, Text, AnswerID) VALUES (?, ?, ?, ?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, PaperID, Text) VALUES (?, ?, ?)");
             ps.setInt(1, question.getQuestionId());
             ps.setInt(2, question.getPaperId());
             ps.setString(3, question.getText());
-            ps.setInt(4, question.getAnswerId());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -31,15 +30,46 @@ public class QuestionsDaoImpl implements QuestionsDao {
     // Method to delete a question from the database by its ID
     @Override
     public void deleteById(int questionId) {
+        Connection conn = null;
+        PreparedStatement psQuestionAnswers = null;
+        PreparedStatement psQuestion = null;
+
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
-            ps.setInt(1, questionId);
-            ps.executeUpdate();
-            ps.close();
-            conn.close();
+            conn = DatabaseConnection.getConnection();
+
+            // Start transaction
+            conn.setAutoCommit(false);
+
+            // First delete the QuestionAnswers associated with this Question
+            psQuestionAnswers = conn.prepareStatement("DELETE FROM QuestionAnswers WHERE QuestionID = ?");
+            psQuestionAnswers.setInt(1, questionId);
+            psQuestionAnswers.executeUpdate();
+
+            // Finally delete the Question
+            psQuestion = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
+            psQuestion.setInt(1, questionId);
+            psQuestion.executeUpdate();
+
+            // Commit transaction
+            conn.commit();
         } catch (Exception e) {
+            if (conn != null) {
+                try {
+                    // Rollback transaction
+                    conn.rollback();
+                } catch (Exception rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (psQuestionAnswers != null) psQuestionAnswers.close();
+                if (psQuestion != null) psQuestion.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -123,11 +153,10 @@ public class QuestionsDaoImpl implements QuestionsDao {
     public void update(Question question) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE Questions SET PaperID = ?, Text = ?, AnswerID = ? WHERE QuestionID = ?");
+            PreparedStatement ps = conn.prepareStatement("UPDATE Questions SET PaperID = ?, Text = ? WHERE QuestionID = ?");
             ps.setInt(1, question.getPaperId());
             ps.setString(2, question.getText());
-            ps.setInt(3, question.getAnswerId());
-            ps.setInt(4, question.getQuestionId());
+            ps.setInt(3, question.getQuestionId());
             ps.executeUpdate();
             ps.close();
             conn.close();

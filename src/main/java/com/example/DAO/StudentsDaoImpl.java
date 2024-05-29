@@ -15,10 +15,9 @@ public class StudentsDaoImpl implements StudentsDao {
     public void insert(Student student) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Students (StudentID, Name, PaperID) VALUES (?, ?, ?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Students (StudentID, PersonID) VALUES (?, ?)");
             ps.setInt(1, student.getStudentId());
-            ps.setString(2, student.getName());
-            ps.setInt(3, student.getPaperId());
+            ps.setInt(2, student.getPersonId());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -48,14 +47,13 @@ public class StudentsDaoImpl implements StudentsDao {
         Student student = null;
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Students WHERE StudentID = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Students INNER JOIN Person ON Students.PersonID = Person.PersonID WHERE StudentID = ?");
             ps.setInt(1, studentId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 student = new Student();
                 student.setStudentId(rs.getInt("StudentID"));
-                student.setName(rs.getString("Name"));
-                student.setPaperId(rs.getInt("PaperID"));
+                student.setPersonId(rs.getInt("PersonID"));
             }
             rs.close();
             ps.close();
@@ -72,37 +70,12 @@ public class StudentsDaoImpl implements StudentsDao {
         List<Student> students = new ArrayList<>();
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Students");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Students INNER JOIN Person ON Students.PersonID = Person.PersonID");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Student student = new Student();
                 student.setStudentId(rs.getInt("StudentID"));
-                student.setName(rs.getString("Name"));
-                student.setPaperId(rs.getInt("PaperID"));
-                students.add(student);
-            }
-            rs.close();
-            ps.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return students;
-    }
-
-    // Method to find students in the database by the ID of the paper they are associated with
-    public List<Student> findByPaperId(int paperId) {
-        List<Student> students = new ArrayList<>();
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Students WHERE PaperID = ?");
-            ps.setInt(1, paperId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Student student = new Student();
-                student.setStudentId(rs.getInt("StudentID"));
-                student.setName(rs.getString("Name"));
-                student.setPaperId(rs.getInt("PaperID"));
+                student.setPersonId(rs.getInt("PersonID"));
                 students.add(student);
             }
             rs.close();
@@ -119,10 +92,9 @@ public class StudentsDaoImpl implements StudentsDao {
     public void update(Student student) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE Students SET Name = ?, PaperID = ? WHERE StudentID = ?");
-            ps.setString(1, student.getName());
-            ps.setInt(2, student.getPaperId());
-            ps.setInt(3, student.getStudentId());
+            PreparedStatement ps = conn.prepareStatement("UPDATE Students SET PersonID = ? WHERE StudentID = ?");
+            ps.setInt(1, student.getPersonId());
+            ps.setInt(2, student.getStudentId());
             ps.executeUpdate();
             ps.close();
             conn.close();

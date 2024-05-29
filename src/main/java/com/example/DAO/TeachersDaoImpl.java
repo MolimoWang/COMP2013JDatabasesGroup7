@@ -15,10 +15,9 @@ public class TeachersDaoImpl implements TeachersDao {
     public void insert(Teacher teacher) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Teachers (TeacherID, Name, SubjectID) VALUES (?, ?, ?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Teachers (TeacherID, PersonID) VALUES (?, ?)");
             ps.setInt(1, teacher.getTeacherId());
-            ps.setString(2, teacher.getName());
-            ps.setInt(3, teacher.getSubjectId());
+            ps.setInt(2, teacher.getPersonId());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -48,14 +47,13 @@ public class TeachersDaoImpl implements TeachersDao {
         Teacher teacher = null;
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Teachers WHERE TeacherID = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Teachers INNER JOIN Person ON Teachers.PersonID = Person.PersonID WHERE TeacherID = ?");
             ps.setInt(1, teacherId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 teacher = new Teacher();
                 teacher.setTeacherId(rs.getInt("TeacherID"));
-                teacher.setName(rs.getString("Name"));
-                teacher.setSubjectId(rs.getInt("SubjectID"));
+                teacher.setPersonId(rs.getInt("PersonID"));
             }
             rs.close();
             ps.close();
@@ -72,13 +70,12 @@ public class TeachersDaoImpl implements TeachersDao {
         List<Teacher> teachers = new ArrayList<>();
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Teachers");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Teachers INNER JOIN Person ON Teachers.PersonID = Person.PersonID");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Teacher teacher = new Teacher();
                 teacher.setTeacherId(rs.getInt("TeacherID"));
-                teacher.setName(rs.getString("Name"));
-                teacher.setSubjectId(rs.getInt("SubjectID"));
+                teacher.setPersonId(rs.getInt("PersonID"));
                 teachers.add(teacher);
             }
             rs.close();
@@ -95,10 +92,9 @@ public class TeachersDaoImpl implements TeachersDao {
     public void update(Teacher teacher) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE Teachers SET Name = ?, SubjectID = ? WHERE TeacherID = ?");
-            ps.setString(1, teacher.getName());
-            ps.setInt(2, teacher.getSubjectId());
-            ps.setInt(3, teacher.getTeacherId());
+            PreparedStatement ps = conn.prepareStatement("UPDATE Teachers SET PersonID = ? WHERE TeacherID = ?");
+            ps.setInt(1, teacher.getPersonId());
+            ps.setInt(2, teacher.getTeacherId());
             ps.executeUpdate();
             ps.close();
             conn.close();
