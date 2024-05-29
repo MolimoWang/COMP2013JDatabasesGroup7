@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.TeachersDaoImpl, com.example.model.Teacher" %>
+<%@ page import="com.example.DAO.*, com.example.model.*" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,12 @@
             } else {
                 out.println("<ul class='list-group mt-4'>");
                 for (Teacher teacher : teachers) {
-                    out.println("<li class='list-group-item'>Teacher ID: " + teacher.getTeacherId() + ", Name: " + teacher.getName() + ", Subject ID: " + teacher.getSubjectId() + "</li>");
+                    // 获取Teacher对应的Person
+                    PersonDao personDao = new PersonDaoImpl();
+                    Person person = personDao.findById(teacher.getPersonId());
+                    String name = person != null ? person.getName() : "Unknown";
+
+                    out.println("<li class='list-group-item'>Teacher ID: " + teacher.getTeacherId() + ", Name: " + name + ", Subject ID: " + teacher.getSubjectId() + "</li>");
                 }
                 out.println("</ul>");
             }
