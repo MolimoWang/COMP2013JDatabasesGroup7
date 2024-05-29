@@ -15,4 +15,7 @@ public interface TeachersDao {
 
     // Method to retrieve all teachers from the database
     List<Teacher> findAll();
+
+    // Method to update an existing teacher in the database
+    void update(Teacher teacher);
 }

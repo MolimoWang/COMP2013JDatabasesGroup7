@@ -15,4 +15,7 @@ public interface QuestionsDao {
 
     // Method to retrieve all questions from the database
     List<Question> findAll();
+
+    // Method to update an existing question in the database
+    void update(Question question);
 }

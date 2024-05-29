@@ -54,14 +54,6 @@ public class QuestionsDaoImplTest {
         questionsDao.insert(question);
     }
 
-    @AfterEach
-    public void tearDown() {
-        questionsDao.deleteById(1);
-        papersDao.deleteById(1);
-        subjectsDao.deleteById(1);
-        answersDao.deleteById(1);
-    }
-
     @Test
     void insert() {
         Question insertedQuestion = questionsDao.findById(1);
@@ -94,5 +86,21 @@ public class QuestionsDaoImplTest {
         List<Question> questions = questionsDao.findAll();
         assertFalse(questions.isEmpty());
         assertTrue(questions.stream().anyMatch(q -> q.getQuestionId() == 1));
+    }
+
+    @Test
+    void update() {
+        question.setText("Updated Question");
+        questionsDao.update(question);
+        Question updatedQuestion = questionsDao.findById(1);
+        assertEquals("Updated Question", updatedQuestion.getText());
+    }
+
+    @AfterEach
+    public void tearDown() {
+        questionsDao.deleteById(1);
+        papersDao.deleteById(1);
+        subjectsDao.deleteById(1);
+        answersDao.deleteById(1);
     }
 }

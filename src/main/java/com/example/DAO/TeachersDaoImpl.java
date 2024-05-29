@@ -89,4 +89,21 @@ public class TeachersDaoImpl implements TeachersDao {
         }
         return teachers;
     }
+
+    // Method to update a teacher in the database
+    @Override
+    public void update(Teacher teacher) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE Teachers SET Name = ?, SubjectID = ? WHERE TeacherID = ?");
+            ps.setString(1, teacher.getName());
+            ps.setInt(2, teacher.getSubjectId());
+            ps.setInt(3, teacher.getTeacherId());
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

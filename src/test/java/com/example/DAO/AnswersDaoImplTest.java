@@ -51,8 +51,6 @@ public class AnswersDaoImplTest {
         assertEquals("Updated Answer", found.getText());
     }
 
-    // 其他测试方法...
-
     @AfterEach
     public void tearDown() {
         // 清理测试数据

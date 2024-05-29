@@ -147,4 +147,20 @@ public class SubjectsDaoImpl implements SubjectsDao {
         }
         return subject;
     }
+
+    // Method to update a subject in the database
+    @Override
+    public void update(Subject subject) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE Subjects SET Name = ? WHERE SubjectID = ?");
+            ps.setString(1, subject.getName());
+            ps.setInt(2, subject.getSubjectId());
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

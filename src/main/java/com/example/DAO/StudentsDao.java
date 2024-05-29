@@ -15,4 +15,7 @@ public interface StudentsDao {
 
     // Method to retrieve all students from the database
     List<Student> findAll();
+
+    // Method to update an existing student in the database
+    void update(Student student);
 }
