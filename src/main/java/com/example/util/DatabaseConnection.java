@@ -16,7 +16,7 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() {
-        return DatabaseConnection.getConnection("localhost", "exampaperdb", "root", "5201314Zth!");
+        return DatabaseConnection.getConnection("localhost", "exampaperdb", "root", "123456");
     }
 
     public static void main(String[] args) {
