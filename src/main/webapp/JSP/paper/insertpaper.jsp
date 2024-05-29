@@ -71,6 +71,9 @@
                 out.println("<p class='text-center text-danger'>Invalid input format. Please ensure all fields are correctly filled.</p>");
             } catch (SQLIntegrityConstraintViolationException e) {
                 out.println("<p class='text-center text-danger'>Subject ID does not exist. Please create the subject first.</p>");
+            } catch (Exception e) {
+                out.println("<p class='text-center text-danger'>Error occurred while inserting the paper. Please try again later.</p>");
+                e.printStackTrace();
             }
         } else {
             out.println("<p class='text-center text-danger'>Please fill out all fields.</p>");
