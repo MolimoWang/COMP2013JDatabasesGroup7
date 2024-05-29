@@ -18,4 +18,7 @@ public interface AnswersDao {
 
     // Method to update an existing answer in the database
     void update(Answer answer);
+
+    // Method to find an answer in the database by question ID
+    Answer findByQuestionId(int questionId);
 }

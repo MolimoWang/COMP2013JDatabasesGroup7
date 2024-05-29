@@ -18,4 +18,7 @@ public interface QuestionsDao {
 
     // Method to update an existing question in the database
     void update(Question question);
+
+    // Method to find questions in the database by paper ID
+    List<Question> findByPaperId(int paperId);
 }
