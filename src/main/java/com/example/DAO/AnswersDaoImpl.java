@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnswersDaoImpl implements AnswersDao {
-    private QuestionAnswersDaoImpl questionAnswersDao = new QuestionAnswersDaoImpl();
 
     // Method to insert a new answer into the database
     @Override
@@ -33,10 +32,6 @@ public class AnswersDaoImpl implements AnswersDao {
     public void deleteById(int answerId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-
-            // Delete all records related to the answer from the QuestionAnswers table
-            questionAnswersDao.deleteByAnswerId(answerId);
-
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Answers WHERE AnswerID = ?");
             ps.setInt(1, answerId);
             ps.executeUpdate();
@@ -107,5 +102,27 @@ public class AnswersDaoImpl implements AnswersDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Method to find an answer in the database by question ID
+    @Override
+    public Answer findByQuestionId(int questionId) {
+        Answer answer = null;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT AnswerID FROM Questions WHERE QuestionID = ?");
+            ps.setInt(1, questionId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int answerId = rs.getInt("AnswerID");
+                answer = findById(answerId);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return answer;
     }
 }
