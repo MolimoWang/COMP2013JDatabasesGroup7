@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +26,7 @@ class StudentPapersDaoImplTest {
     private int testSubjectId = 1;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws SQLException {
         studentPapersDao = new StudentPapersDaoImpl();
         studentsDao = new StudentsDaoImpl();
         papersDao = new PapersDaoImpl();

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.example.model.Question;
 import com.example.model.Answer;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,7 @@ class QuestionAnswersDaoImplTest {
     private int testSubjectId = 1;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws SQLException {
         questionAnswersDao = new QuestionAnswersDaoImpl();
         questionsDao = new QuestionsDaoImpl();
         answersDao = new AnswersDaoImpl();

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PapersDaoImplTest {
@@ -15,7 +17,7 @@ public class PapersDaoImplTest {
     private Subject subject;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws SQLException {
         // Initialize the PapersDaoImpl and SubjectsDaoImpl objects
         papersDao = new PapersDaoImpl();
         subjectsDao = new SubjectsDaoImpl();
