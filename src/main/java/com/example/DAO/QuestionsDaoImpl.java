@@ -10,20 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsDaoImpl implements QuestionsDao {
-    private QuestionAnswersDao questionAnswersDao = new QuestionAnswersDaoImpl();
 
     // Method to insert a new question into the database
     @Override
     public void insert(Question question) {
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, PaperID, Text) VALUES (?, ?, ?)");
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, PaperID, Text) VALUES (?, ?, ?)")) {
             ps.setInt(1, question.getQuestionId());
             ps.setInt(2, question.getPaperId());
             ps.setString(3, question.getText());
             ps.executeUpdate();
-            ps.close();
-            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,17 +28,10 @@ public class QuestionsDaoImpl implements QuestionsDao {
     // Method to delete a question from the database by its ID
     @Override
     public void deleteById(int questionId) {
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-
-            // Delete all records related to the question from the QuestionAnswers table
-            questionAnswersDao.deleteByQuestionId(questionId);
-
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?")) {
             ps.setInt(1, questionId);
             ps.executeUpdate();
-            ps.close();
-            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,9 +41,8 @@ public class QuestionsDaoImpl implements QuestionsDao {
     @Override
     public Question findById(int questionId) {
         Question question = null;
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Questions WHERE QuestionID = ?");
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * FROM Questions WHERE QuestionID = ?")) {
             ps.setInt(1, questionId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -63,9 +51,6 @@ public class QuestionsDaoImpl implements QuestionsDao {
                 question.setPaperId(rs.getInt("PaperID"));
                 question.setText(rs.getString("Text"));
             }
-            rs.close();
-            ps.close();
-            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,10 +61,9 @@ public class QuestionsDaoImpl implements QuestionsDao {
     @Override
     public List<Question> findAll() {
         List<Question> questions = new ArrayList<>();
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Questions");
-            ResultSet rs = ps.executeQuery();
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * FROM Questions");
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Question question = new Question();
                 question.setQuestionId(rs.getInt("QuestionID"));
@@ -87,9 +71,6 @@ public class QuestionsDaoImpl implements QuestionsDao {
                 question.setText(rs.getString("Text"));
                 questions.add(question);
             }
-            rs.close();
-            ps.close();
-            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,15 +80,12 @@ public class QuestionsDaoImpl implements QuestionsDao {
     // Method to update a question in the database
     @Override
     public void update(Question question) {
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE Questions SET PaperID = ?, Text = ? WHERE QuestionID = ?");
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement("UPDATE Questions SET PaperID = ?, Text = ? WHERE QuestionID = ?")) {
             ps.setInt(1, question.getPaperId());
             ps.setString(2, question.getText());
             ps.setInt(3, question.getQuestionId());
             ps.executeUpdate();
-            ps.close();
-            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
