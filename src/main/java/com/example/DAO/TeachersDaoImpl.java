@@ -47,6 +47,20 @@ public class TeachersDaoImpl implements TeachersDao {
         }
     }
 
+    @Override
+    public void deleteByPersonId(int personId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM Teachers WHERE PersonID = ?");
+            ps.setInt(1, personId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Method to find a teacher in the database by its ID
     @Override
     public Teacher findById(int teacherId) {

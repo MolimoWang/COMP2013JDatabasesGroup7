@@ -9,6 +9,8 @@ public interface TeachersDao {
 
     // Method to delete a teacher from the database by its ID
     void deleteById(int teacherId);
+    // Method to delete a teacher from the database by its PersonID
+    void deleteByPersonId(int personId);
 
     // Method to find a teacher in the database by its ID
     Teacher findById(int teacherId);

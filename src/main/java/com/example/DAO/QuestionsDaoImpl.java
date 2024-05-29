@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsDaoImpl implements QuestionsDao {
+    private QuestionAnswersDao questionAnswersDao = new QuestionAnswersDaoImpl();
+
     // Method to insert a new question into the database
     @Override
     public void insert(Question question) {
@@ -32,10 +34,9 @@ public class QuestionsDaoImpl implements QuestionsDao {
     public void deleteById(int questionId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement psQA = conn.prepareStatement("DELETE FROM QuestionAnswers WHERE QuestionID = ?");
-            psQA.setInt(1, questionId);
-            psQA.executeUpdate();
-            psQA.close();
+
+            // Delete all records related to the question from the QuestionAnswers table
+            questionAnswersDao.deleteByQuestionId(questionId);
 
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
             ps.setInt(1, questionId);

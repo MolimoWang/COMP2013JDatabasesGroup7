@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsDaoImpl implements StudentsDao {
+    private StudentPapersDao studentPapersDao = new StudentPapersDaoImpl();
+
     // Method to insert a new student into the database
     @Override
     public void insert(Student student) {
@@ -31,8 +33,26 @@ public class StudentsDaoImpl implements StudentsDao {
     public void deleteById(int studentId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
+
+            // Delete all records related to the student from the StudentPapers table
+            studentPapersDao.deleteByStudentId(studentId);
+
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Students WHERE StudentID = ?");
             ps.setInt(1, studentId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteByPersonId(int personId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM Students WHERE PersonID = ?");
+            ps.setInt(1, personId);
             ps.executeUpdate();
             ps.close();
             conn.close();

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnswersDaoImpl implements AnswersDao {
+    private QuestionAnswersDaoImpl questionAnswersDao = new QuestionAnswersDaoImpl();
+
     // Method to insert a new answer into the database
     @Override
     public void insert(Answer answer) {
@@ -29,46 +31,19 @@ public class AnswersDaoImpl implements AnswersDao {
     // Method to delete an answer from the database by its ID
     @Override
     public void deleteById(int answerId) {
-        Connection conn = null;
-        PreparedStatement psQuestionAnswers = null;
-        PreparedStatement psAnswer = null;
-
         try {
-            conn = DatabaseConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
 
-            // Start transaction
-            conn.setAutoCommit(false);
+            // Delete all records related to the answer from the QuestionAnswers table
+            questionAnswersDao.deleteByAnswerId(answerId);
 
-            // First delete the QuestionAnswers associated with this Answer
-            psQuestionAnswers = conn.prepareStatement("DELETE FROM QuestionAnswers WHERE AnswerID = ?");
-            psQuestionAnswers.setInt(1, answerId);
-            psQuestionAnswers.executeUpdate();
-
-            // Finally delete the Answer
-            psAnswer = conn.prepareStatement("DELETE FROM Answers WHERE AnswerID = ?");
-            psAnswer.setInt(1, answerId);
-            psAnswer.executeUpdate();
-
-            // Commit transaction
-            conn.commit();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM Answers WHERE AnswerID = ?");
+            ps.setInt(1, answerId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
         } catch (Exception e) {
-            if (conn != null) {
-                try {
-                    // Rollback transaction
-                    conn.rollback();
-                } catch (Exception rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
             e.printStackTrace();
-        } finally {
-            try {
-                if (psQuestionAnswers != null) psQuestionAnswers.close();
-                if (psAnswer != null) psAnswer.close();
-                if (conn != null) conn.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
