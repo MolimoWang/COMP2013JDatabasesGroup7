@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDaoImpl implements PersonDao {
+    private StudentsDao studentsDao = new StudentsDaoImpl();
+    private TeachersDao teachersDao = new TeachersDaoImpl();
+
     @Override
     public void insert(Person person) {
         try {
@@ -25,10 +28,16 @@ public class PersonDaoImpl implements PersonDao {
         }
     }
 
+    // Method to delete a person from the database by its ID
     @Override
     public void deleteById(int personId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
+
+            // Delete all records related to the person from the Students and Teachers tables
+            studentsDao.deleteByPersonId(personId);
+            teachersDao.deleteByPersonId(personId);
+
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Person WHERE PersonID = ?");
             ps.setInt(1, personId);
             ps.executeUpdate();

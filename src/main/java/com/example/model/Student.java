@@ -4,11 +4,8 @@ public class Student {
     // Unique identifier for the student
     private int studentId;
 
-    // Name of the student
-    private String name;
-
-    // Identifier for the paper the student is associated with
-    private int paperId;
+    // Identifier for the person the student is associated with
+    private int personId;
 
     // Getter method for studentId
     public int getStudentId() {
@@ -20,23 +17,13 @@ public class Student {
         this.studentId = studentId;
     }
 
-    // Getter method for name
-    public String getName() {
-        return name;
+    // Getter method for personId
+    public int getPersonId() {
+        return personId;
     }
 
-    // Setter method for name
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // Getter method for paperId
-    public int getPaperId() {
-        return paperId;
-    }
-
-    // Setter method for paperId
-    public void setPaperId(int paperId) {
-        this.paperId = paperId;
+    // Setter method for personId
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 }

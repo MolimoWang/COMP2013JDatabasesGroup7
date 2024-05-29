@@ -1,5 +1,6 @@
 package com.example.DAO;
 
+import com.example.model.Paper;
 import com.example.model.Subject;
 import com.example.util.DatabaseConnection;
 
@@ -10,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubjectsDaoImpl implements SubjectsDao {
+    private TeacherSubjectsDao teacherSubjectsDao = new TeacherSubjectsDaoImpl();
+    private PapersDao papersDao = new PapersDaoImpl();
+
     // Method to insert a new subject into the database
     @Override
     public void insert(Subject subject) {
@@ -31,8 +35,6 @@ public class SubjectsDaoImpl implements SubjectsDao {
     @Override
     public void deleteById(int subjectId) {
         Connection conn = null;
-        PreparedStatement psPapers = null;
-        PreparedStatement psTeachers = null;
         PreparedStatement psSubject = null;
 
         try {
@@ -42,14 +44,15 @@ public class SubjectsDaoImpl implements SubjectsDao {
             conn.setAutoCommit(false);
 
             // First, delete any Papers associated with this Subject
-            psPapers = conn.prepareStatement("DELETE FROM Papers WHERE SubjectID = ?");
-            psPapers.setInt(1, subjectId);
-            psPapers.executeUpdate();
+            List<Paper> papers = papersDao.findAll();
+            for (Paper paper : papers) {
+                if (paper.getSubjectId() == subjectId) {
+                    papersDao.deleteById(paper.getPaperId());
+                }
+            }
 
-            // Then, delete any Teachers associated with this Subject
-            psTeachers = conn.prepareStatement("DELETE FROM Teachers WHERE SubjectID = ?");
-            psTeachers.setInt(1, subjectId);
-            psTeachers.executeUpdate();
+            // Then, delete any TeacherSubjects associated with this Subject
+            teacherSubjectsDao.deleteBySubjectId(subjectId);
 
             // Finally, delete the Subject itself
             psSubject = conn.prepareStatement("DELETE FROM Subjects WHERE SubjectID = ?");
@@ -70,8 +73,6 @@ public class SubjectsDaoImpl implements SubjectsDao {
             e.printStackTrace();
         } finally {
             try {
-                if (psPapers != null) psPapers.close();
-                if (psTeachers != null) psTeachers.close();
                 if (psSubject != null) psSubject.close();
                 if (conn != null) conn.close();
             } catch (Exception ex) {

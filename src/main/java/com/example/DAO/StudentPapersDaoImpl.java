@@ -40,6 +40,34 @@ public class StudentPapersDaoImpl implements StudentPapersDao {
     }
 
     @Override
+    public void deleteByStudentId(int studentId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM StudentPapers WHERE StudentID = ?");
+            ps.setInt(1, studentId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteByPaperId(int paperId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM StudentPapers WHERE PaperID = ?");
+            ps.setInt(1, paperId);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public List<Integer> findPaperIdsByStudentId(int studentId) {
         List<Integer> paperIds = new ArrayList<>();
         try {

@@ -9,6 +9,8 @@ public interface StudentsDao {
 
     // Method to delete a student from the database by its ID
     void deleteById(int studentId);
+    // Method to delete a student from the database by its PersonID
+    void deleteByPersonId(int personId);
 
     // Method to find a student in the database by its ID
     Student findById(int studentId);

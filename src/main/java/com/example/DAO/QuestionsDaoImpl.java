@@ -10,16 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsDaoImpl implements QuestionsDao {
+    private QuestionAnswersDao questionAnswersDao = new QuestionAnswersDaoImpl();
+
     // Method to insert a new question into the database
     @Override
     public void insert(Question question) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, PaperID, Text, AnswerID) VALUES (?, ?, ?, ?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, PaperID, Text) VALUES (?, ?, ?)");
             ps.setInt(1, question.getQuestionId());
             ps.setInt(2, question.getPaperId());
             ps.setString(3, question.getText());
-            ps.setInt(4, question.getAnswerId());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -33,6 +34,10 @@ public class QuestionsDaoImpl implements QuestionsDao {
     public void deleteById(int questionId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
+
+            // Delete all records related to the question from the QuestionAnswers table
+            questionAnswersDao.deleteByQuestionId(questionId);
+
             PreparedStatement ps = conn.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
             ps.setInt(1, questionId);
             ps.executeUpdate();
@@ -57,7 +62,6 @@ public class QuestionsDaoImpl implements QuestionsDao {
                 question.setQuestionId(rs.getInt("QuestionID"));
                 question.setPaperId(rs.getInt("PaperID"));
                 question.setText(rs.getString("Text"));
-                question.setAnswerId(rs.getInt("AnswerID"));
             }
             rs.close();
             ps.close();
@@ -81,32 +85,6 @@ public class QuestionsDaoImpl implements QuestionsDao {
                 question.setQuestionId(rs.getInt("QuestionID"));
                 question.setPaperId(rs.getInt("PaperID"));
                 question.setText(rs.getString("Text"));
-                question.setAnswerId(rs.getInt("AnswerID"));
-                questions.add(question);
-            }
-            rs.close();
-            ps.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return questions;
-    }
-
-    // Method to find questions in the database by the ID of the paper they are associated with
-    public List<Question> findByPaperId(int paperId) {
-        List<Question> questions = new ArrayList<>();
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Questions WHERE PaperID = ?");
-            ps.setInt(1, paperId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Question question = new Question();
-                question.setQuestionId(rs.getInt("QuestionID"));
-                question.setPaperId(rs.getInt("PaperID"));
-                question.setText(rs.getString("Text"));
-                question.setAnswerId(rs.getInt("AnswerID"));
                 questions.add(question);
             }
             rs.close();
@@ -123,11 +101,10 @@ public class QuestionsDaoImpl implements QuestionsDao {
     public void update(Question question) {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE Questions SET PaperID = ?, Text = ?, AnswerID = ? WHERE QuestionID = ?");
+            PreparedStatement ps = conn.prepareStatement("UPDATE Questions SET PaperID = ?, Text = ? WHERE QuestionID = ?");
             ps.setInt(1, question.getPaperId());
             ps.setString(2, question.getText());
-            ps.setInt(3, question.getAnswerId());
-            ps.setInt(4, question.getQuestionId());
+            ps.setInt(3, question.getQuestionId());
             ps.executeUpdate();
             ps.close();
             conn.close();
