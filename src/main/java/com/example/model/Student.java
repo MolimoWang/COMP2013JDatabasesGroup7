@@ -1,6 +1,6 @@
 package com.example.model;
 
-public class Student {
+public class Student extends Person {
     // Unique identifier for the student
     private int studentId;
 
