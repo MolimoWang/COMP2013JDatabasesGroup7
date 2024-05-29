@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.StudentsDaoImpl, com.example.DAO.PapersDaoImpl, com.example.model.Student" %>
+<%@ page import="com.example.DAO.StudentsDaoImpl, com.example.DAO.PersonDaoImpl, com.example.model.Student" %>
+<%@ page import="com.example.DAO.StudentPapersDaoImpl" %>
+<%@ page import="com.example.model.Person" %>
+<%@ page import="com.example.DAO.PersonDaoImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,14 +46,18 @@
                         StudentsDaoImpl studentsDao = new StudentsDaoImpl();
                         Student student = studentsDao.findById(studentId);
                         if (student != null) {
-                            int paperId = student.getPaperId();
+
+                            // Delete the relationship between student and the paper
+                            StudentPapersDaoImpl studentPapersDao = new StudentPapersDaoImpl();
+                            studentPapersDao.deleteByStudentId(studentId);
+
 
                             // Delete the student
                             studentsDao.deleteById(studentId);
 
-                            // Delete the associated paper
-                            PapersDaoImpl papersDao = new PapersDaoImpl();
-                            papersDao.deleteById(paperId);
+                            // Delete the person
+                            PersonDaoImpl personDao = new PersonDaoImpl();
+                            personDao.deleteById(student.getPersonId());
 
                             out.println("<p class='text-center'>Student and associated paper deleted successfully.</p>");
                         } else {
