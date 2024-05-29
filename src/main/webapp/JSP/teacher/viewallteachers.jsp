@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.TeachersDaoImpl, com.example.model.Teacher" %>
+<%@ page import="com.example.DAO.*, com.example.model.*" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
@@ -9,6 +9,10 @@
 
     <!-- Import Bootstrap CSS from CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Import custom CSS -->
+    <link href="../../resources/css/styles.css" rel="stylesheet">
+    <link href="../../resources/css/teacher.css" rel="stylesheet">
 </head>
 <body>
 <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -25,7 +29,12 @@
             } else {
                 out.println("<ul class='list-group mt-4'>");
                 for (Teacher teacher : teachers) {
-                    out.println("<li class='list-group-item'>Teacher ID: " + teacher.getTeacherId() + ", Name: " + teacher.getName() + ", Subject ID: " + teacher.getSubjectId() + "</li>");
+                    // 获取Teacher对应的Person
+                    PersonDao personDao = new PersonDaoImpl();
+                    Person person = personDao.findById(teacher.getPersonId());
+                    String name = person != null ? person.getName() : "Unknown";
+
+                    out.println("<li class='list-group-item'>Teacher ID: " + teacher.getTeacherId() + ", Name: " + name + ", Subject ID: " + teacher.getSubjectId() + "</li>");
                 }
                 out.println("</ul>");
             }

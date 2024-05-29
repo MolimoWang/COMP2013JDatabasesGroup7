@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.TeachersDaoImpl, com.example.model.Teacher" %>
+<%@ page import="com.example.DAO.*, com.example.model.*, com.example.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +8,10 @@
 
     <!-- Import Bootstrap CSS from CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Import custom CSS -->
+    <link href="../../resources/css/styles.css" rel="stylesheet">
+    <link href="../../resources/css/teacher.css" rel="stylesheet">
 </head>
 <body>
 <!-- Use Bootstrap classes to center and align items in the page -->
@@ -54,12 +58,20 @@
                         int teacherId = Integer.parseInt(teacherIdStr);
                         int subjectId = Integer.parseInt(subjectIdStr);
 
-                        Teacher teacher = new Teacher();
-                        teacher.setTeacherId(teacherId);
-                        teacher.setName(name);
-                        teacher.setSubjectId(subjectId);
+                        // Insert Person
+                        PersonDao personDao = new PersonDaoImpl();
+                        Person person = new Person();
+                        person.setName(name);
+                        personDao.insert(person);
 
-                        TeachersDaoImpl teachersDao = new TeachersDaoImpl();
+                        // Use generated PersonID as TeacherID
+                        int personId = person.getPersonId();
+
+                        // Insert Teacher
+                        TeachersDao teachersDao = new TeachersDaoImpl();
+                        Teacher teacher = new Teacher();
+                        teacher.setPersonId(personId);
+                        teacher.setSubjectId(subjectId);
                         teachersDao.insert(teacher);
 
                         out.println("<div class='alert alert-success mt-3'>Teacher inserted successfully.</div>");

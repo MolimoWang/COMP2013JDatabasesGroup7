@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.TeachersDaoImpl, com.example.model.Teacher" %>
+<%@ page import="com.example.DAO.*, com.example.model.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +8,10 @@
 
     <!-- Import Bootstrap CSS from CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Import custom CSS -->
+    <link href="../../resources/css/styles.css" rel="stylesheet">
+    <link href="../../resources/css/teacher.css" rel="stylesheet">
 </head>
 <body>
 <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -47,15 +51,21 @@
                 }
 
                 if (teacher != null) {
+                    // 获取Teacher对应的Person
+                    PersonDao personDao = new PersonDaoImpl();
+                    Person person = personDao.findById(teacher.getPersonId());
+                    String name = person != null ? person.getName() : "Unknown";
+
                     out.println("<h2 class='mt-4'>Teacher Details:</h2>");
                     out.println("<p>Teacher ID: " + teacher.getTeacherId() + "</p>");
-                    out.println("<p>Name: " + teacher.getName() + "</p>");
+                    out.println("<p>Name: " + name + "</p>");
                     out.println("<p>Subject ID: " + teacher.getSubjectId() + "</p>");
                 } else {
                     out.println("<div class='alert alert-warning mt-3'>No teacher found with the given criteria.</div>");
                 }
             }
         %>
+        <a href="viewallteachers.jsp" class="btn btn-primary mt-3">Back to All Teachers</a>
     </div>
 </div>
 </body>
