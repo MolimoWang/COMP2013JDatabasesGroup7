@@ -44,7 +44,11 @@
 
                     if (student != null) {
                         PersonDaoImpl personDao = new PersonDaoImpl();
+<<<<<<< Updated upstream
                         Person person = personDao.findById(student.getPersonId());
+=======
+                        Person person = personDao.findById(student.getStudentId());
+>>>>>>> Stashed changes
 
                         StudentPapersDaoImpl studentPapersDao = new StudentPapersDaoImpl();
                         List<Integer> paperIds = studentPapersDao.findPaperIdsByStudentId(student.getStudentId());
