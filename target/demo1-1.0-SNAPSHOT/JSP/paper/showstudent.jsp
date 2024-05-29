@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.DAO.StudentsDaoImpl, com.example.model.Student" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
@@ -35,7 +35,7 @@
                     } else {
                         out.println("<ul class='list-group text-center'>");
                         for (Student student : students) {
-                            out.println("<li class='list-group-item'>Student ID: " + student.getStudentId() + ", Name: " + student.getName() + ", Paper ID: " + student.getPaperId() + "</li>");
+                            out.println("<li class='list-group-item'>Student ID: " + student.getStudentId() + ", Name: " + student.getName() + "</li>");
                         }
                         out.println("</ul>");
                     }

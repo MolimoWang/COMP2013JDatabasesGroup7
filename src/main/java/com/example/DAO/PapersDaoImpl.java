@@ -152,10 +152,11 @@ public class PapersDaoImpl implements PapersDao {
     public List<Paper> findByDynamicConditions(String title, String subjectName, String yearStr, String teacher) {
         List<Paper> papers = new ArrayList<>();
         StringBuilder query = new StringBuilder(
-                "SELECT p.* FROM Papers p " +
-                        "JOIN Subjects s ON p.SubjectID = s.SubjectID " +
-                        "JOIN Teachers t ON s.SubjectID = t.SubjectID " +
-                        "WHERE 1=1"
+            "SELECT p.* FROM Papers p " +
+            "LEFT JOIN Subjects s ON p.SubjectID = s.SubjectID " +
+            "LEFT JOIN TeacherSubjects ts ON s.SubjectID = ts.SubjectID " +
+            "LEFT JOIN Teachers t ON ts.TeacherID = t.TeacherID " +
+            "WHERE 1=1"
         );
 
         List<Object> parameters = new ArrayList<>();
