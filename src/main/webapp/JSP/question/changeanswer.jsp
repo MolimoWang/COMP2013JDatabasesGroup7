@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.DAO.AnswersDaoImpl, com.example.model.Answer" %>
+<%@ page import="com.example.DAO.QuestionAnswersDaoImpl" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +40,11 @@
 
                 // Find the answer by question ID and update it
                 AnswersDaoImpl answersDao = new AnswersDaoImpl();
-                Answer answer = answersDao.findByQuestionId(questionId);
+                QuestionAnswersDaoImpl questionAnswersDao = new QuestionAnswersDaoImpl();
+                List<Integer> answers = questionAnswersDao.findAnswerIdsByQuestionId(questionId);
+                for (int i = 0; i < answers.size(); i++) {
+                    Answer answer = answersDao.findById(answers.get(i));
+                }
 
                 if (answer != null) {
                     // Create a new Answer object, containing the new answer text and the existing answer ID
