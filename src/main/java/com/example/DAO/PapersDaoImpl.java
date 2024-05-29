@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PapersDaoImpl implements PapersDao {
+    private final StudentPapersDao studentPapersDao = new StudentPapersDaoImpl();
+
     // Method to insert a new paper into the database
     @Override
     public void insert(Paper paper) {
@@ -45,6 +47,9 @@ public class PapersDaoImpl implements PapersDao {
             psQuestions = conn.prepareStatement("DELETE FROM Questions WHERE PaperID = ?");
             psQuestions.setInt(1, paperId);
             psQuestions.executeUpdate();
+
+            // Delete all records related to the paper from the StudentPapers table
+            studentPapersDao.deleteByPaperId(paperId);
 
             // Then delete the Paper
             psPaper = conn.prepareStatement("DELETE FROM Papers WHERE PaperID = ?");
