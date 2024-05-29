@@ -27,6 +27,11 @@
                 <label for="teacherId" class="form-label">Teacher ID:</label>
                 <input type="text" id="teacherId" name="teacherId" class="form-control" required>
             </div>
+            <!-- Input field for Person ID -->
+            <div class="mb-3">
+                <label for="personId" class="form-label">Person ID:</label>
+                <input type="text" id="personId" name="personId" class="form-control" required>
+            </div>
             <!-- Input field for Name -->
             <div class="mb-3">
                 <label for="name" class="form-label">Name:</label>
@@ -50,29 +55,34 @@
         <%
             if ("POST".equalsIgnoreCase(request.getMethod())) {
                 String teacherIdStr = request.getParameter("teacherId");
+                String personIdStr = request.getParameter("personId");
                 String name = request.getParameter("name");
                 String subjectIdStr = request.getParameter("subjectId");
 
-                if (teacherIdStr != null && name != null && subjectIdStr != null) {
+                if (teacherIdStr != null && name != null && subjectIdStr != null && personIdStr != null) {
                     try {
                         int teacherId = Integer.parseInt(teacherIdStr);
                         int subjectId = Integer.parseInt(subjectIdStr);
+                        int personId = Integer.parseInt(personIdStr);
 
                         // Insert Person
                         PersonDao personDao = new PersonDaoImpl();
                         Person person = new Person();
+                        person.setPersonId(personId); // 设置PersonID
                         person.setName(name);
                         personDao.insert(person);
-
-                        // Use generated PersonID as TeacherID
-                        int personId = person.getPersonId();
 
                         // Insert Teacher
                         TeachersDao teachersDao = new TeachersDaoImpl();
                         Teacher teacher = new Teacher();
+                        teacher.setTeacherId(teacherId);
                         teacher.setPersonId(personId);
                         teacher.setSubjectId(subjectId);
                         teachersDao.insert(teacher);
+
+                        // Insert into TeacherSubjects
+                        TeacherSubjectsDaoImpl teacherSubjectsDao = new TeacherSubjectsDaoImpl();
+                        teacherSubjectsDao.insert(teacherId, subjectId);
 
                         out.println("<div class='alert alert-success mt-3'>Teacher inserted successfully.</div>");
                     } catch (NumberFormatException e) {
@@ -83,6 +93,7 @@
                 }
             }
         %>
+
     </div>
 </div>
 </body>

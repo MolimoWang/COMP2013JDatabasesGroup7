@@ -34,34 +34,37 @@
         </form>
 
         <%
-            String studentIdStr = request.getParameter("studentId");
+            if ("GET".equalsIgnoreCase(request.getMethod())) {
+                String studentIdStr = request.getParameter("studentId");
 
-            if (studentIdStr != null) {
-                try {
-                    int studentId = Integer.parseInt(studentIdStr);
-                    StudentsDaoImpl studentsDao = new StudentsDaoImpl();
-                    Student student = studentsDao.findById(studentId);
+                if (studentIdStr != null) {
+                    try {
+                        int studentId = Integer.parseInt(studentIdStr);
+                        StudentsDaoImpl studentsDao = new StudentsDaoImpl();
+                        Student student = studentsDao.findById(studentId);
 
-                    if (student != null) {
-                        PersonDaoImpl personDao = new PersonDaoImpl();
-                        Person person = personDao.findById(student.getPersonId());
+                        if (student != null) {
+                            PersonDaoImpl personDao = new PersonDaoImpl();
+                            Person person = personDao.findById(student.getPersonId());
 
-                        StudentPapersDaoImpl studentPapersDao = new StudentPapersDaoImpl();
-                        List<Integer> paperIds = studentPapersDao.findPaperIdsByStudentId(student.getStudentId());
+                            StudentPapersDaoImpl studentPapersDao = new StudentPapersDaoImpl();
+                            List<Integer> paperIds = studentPapersDao.findPaperIdsByStudentId(student.getStudentId());
 
-                        out.println("<p class='text-center mt-3'>Student ID: " + student.getStudentId() + "</p>");
-                        out.println("<p class='text-center'>Name: " + person.getName() + "</p>");
-                        out.println("<p class='text-center'>Paper ID: " + paperIds.toString() + "</p>");
-                    } else {
-                        out.println("<p class='text-center text-danger mt-3'>No student found with ID " + studentId + ".</p>");
+                            out.println("<p class='text-center mt-3'>Student ID: " + student.getStudentId() + "</p>");
+                            out.println("<p class='text-center'>Name: " + person.getName() + "</p>");
+                            out.println("<p class='text-center'>Paper ID: " + paperIds.toString() + "</p>");
+                        } else {
+                            out.println("<p class='text-center text-danger mt-3'>No student found with ID " + studentId + ".</p>");
+                        }
+                    } catch (NumberFormatException e) {
+                        out.println("<p class='text-center text-danger mt-3'>Invalid input format. Please ensure the Student ID is correctly filled.</p>");
                     }
-                } catch (NumberFormatException e) {
-                    out.println("<p class='text-center text-danger mt-3'>Invalid input format. Please ensure the Student ID is correctly filled.</p>");
+                } else if (request.getParameterMap().containsKey("studentId")) {
+                    out.println("<p class='text-center text-danger mt-3'>Please provide a Student ID.</p>");
                 }
-            } else {
-                out.println("<p class='text-center text-danger mt-3'>Please provide a Student ID.</p>");
             }
         %>
+
     </div>
 </div>
 </body>

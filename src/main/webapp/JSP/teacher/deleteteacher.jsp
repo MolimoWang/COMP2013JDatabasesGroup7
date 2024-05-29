@@ -35,34 +35,37 @@
 
         <!-- Server-side code to delete a teacher -->
         <%
-            String teacherIdStr = request.getParameter("teacherId");
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                String teacherIdStr = request.getParameter("teacherId");
 
-            if (teacherIdStr != null) {
-                try {
-                    int teacherId = Integer.parseInt(teacherIdStr);
+                if (teacherIdStr != null) {
+                    try {
+                        int teacherId = Integer.parseInt(teacherIdStr);
 
-                    // 获取Teacher记录对应的PersonID
-                    TeachersDao teachersDao = new TeachersDaoImpl();
-                    Teacher teacher = teachersDao.findById(teacherId);
-                    int personId = teacher.getPersonId();
+                        // 获取Teacher记录对应的PersonID
+                        TeachersDao teachersDao = new TeachersDaoImpl();
+                        Teacher teacher = teachersDao.findById(teacherId);
+                        int personId = teacher.getPersonId();
 
-                    // 删除Teacher记录
-                    teachersDao.deleteById(teacherId);
+                        // 删除Teacher记录
+                        teachersDao.deleteById(teacherId);
 
-                    // 删除Person记录
-                    PersonDao personDao = new PersonDaoImpl();
-                    personDao.deleteById(personId);
+                        // 删除Person记录
+                        PersonDao personDao = new PersonDaoImpl();
+                        personDao.deleteById(personId);
 
-                    out.println("<div class='alert alert-success mt-3'>Teacher deleted successfully.</div>");
-                } catch (NumberFormatException e) {
-                    out.println("<div class='alert alert-danger mt-3'>Invalid Teacher ID format. Please try again.</div>");
-                } catch (Exception e) {
-                    out.println("<div class='alert alert-danger mt-3'>Error occurred while deleting the teacher. Please try again.</div>");
+                        out.println("<div class='alert alert-success mt-3'>Teacher deleted successfully.</div>");
+                    } catch (NumberFormatException e) {
+                        out.println("<div class='alert alert-danger mt-3'>Invalid Teacher ID format. Please try again.</div>");
+                    } catch (Exception e) {
+                        out.println("<div class='alert alert-danger mt-3'>Error occurred while deleting the teacher. Please try again.</div>");
+                    }
+                } else {
+                    out.println("<div class='alert alert-warning mt-3'>No Teacher ID provided.</div>");
                 }
-            } else {
-                out.println("<div class='alert alert-warning mt-3'>No Teacher ID provided.</div>");
             }
         %>
+
         <a href="viewallteachers.jsp" class="btn btn-primary mt-3">Back to All Teachers</a>
     </div>
 </div>
