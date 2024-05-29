@@ -12,19 +12,24 @@ import java.util.List;
 public class QuestionsDaoImpl implements QuestionsDao {
     // Method to insert a new question into the database
     @Override
-    public void insert(Question question) {
+    public boolean insert(Question question) {
+        boolean insertSuccess = false;
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO Questions (QuestionID, PaperID, Text) VALUES (?, ?, ?)");
             ps.setInt(1, question.getQuestionId());
             ps.setInt(2, question.getPaperId());
             ps.setString(3, question.getText());
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                insertSuccess = true;
+            }
             ps.close();
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return insertSuccess;
     }
 
     // Method to delete a question from the database by its ID

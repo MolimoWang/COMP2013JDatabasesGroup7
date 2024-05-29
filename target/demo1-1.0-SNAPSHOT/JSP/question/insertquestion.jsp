@@ -61,9 +61,13 @@
                         question.setAnswerId(answerId);
 
                         QuestionsDaoImpl questionsDao = new QuestionsDaoImpl();
-                        questionsDao.insert(question);
+                        boolean insertSuccess = questionsDao.insert(question);
 
-                        out.println("<p class='text-center'>Question inserted successfully.</p>");
+                        if (insertSuccess) {
+                            out.println("<p class='text-center'>Question inserted successfully.</p>");
+                        } else {
+                            out.println("<p class='text-center text-danger'>Failed to insert question. Please check your input.</p>");
+                        }
                     } catch (NumberFormatException e) {
                         out.println("<p class='text-center text-danger'>Invalid input format. Please ensure all fields are correctly filled.</p>");
                     }

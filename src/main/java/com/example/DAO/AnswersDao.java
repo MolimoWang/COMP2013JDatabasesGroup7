@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface AnswersDao {
     // Method to insert a new answer into the database
-    void insert(Answer answer);
+    void insert(Answer answer, int questionId);
 
     // Method to delete an answer from the database by its ID
     void deleteById(int answerId);

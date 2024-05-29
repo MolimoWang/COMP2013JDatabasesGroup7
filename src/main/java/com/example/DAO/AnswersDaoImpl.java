@@ -6,6 +6,7 @@ import com.example.util.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +14,21 @@ public class AnswersDaoImpl implements AnswersDao {
 
     // Method to insert a new answer into the database
     @Override
-    public void insert(Answer answer) {
+    public void insert(Answer answer, int questionId) {
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO Answers (AnswerID, Text) VALUES (?, ?)");
             ps.setInt(1, answer.getAnswerId());
             ps.setString(2, answer.getText());
             ps.executeUpdate();
+
+            // Update the corresponding question's answer ID
+            PreparedStatement psUpdate = conn.prepareStatement("UPDATE Questions SET AnswerID = ? WHERE QuestionID = ?");
+            psUpdate.setInt(1, answer.getAnswerId());
+            psUpdate.setInt(2, questionId);
+            psUpdate.executeUpdate();
+            psUpdate.close();
+
             ps.close();
             conn.close();
         } catch (Exception e) {

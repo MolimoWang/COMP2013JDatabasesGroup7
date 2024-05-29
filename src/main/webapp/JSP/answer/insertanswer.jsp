@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.AnswersDaoImpl, com.example.model.Answer" %>
+<%@ page import="com.example.DAO.AnswersDaoImpl, com.example.DAO.QuestionsDaoImpl, com.example.model.Answer, com.example.model.Question" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +27,9 @@
           <label for="text">Text:</label>
           <input type="text" id="text" name="text" required class="form-control"><br>
 
+          <label for="questionId">Question ID:</label>
+          <input type="text" id="questionId" name="questionId" required class="form-control"><br>
+
           <input type="submit" value="Insert" class="btn btn-success">
         </form>
         <br>
@@ -41,17 +44,19 @@
   if ("POST".equalsIgnoreCase(request.getMethod())) {
     String answerIdStr = request.getParameter("answerId");
     String text = request.getParameter("text");
+    String questionIdStr = request.getParameter("questionId");
 
-    if (answerIdStr != null && text != null && !text.isEmpty()) {
+    if (answerIdStr != null && text != null && !text.isEmpty() && questionIdStr != null) {
       try {
         int answerId = Integer.parseInt(answerIdStr);
+        int questionId = Integer.parseInt(questionIdStr);
 
         Answer answer = new Answer();
         answer.setAnswerId(answerId);
         answer.setText(text);
 
         AnswersDaoImpl answersDao = new AnswersDaoImpl();
-        answersDao.insert(answer);
+        answersDao.insert(answer, questionId); // Pass the questionId to the insert method
 
         out.println("<p class='text-center text-success'>Answer inserted successfully.</p>");
       } catch (NumberFormatException e) {
@@ -62,5 +67,6 @@
     }
   }
 %>
+
 </body>
 </html>

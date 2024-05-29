@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface QuestionsDao {
     // Method to insert a new question into the database
-    void insert(Question question);
+    boolean insert(Question question);
 
     // Method to delete a question from the database by its ID
     void deleteById(int questionId);
