@@ -27,7 +27,15 @@
 
         <%
           StudentsDaoImpl studentsDao = new StudentsDaoImpl();
-          List<Student> students = studentsDao.findAll();
+          List<Student> students;
+          int pageNum = 1;
+          int count = 5;
+
+          if (request.getParameter("pageNum") != null) {
+              pageNum = Integer.parseInt(request.getParameter("pageNum"));
+          }
+
+          students = studentsDao.findWithPagination((pageNum - 1) * count, count);
 
           if (students.isEmpty()) {
             out.println("<p class='mt-4 text-center'>No students found.</p>");
@@ -48,6 +56,21 @@
             }
             out.println("</ul>");
           }
+
+          int totalStudents = studentsDao.count();
+          int totalPages = (int) Math.ceil((double) totalStudents / count);
+
+          out.println("<nav aria-label='Page navigation example'>");
+          out.println("<ul class='pagination justify-content-center'>");
+          for (int i = 1; i <= totalPages; i++) {
+              if (i == pageNum) {
+                  out.println("<li class='page-item active'><a class='page-link' href='?pageNum=" + i + "'>" + i + "</a></li>");
+              } else {
+                  out.println("<li class='page-item'><a class='page-link' href='?pageNum=" + i + "'>" + i + "</a></li>");
+              }
+          }
+          out.println("</ul>");
+          out.println("</nav>");
         %>
 
         <!-- Button to return to the student actions page -->
