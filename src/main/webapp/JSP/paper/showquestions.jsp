@@ -64,6 +64,10 @@
 
         <!-- Button to return to the previous page -->
         <form action="paperresult.jsp">
+          <input type="hidden" name="title" value="<%= request.getParameter("title") %>">
+          <input type="hidden" name="subject" value="<%= request.getParameter("subject") %>">
+          <input type="hidden" name="year" value="<%= request.getParameter("year") %>">
+          <input type="hidden" name="teacher" value="<%= request.getParameter("teacher") %>">
           <input type="submit" value="Return to Paper Results" class="btn btn-secondary d-block mx-auto">
         </form>
     </div>
