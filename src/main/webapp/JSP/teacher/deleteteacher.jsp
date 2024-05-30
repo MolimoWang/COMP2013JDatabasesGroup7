@@ -66,7 +66,7 @@
             }
         %>
 
-        <a href="viewallteachers.jsp" class="btn btn-primary mt-3">Back to All Teachers</a>
+
     </div>
 </div>
 </body>
