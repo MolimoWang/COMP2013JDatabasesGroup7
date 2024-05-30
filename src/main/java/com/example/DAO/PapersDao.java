@@ -26,4 +26,7 @@ public interface PapersDao {
 
     // Method to count the total number of papers in the database
     int count();
+
+    // Method to count the total number of papers in the database by dynamic conditions
+    int countByDynamicConditions(String title, String subjectName, String yearStr, String teacher);
 }

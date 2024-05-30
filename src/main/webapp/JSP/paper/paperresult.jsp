@@ -32,17 +32,16 @@
                 pageNum = Integer.parseInt(request.getParameter("pageNum")); // Change 'page' to 'pageNum'
             }
 
+            String title = request.getParameter("title");
+            String subjectName = request.getParameter("subject");
+            String yearStr = request.getParameter("year");
+            String teacher = request.getParameter("teacher");
+
             if (allPapers != null) {
                 papers = papersDao.findWithPagination((pageNum - 1) * count, count);
                 out.println("<h2 class='text-center'>All Papers:</h2>");
             } else {
-                String title = request.getParameter("title");
-                String subjectName = request.getParameter("subject");
-                String yearStr = request.getParameter("year");
-                String teacher = request.getParameter("teacher");
-
                 papers = papersDao.findByDynamicConditions(title, subjectName, yearStr, teacher, (pageNum - 1) * count, count);
-
                 out.println("<h2 class='text-center'>Search Results:</h2>");
             }
 
@@ -75,7 +74,12 @@
                 out.println("</ul>");
             }
 
-            int totalPapers = papersDao.count();
+            int totalPapers;
+            if (allPapers != null) {
+                totalPapers = papersDao.count();
+            } else {
+                totalPapers = papersDao.countByDynamicConditions(title, subjectName, yearStr, teacher);
+            }
             int totalPages = (int) Math.ceil((double) totalPapers / count);
 
             out.println("<nav aria-label='Page navigation example'>");

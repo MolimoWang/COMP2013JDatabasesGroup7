@@ -256,4 +256,57 @@ public class PapersDaoImpl implements PapersDao {
 
         return papers;
     }
+
+    // Method to count the total number of papers in the database by dynamic conditions
+    @Override
+    public int countByDynamicConditions(String title, String subjectName, String yearStr, String teacher) {
+        int count = 0;
+        StringBuilder query = new StringBuilder(
+                "SELECT COUNT(*) FROM Papers p " +
+                        "LEFT JOIN Subjects s ON p.SubjectID = s.SubjectID " +
+                        "LEFT JOIN TeacherSubjects ts ON s.SubjectID = ts.SubjectID " +
+                        "LEFT JOIN Teachers t ON ts.TeacherID = t.TeacherID " +
+                        "WHERE 1=1"
+        );
+
+        List<Object> parameters = new ArrayList<>();
+
+        if (title != null && !title.isEmpty()) {
+            query.append(" AND p.Title LIKE ?");
+            parameters.add("%" + title + "%");
+        }
+        if (subjectName != null && !subjectName.isEmpty()) {
+            query.append(" AND s.Name LIKE ?");
+            parameters.add("%" + subjectName + "%");
+        }
+        if (yearStr != null && !yearStr.isEmpty()) {
+            query.append(" AND p.Year = ?");
+            parameters.add(Integer.parseInt(yearStr));
+        }
+        if (teacher != null && !teacher.isEmpty()) {
+            query.append(" AND t.Name LIKE ?");
+            parameters.add("%" + teacher + "%");
+        }
+
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query.toString());
+
+            for (int i = 0; i < parameters.size(); i++) {
+                ps.setObject(i + 1, parameters.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }
