@@ -40,6 +40,10 @@
                 out.println("<form method='get' action='showquestions.jsp'>");
                 out.println("<input type='hidden' name='questionId' value='" + question.getQuestionId() + "'>");
                 out.println("<input type='hidden' name='paperId' value='" + paperId + "'>");
+                out.println("<input type='hidden' name='title' value='" + request.getParameter("title") + "'>");
+                out.println("<input type='hidden' name='subject' value='" + request.getParameter("subject") + "'>");
+                out.println("<input type='hidden' name='year' value='" + request.getParameter("year") + "'>");
+                out.println("<input type='hidden' name='teacher' value='" + request.getParameter("teacher") + "'>");
                 out.println("<input type='submit' value='Show Answer' class='btn btn-info'>");
                 out.println("</form>");
                 out.println("</li>");
