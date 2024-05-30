@@ -23,4 +23,10 @@ public interface StudentsDao {
 
     // Method to find students in the database by paper ID
     List<Student> findByPaperId(int paperId);
+
+    // Method to retrieve students from the database with pagination
+    List<Student> findWithPagination(int start, int count);
+
+    // Method to count the total number of students in the database
+    int count();
 }

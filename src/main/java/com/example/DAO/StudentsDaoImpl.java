@@ -146,4 +146,49 @@ public class StudentsDaoImpl implements StudentsDao {
         }
         return students;
     }
+
+    // Method to retrieve students from the database with pagination
+    @Override
+    public List<Student> findWithPagination(int start, int count) {
+        List<Student> students = new ArrayList<>();
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Students INNER JOIN Person ON Students.PersonID = Person.PersonID LIMIT ?, ?");
+            ps.setInt(1, start);
+            ps.setInt(2, count);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setStudentId(rs.getInt("StudentID"));
+                student.setPersonId(rs.getInt("PersonID"));
+                students.add(student);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
+
+    // Method to count the total number of students in the database
+    @Override
+    public int count() {
+        int total = 0;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM Students");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
 }
