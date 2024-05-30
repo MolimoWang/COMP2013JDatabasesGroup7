@@ -51,8 +51,9 @@
             } else {
                 out.println("<ul class='list-group text-center'>");
                 for (Paper paper : papers) {
-                    out.println("<li class='list-group-item d-flex justify-content-between align-items-center'>");
-                    out.println("<div>");
+                    out.println("<li class='list-group-item'>");
+                    out.println("<div class='d-flex justify-content-between'>");
+                    out.println("<div style='flex-grow: 1; word-wrap: break-word;'>");
                     out.println("Paper ID: " + paper.getPaperId());
                     out.println("<br/>Title: " + paper.getTitle());
                     out.println("<br/>Year: " + paper.getYear());
@@ -67,6 +68,7 @@
                     out.println("<input type='hidden' name='paperId' value='" + paper.getPaperId() + "'>");
                     out.println("<input type='submit' value='Show Students' class='btn' style='background-color: rgba(0, 123, 255, 0.5); color: white;'>");
                     out.println("</form>");
+                    out.println("</div>");
                     out.println("</div>");
                     out.println("</li>");
                 }
