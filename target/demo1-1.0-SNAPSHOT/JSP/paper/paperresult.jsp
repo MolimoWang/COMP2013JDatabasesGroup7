@@ -61,10 +61,18 @@
                     out.println("<div>");
                     out.println("<form method='get' action='showquestions.jsp'>");
                     out.println("<input type='hidden' name='paperId' value='" + paper.getPaperId() + "'>");
+                    out.println("<input type='hidden' name='title' value='" + title + "'>");
+                    out.println("<input type='hidden' name='subject' value='" + subjectName + "'>");
+                    out.println("<input type='hidden' name='year' value='" + yearStr + "'>");
+                    out.println("<input type='hidden' name='teacher' value='" + teacher + "'>");
                     out.println("<input type='submit' value='Show Questions' class='btn' style='background-color: rgba(0, 123, 255, 0.5); color: white;'>");
                     out.println("</form>");
                     out.println("<form method='get' action='showstudent.jsp'>");
                     out.println("<input type='hidden' name='paperId' value='" + paper.getPaperId() + "'>");
+                    out.println("<input type='hidden' name='title' value='" + title + "'>");
+                    out.println("<input type='hidden' name='subject' value='" + subjectName + "'>");
+                    out.println("<input type='hidden' name='year' value='" + yearStr + "'>");
+                    out.println("<input type='hidden' name='teacher' value='" + teacher + "'>");
                     out.println("<input type='submit' value='Show Students' class='btn' style='background-color: rgba(0, 123, 255, 0.5); color: white;'>");
                     out.println("</form>");
                     out.println("</div>");
