@@ -2,6 +2,8 @@
 <%@ page import="com.example.DAO.TeachersDaoImpl, com.example.model.Teacher" %>
 <%@ page import="com.example.DAO.TeacherSubjectsDaoImpl" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.DAO.PersonDaoImpl" %>
+<%@ page import="com.example.model.Person" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,9 +57,11 @@
 
                 if (teacher != null) {
                     List<Integer> subjectIds = teacherSubjectsDao.findSubjectIdsByTeacherId(teacher.getTeacherId());
+                    PersonDaoImpl personDao = new PersonDaoImpl();
+                    Person person = personDao.findById(teacher.getPersonId());
                     out.println("<h2 class='mt-4'>Teacher Details:</h2>");
                     out.println("<p>Teacher ID: " + teacher.getTeacherId() + "</p>");
-                    out.println("<p>Name: " + teacher.getName() + "</p>");
+                    out.println("<p>Name: " + person.getName() + "</p>");
                     out.println("<p>Subjects: " + subjectIds + "</p>");
                 } else {
                     out.println("<div class='alert alert-warning mt-3'>No teacher found with the given criteria.</div>");

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.DAO.*, com.example.model.Teacher" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.model.Person" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +32,9 @@
                 out.println("<ul class='list-group list-group-flush text-center mt-3'>");
                 for (Teacher teacher : teachers) {
                     List<Integer> subjectIds = teacherSubjectsDao.findSubjectIdsByTeacherId(teacher.getTeacherId());
-                    out.println("<li class='list-group-item'>Teacher ID: " + teacher.getTeacherId() + ", Name: " + teacher.getName() + ", Subjects: " + subjectIds.toString() + "</li>");
+                    PersonDaoImpl personDao = new PersonDaoImpl();
+                    Person person = personDao.findById(teacher.getPersonId());
+                    out.println("<li class='list-group-item'>Teacher ID: " + teacher.getTeacherId() + ", Name: " + person.getName() + ", Subjects: " + subjectIds.toString() + "</li>");
                 }
                 out.println("</ul>");
             }
