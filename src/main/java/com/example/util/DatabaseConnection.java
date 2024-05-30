@@ -19,7 +19,7 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() {
-        return DatabaseConnection.getConnection("localhost:3306 ", "exampaperdb", "root", "5201314Zth!");
+        return DatabaseConnection.getConnection("localhost:3306 ", "exampaperdb", "root", "st75s08mn07");
     }
 
     public static void main(String[] args) {

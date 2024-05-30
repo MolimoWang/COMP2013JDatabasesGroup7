@@ -38,8 +38,8 @@
         </form>
         <br>
         <!-- Use Bootstrap classes to style the button -->
-        <form action="../dashboard.jsp">
-            <input type="submit" value="Return to Dashboard" class="btn btn-primary d-block mx-auto">
+        <form action="paperaction.jsp">
+            <input type="submit" value="Return to Paperaction" class="btn btn-primary d-block mx-auto">
         </form>
     </div>
 </div>
