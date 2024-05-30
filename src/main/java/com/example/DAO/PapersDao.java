@@ -20,4 +20,10 @@ public interface PapersDao {
 
     // Method to update an existing paper in the database
     void update(Paper paper);
+
+    // Method to retrieve a specific number of papers from a specific position in the database
+    List<Paper> findWithPagination(int start, int count);
+
+    // Method to count the total number of papers in the database
+    int count();
 }

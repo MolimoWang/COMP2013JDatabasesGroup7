@@ -148,8 +148,55 @@ public class PapersDaoImpl implements PapersDao {
         }
     }
 
-    // Method to find papers in the database by dynamic conditions
-    public List<Paper> findByDynamicConditions(String title, String subjectName, String yearStr, String teacher) {
+    // Method to retrieve a specific number of papers from a specific position in the database
+    @Override
+    public List<Paper> findWithPagination(int start, int count) {
+        List<Paper> papers = new ArrayList<>();
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Papers LIMIT ? OFFSET ?");
+            ps.setInt(1, count);
+            ps.setInt(2, start);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Paper paper = new Paper();
+                paper.setPaperId(rs.getInt("PaperID"));
+                paper.setTitle(rs.getString("Title"));
+                paper.setYear(rs.getInt("Year"));
+                paper.setSubjectId(rs.getInt("SubjectID"));
+                papers.add(paper);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return papers;
+    }
+
+    // Method to count the total number of papers in the database
+    @Override
+    public int count() {
+        int count = 0;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM Papers");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    // Method to find papers in the database by dynamic conditions with pagination
+    public List<Paper> findByDynamicConditions(String title, String subjectName, String yearStr, String teacher, int start, int count) {
         List<Paper> papers = new ArrayList<>();
         StringBuilder query = new StringBuilder(
             "SELECT p.* FROM Papers p " +
@@ -177,6 +224,11 @@ public class PapersDaoImpl implements PapersDao {
             query.append(" AND t.Name LIKE ?");
             parameters.add("%" + teacher + "%");
         }
+
+        // Add LIMIT and OFFSET to the query
+        query.append(" LIMIT ? OFFSET ?");
+        parameters.add(count);
+        parameters.add(start);
 
         try {
             Connection conn = DatabaseConnection.getConnection();
