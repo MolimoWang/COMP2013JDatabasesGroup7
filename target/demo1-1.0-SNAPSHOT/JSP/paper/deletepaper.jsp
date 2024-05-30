@@ -28,8 +28,8 @@
         </form>
         <br>
         <!-- Use Bootstrap classes to style the button -->
-        <form action="viewpaper.jsp">
-            <input type="submit" value="Return to View Papers" class="btn btn-secondary d-block mx-auto">
+        <form action="paperaction.jsp">
+            <input type="submit" value="Return to Paperaction" class="btn btn-secondary d-block mx-auto">
         </form>
     </div>
 </div>

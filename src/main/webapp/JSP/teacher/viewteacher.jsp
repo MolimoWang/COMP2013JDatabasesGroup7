@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.*, com.example.model.*" %>
+<%@ page import="com.example.DAO.TeachersDaoImpl, com.example.model.Teacher" %>
+<%@ page import="com.example.DAO.TeacherSubjectsDaoImpl" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +41,7 @@
                 String teacherIdStr = request.getParameter("teacherId");
 
                 TeachersDaoImpl teachersDao = new TeachersDaoImpl();
+                TeacherSubjectsDaoImpl teacherSubjectsDao = new TeacherSubjectsDaoImpl();
                 Teacher teacher = null;
 
                 if (teacherIdStr != null && !teacherIdStr.isEmpty()) {
@@ -51,21 +54,16 @@
                 }
 
                 if (teacher != null) {
-                    // 获取Teacher对应的Person
-                    PersonDao personDao = new PersonDaoImpl();
-                    Person person = personDao.findById(teacher.getPersonId());
-                    String name = person != null ? person.getName() : "Unknown";
-
+                    List<Integer> subjectIds = teacherSubjectsDao.findSubjectIdsByTeacherId(teacher.getTeacherId());
                     out.println("<h2 class='mt-4'>Teacher Details:</h2>");
                     out.println("<p>Teacher ID: " + teacher.getTeacherId() + "</p>");
-                    out.println("<p>Name: " + name + "</p>");
-                    out.println("<p>Subject ID: " + teacher.getSubjectId() + "</p>");
+                    out.println("<p>Name: " + teacher.getName() + "</p>");
+                    out.println("<p>Subjects: " + subjectIds + "</p>");
                 } else {
                     out.println("<div class='alert alert-warning mt-3'>No teacher found with the given criteria.</div>");
                 }
             }
         %>
-
     </div>
 </div>
 </body>
