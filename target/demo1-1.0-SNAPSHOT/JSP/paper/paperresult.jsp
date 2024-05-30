@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.DAO.PapersDaoImpl, com.example.model.Paper" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
@@ -26,9 +25,15 @@
             String allPapers = request.getParameter("allPapers");
             PapersDaoImpl papersDao = new PapersDaoImpl();
             List<Paper> papers;
+            int pageNum = 1; // Change 'page' to 'pageNum'
+            int count = 5;
+
+            if (request.getParameter("pageNum") != null) { // Change 'page' to 'pageNum'
+                pageNum = Integer.parseInt(request.getParameter("pageNum")); // Change 'page' to 'pageNum'
+            }
 
             if (allPapers != null) {
-                papers = papersDao.findAll();
+                papers = papersDao.findWithPagination((pageNum - 1) * count, count);
                 out.println("<h2 class='text-center'>All Papers:</h2>");
             } else {
                 String title = request.getParameter("title");
@@ -36,7 +41,7 @@
                 String yearStr = request.getParameter("year");
                 String teacher = request.getParameter("teacher");
 
-                papers = papersDao.findByDynamicConditions(title, subjectName, yearStr, teacher);
+                papers = papersDao.findByDynamicConditions(title, subjectName, yearStr, teacher, (pageNum - 1) * count, count);
 
                 out.println("<h2 class='text-center'>Search Results:</h2>");
             }
@@ -46,20 +51,30 @@
             } else {
                 out.println("<ul class='list-group text-center'>");
                 for (Paper paper : papers) {
-                    out.println("<li class='list-group-item'>Paper ID: " + paper.getPaperId() + ", Title: " + paper.getTitle() + ", Year: " + paper.getYear() + ", Subject ID: " + paper.getSubjectId());
-                    out.println("<form method='get' action='showquestions.jsp'>");
-                    out.println("<input type='hidden' name='paperId' value='" + paper.getPaperId() + "'>");
-                    out.println("<input type='submit' value='Show Questions' class='btn btn-info'>");
-                    out.println("</form>");
-                    // Add a form to show students associated with the paper
-                    out.println("<form method='get' action='showstudent.jsp'>");
-                    out.println("<input type='hidden' name='paperId' value='" + paper.getPaperId() + "'>");
-                    out.println("<input type='submit' value='Show Students' class='btn btn-info'>");
-                    out.println("</form>");
+                    out.println("<li class='list-group-item'>");
+                    out.println("Paper ID: " + paper.getPaperId());
+                    out.println("<br/>Title: " + paper.getTitle());
+                    out.println("<br/>Year: " + paper.getYear());
+                    out.println("<br/>Subject ID: " + paper.getSubjectId());
                     out.println("</li>");
                 }
                 out.println("</ul>");
             }
+
+            int totalPapers = papersDao.count();
+            int totalPages = (int) Math.ceil((double) totalPapers / count);
+
+            out.println("<nav aria-label='Page navigation example'>");
+            out.println("<ul class='pagination justify-content-center'>");
+            for (int i = 1; i <= totalPages; i++) {
+                if (i == pageNum) { // Change 'page' to 'pageNum'
+                    out.println("<li class='page-item active'><a class='page-link' href='?pageNum=" + i + "'>" + i + "</a></li>"); // Change 'page' to 'pageNum'
+                } else {
+                    out.println("<li class='page-item'><a class='page-link' href='?pageNum=" + i + "'>" + i + "</a></li>"); // Change 'page' to 'pageNum'
+                }
+            }
+            out.println("</ul>");
+            out.println("</nav>");
         %>
 
         <!-- Button to return to the viewpaper page -->
