@@ -203,6 +203,7 @@ public class PapersDaoImpl implements PapersDao {
             "LEFT JOIN Subjects s ON p.SubjectID = s.SubjectID " +
             "LEFT JOIN TeacherSubjects ts ON s.SubjectID = ts.SubjectID " +
             "LEFT JOIN Teachers t ON ts.TeacherID = t.TeacherID " +
+            "LEFT JOIN Person pe ON t.PersonID = pe.PersonID " +
             "WHERE 1=1"
         );
 
@@ -221,7 +222,7 @@ public class PapersDaoImpl implements PapersDao {
             parameters.add(Integer.parseInt(yearStr));
         }
         if (teacher != null && !teacher.isEmpty()) {
-            query.append(" AND t.Name LIKE ?");
+            query.append(" AND pe.Name LIKE ?");
             parameters.add("%" + teacher + "%");
         }
 
@@ -266,6 +267,7 @@ public class PapersDaoImpl implements PapersDao {
                         "LEFT JOIN Subjects s ON p.SubjectID = s.SubjectID " +
                         "LEFT JOIN TeacherSubjects ts ON s.SubjectID = ts.SubjectID " +
                         "LEFT JOIN Teachers t ON ts.TeacherID = t.TeacherID " +
+                        "LEFT JOIN Person pe ON t.PersonID = pe.PersonID " +
                         "WHERE 1=1"
         );
 
@@ -284,9 +286,10 @@ public class PapersDaoImpl implements PapersDao {
             parameters.add(Integer.parseInt(yearStr));
         }
         if (teacher != null && !teacher.isEmpty()) {
-            query.append(" AND t.Name LIKE ?");
+            query.append(" AND pe.Name LIKE ?");
             parameters.add("%" + teacher + "%");
         }
+
 
         try {
             Connection conn = DatabaseConnection.getConnection();

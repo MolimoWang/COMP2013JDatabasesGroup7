@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.DAO.*, com.example.model.*" %>
+<%@ page import="com.example.DAO.*, com.example.model.Teacher" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
@@ -22,19 +22,16 @@
 
         <%
             TeachersDaoImpl teachersDao = new TeachersDaoImpl();
+            TeacherSubjectsDaoImpl teacherSubjectsDao = new TeacherSubjectsDaoImpl();
             List<Teacher> teachers = teachersDao.findAll();
 
             if (teachers.isEmpty()) {
-                out.println("<p class='mt-4 text-center'>No teachers found.</p>");
+                out.println("<p class='mt-4 text-center'>No teachers found.</p >");
             } else {
-                out.println("<ul class='list-group mt-4'>");
+                out.println("<ul class='list-group list-group-flush text-center mt-3'>");
                 for (Teacher teacher : teachers) {
-                    // 获取Teacher对应的Person
-                    PersonDao personDao = new PersonDaoImpl();
-                    Person person = personDao.findById(teacher.getPersonId());
-                    String name = person != null ? person.getName() : "Unknown";
-
-                    out.println("<li class='list-group-item'>Teacher ID: " + teacher.getTeacherId() + ", Name: " + name + ", Subject ID: " + teacher.getSubjectId() + "</li>");
+                    List<Integer> subjectIds = teacherSubjectsDao.findSubjectIdsByTeacherId(teacher.getTeacherId());
+                    out.println("<li class='list-group-item'>Teacher ID: " + teacher.getTeacherId() + ", Name: " + teacher.getName() + ", Subjects: " + subjectIds.toString() + "</li>");
                 }
                 out.println("</ul>");
             }
