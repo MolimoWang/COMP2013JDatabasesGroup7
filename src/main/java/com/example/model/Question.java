@@ -11,7 +11,7 @@ public class Question {
     private String text;
 
     // Identifier for the answer to the question
-    private int answerId;
+    private Integer answerId;
 
     // Getter method for questionId
     public int getQuestionId() {
@@ -44,7 +44,7 @@ public class Question {
     }
 
     // Getter method for answerId
-    public int getAnswerId() {
+    public Integer getAnswerId() {
         return answerId;
     }
 

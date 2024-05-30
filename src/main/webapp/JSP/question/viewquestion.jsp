@@ -52,12 +52,17 @@
                     out.println("<p class='text-center'>Question ID: " + question.getQuestionId() + "</p>");
                     out.println("<p class='text-center'>Paper ID: " + question.getPaperId() + "</p>");
                     out.println("<p class='text-center'>Text: " + question.getText() + "</p>");
-                    out.println("<p class='text-center'>Answer ID: " + question.getAnswerId() + "</p>");
+                    if (question.getAnswerId() != null) {
+                        out.println("<p class='text-center'>Answer ID: " + question.getAnswerId() + "</p>");
+                    } else {
+                        out.println("<p class='text-center'>Answer ID: N/A</p>");
+                    }
                 } else {
                     out.println("<p class='text-center text-danger'>No question found with the given criteria.</p>");
                 }
             }
         %>
+
     </div>
 </div>
 </body>

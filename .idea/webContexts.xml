@@ -8,6 +8,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/paper/showquestions.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/paper" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/paper/showstudent.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/paper" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/question/insertquestion.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/question" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/question/viewquestion.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/question" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/student/deletestudent.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/student" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/student/viewallstudents.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/student" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/teacher/viewallteachers.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/teacher" />

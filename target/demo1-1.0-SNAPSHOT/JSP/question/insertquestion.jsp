@@ -30,9 +30,6 @@
             <label for="text">Text:</label>
             <input type="text" id="text" name="text" class="form-control" required><br>
 
-            <label for="answerId">Answer ID:</label>
-            <input type="text" id="answerId" name="answerId" class="form-control" required><br>
-
             <input type="submit" value="Insert" class="btn btn-primary">
         </form>
         <br>
@@ -46,19 +43,16 @@
                 String questionIdStr = request.getParameter("questionId");
                 String paperIdStr = request.getParameter("paperId");
                 String text = request.getParameter("text");
-                String answerIdStr = request.getParameter("answerId");
 
-                if (questionIdStr != null && paperIdStr != null && text != null && answerIdStr != null) {
+                if (questionIdStr != null && paperIdStr != null && text != null) {
                     try {
                         int questionId = Integer.parseInt(questionIdStr);
                         int paperId = Integer.parseInt(paperIdStr);
-                        int answerId = Integer.parseInt(answerIdStr);
 
                         Question question = new Question();
                         question.setQuestionId(questionId);
                         question.setPaperId(paperId);
                         question.setText(text);
-                        question.setAnswerId(answerId);
 
                         QuestionsDaoImpl questionsDao = new QuestionsDaoImpl();
                         boolean insertSuccess = questionsDao.insert(question);
