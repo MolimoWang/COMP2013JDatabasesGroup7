@@ -31,6 +31,34 @@ git clone https://github.com/MolimoWang/COMP2013JDatabasesGroup7.git
 
 5. Run the application from your IDE.
 
+## Importing the Sample Database
+
+The project includes a sample database file `exampaperdb.db` located in the `db` directory. To import this database into your MySQL server, follow these steps:
+
+1. Open your MySQL command line tool or MySQL Workbench.
+
+2. Connect to your MySQL server using your MySQL username and password.
+
+3. Create a new database named `exampaperdb`:
+
+```sql
+CREATE DATABASE exampaperdb;
+```
+
+4. Select the `exampaperdb` database:
+
+```sql
+USE exampaperdb;
+```
+
+5. Import the `exampaperdb.db` file:
+
+```sql
+SOURCE /path/to/your/project/COMP2013JDatabasesGroup7/db/exampaperdb.db;
+```
+
+Please replace `/path/to/your/project/` with the actual path where you stored the `COMP2013JDatabasesGroup7` project.
+
 ## Database Connection
 
 The `DatabaseConnection` class is responsible for establishing a connection to the MySQL database. You need to provide your database connection details in this class.
