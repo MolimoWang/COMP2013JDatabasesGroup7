@@ -3,6 +3,7 @@ package com.example.DAO;
 import com.example.model.Answer;
 import com.example.model.Question;
 import com.example.model.Paper;
+import com.example.model.Subject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ public class AnswersDaoImplTest {
     private AnswersDaoImpl answersDao;
     private QuestionsDaoImpl questionsDao;
     private PapersDaoImpl papersDao;
+    private SubjectsDaoImpl subjectsDao;
     private Answer answer;
 
     @BeforeEach
@@ -29,10 +31,17 @@ public class AnswersDaoImplTest {
 
         // Initialize the database connection or set up a mock database
 
+        // Insert a test subject into the database
+        subjectsDao = new SubjectsDaoImpl();
+        Subject subject = new Subject();
+        subject.setSubjectId(1000);  // Set the SubjectID to a valid value
+        subjectsDao.insert(subject);
+
         // Insert a test paper into the database
         papersDao = new PapersDaoImpl();
         Paper paper = new Paper();
         paper.setPaperId(1000);  // Changed to a larger number
+        paper.setSubjectId(1000);  // Set the SubjectID to the ID of the test subject
         papersDao.insert(paper);
 
         // Insert a test question into the database
@@ -99,5 +108,6 @@ public class AnswersDaoImplTest {
         answersDao.deleteById(1000);  // Changed to a larger number
         questionsDao.deleteById(1000);  // Also delete the test Question
         papersDao.deleteById(1000);  // Also delete the test Paper
+        subjectsDao.deleteById(1000);  // Also delete the test Subject
     }
 }
