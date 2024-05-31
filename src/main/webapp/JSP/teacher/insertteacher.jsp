@@ -87,6 +87,8 @@
                         out.println("<div class='alert alert-success mt-3'>Teacher inserted successfully.</div>");
                     } catch (NumberFormatException e) {
                         out.println("<div class='alert alert-danger mt-3'>Invalid input format. Please ensure all fields are correctly filled.</div>");
+                    } catch (Exception e) {
+                        out.println("<div class='alert alert-danger mt-3'>An error occurred while inserting the teacher. Please try again.</div>");
                     }
                 } else {
                     out.println("<div class='alert alert-warning mt-3'>Please fill out all fields.</div>");
