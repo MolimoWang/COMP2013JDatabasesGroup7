@@ -85,14 +85,6 @@ You can run the tests from your IDE by running the `test` methods in the `Answer
 - [Maven](https://maven.apache.org/) - Dependency Management
 - [MySQL](https://www.mysql.com/) - The database used
 
-## Authors
-
-- MolimoWang
-
-## License
-
-This project is licensed under the MIT License.
-
 ## Acknowledgments
 
 - Thanks to all contributors to this project.
