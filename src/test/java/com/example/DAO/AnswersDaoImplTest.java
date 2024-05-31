@@ -1,18 +1,24 @@
 package com.example.DAO;
 
 import com.example.model.Answer;
+import com.example.model.Question;
+import com.example.model.Paper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AnswersDaoImplTest {
     private AnswersDaoImpl answersDao;
+    private QuestionsDaoImpl questionsDao;
+    private PapersDaoImpl papersDao;
     private Answer answer;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws SQLException {
         // Initialize the AnswersDaoImpl object
         answersDao = new AnswersDaoImpl();
 
@@ -22,10 +28,23 @@ public class AnswersDaoImplTest {
         answer.setText("Test Answer");
 
         // Initialize the database connection or set up a mock database
+
+        // Insert a test paper into the database
+        papersDao = new PapersDaoImpl();
+        Paper paper = new Paper();
+        paper.setPaperId(1000);  // Changed to a larger number
+        papersDao.insert(paper);
+
+        // Insert a test question into the database
+        questionsDao = new QuestionsDaoImpl();
+        Question question = new Question();
+        question.setQuestionId(1000);  // Changed to a larger number
+        question.setPaperId(1000);  // Set the PaperID to the ID of the test paper
+        questionsDao.insert(question);
     }
 
     @Test
-    public void testInsertAndFindById() {
+    public void testInsertAndFindById() throws SQLException {
         // Insert the test Answer object into the database
         answersDao.insert(answer, 1000);  // Changed to a larger number
 
@@ -41,7 +60,7 @@ public class AnswersDaoImplTest {
     }
 
     @Test
-    public void testDeleteById() {
+    public void testDeleteById() throws SQLException {
         // Insert the test Answer object into the database
         answersDao.insert(answer, 1000);  // Changed to a larger number
 
@@ -56,7 +75,7 @@ public class AnswersDaoImplTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws SQLException {
         // Insert the test Answer object into the database
         answersDao.insert(answer, 1000);  // Changed to a larger number
 
@@ -78,5 +97,7 @@ public class AnswersDaoImplTest {
     public void tearDown() {
         // Clean up the test data by deleting the test Answer object from the database
         answersDao.deleteById(1000);  // Changed to a larger number
+        questionsDao.deleteById(1000);  // Also delete the test Question
+        papersDao.deleteById(1000);  // Also delete the test Paper
     }
 }

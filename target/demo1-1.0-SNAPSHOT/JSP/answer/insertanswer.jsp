@@ -61,6 +61,8 @@
         out.println("<p class='text-center text-success'>Answer inserted successfully.</p>");
       } catch (NumberFormatException e) {
         out.println("<p class='text-center text-danger'>Invalid input format. Please ensure all fields are correctly filled.</p>");
+      } catch (Exception e) {
+        out.println("<p class='text-center text-danger'>Failed to insert answer. Please check your input.</p>");
       }
     } else {
       out.println("<p class='text-center text-danger'>Please fill out all fields.</p>");

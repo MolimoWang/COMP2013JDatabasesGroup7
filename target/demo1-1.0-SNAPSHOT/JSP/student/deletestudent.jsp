@@ -65,6 +65,9 @@
                         }
                     } catch (NumberFormatException e) {
                         out.println("<p class='text-center text-danger'>Invalid input format. Please ensure the Student ID is correctly filled.</p>");
+                    } catch (Exception e) {
+                        out.println("<p class='text-center text-danger'>Error occurred while deleting the student. Please try again later.</p>");
+                        e.printStackTrace();
                     }
                 } else {
                     out.println("<p class='text-center text-danger'>Please provide a Student ID.</p>");

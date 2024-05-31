@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,25 +15,39 @@ public class AnswersDaoImpl implements AnswersDao {
 
     // Method to insert a new answer into the database
     @Override
-    public void insert(Answer answer, int questionId) {
+    public void insert(Answer answer, int questionId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        PreparedStatement psUpdate = null;
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Answers (AnswerID, Text) VALUES (?, ?)");
+            conn = DatabaseConnection.getConnection();
+            ps = conn.prepareStatement("INSERT INTO Answers (AnswerID, Text) VALUES (?, ?)");
             ps.setInt(1, answer.getAnswerId());
             ps.setString(2, answer.getText());
             ps.executeUpdate();
 
             // Update the corresponding question's answer ID
-            PreparedStatement psUpdate = conn.prepareStatement("UPDATE Questions SET AnswerID = ? WHERE QuestionID = ?");
+            psUpdate = conn.prepareStatement("UPDATE Questions SET AnswerID = ? WHERE QuestionID = ?");
             psUpdate.setInt(1, answer.getAnswerId());
             psUpdate.setInt(2, questionId);
-            psUpdate.executeUpdate();
-            psUpdate.close();
+            int affectedRows = psUpdate.executeUpdate();
 
-            ps.close();
-            conn.close();
-        } catch (Exception e) {
+            if (affectedRows == 0) {
+                throw new SQLException("Failed to update question with answer ID. Question ID may not exist.");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw e;
+        } finally {
+            if (psUpdate != null) {
+                psUpdate.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
     }
 
