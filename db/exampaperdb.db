@@ -1,0 +1,288 @@
+-- MySQL dump 10.13  Distrib 8.2.0, for macos13 (arm64)
+--
+-- Host: localhost    Database: exampaperdb
+-- ------------------------------------------------------
+-- Server version	8.2.0
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Answers`
+--
+
+DROP TABLE IF EXISTS `Answers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Answers` (
+  `AnswerID` int NOT NULL,
+  `Text` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`AnswerID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Answers`
+--
+
+LOCK TABLES `Answers` WRITE;
+/*!40000 ALTER TABLE `Answers` DISABLE KEYS */;
+INSERT INTO `Answers` VALUES (1,'Updated Answer'),(101501011,'180'),(101501021,'2'),(101501031,'10'),(101501041,'30'),(101501051,'250'),(101502011,'490'),(101502021,'10'),(101502031,'100'),(101502041,'100'),(101502051,'0.5'),(102501011,'1/5'),(102501021,'-1'),(102501031,'y(x)=Cex−ex'),(102501041,'3'),(102501051,'ln(ln(x))'),(102502011,'5'),(102502021,'0'),(102502031,'n-1');
+/*!40000 ALTER TABLE `Answers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Papers`
+--
+
+DROP TABLE IF EXISTS `Papers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Papers` (
+  `PaperID` int NOT NULL,
+  `Title` varchar(255) DEFAULT NULL,
+  `Year` int DEFAULT NULL,
+  `SubjectID` int DEFAULT NULL,
+  PRIMARY KEY (`PaperID`),
+  KEY `SubjectID` (`SubjectID`),
+  CONSTRAINT `papers_ibfk_1` FOREIGN KEY (`SubjectID`) REFERENCES `Subjects` (`SubjectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Papers`
+--
+
+LOCK TABLES `Papers` WRITE;
+/*!40000 ALTER TABLE `Papers` DISABLE KEYS */;
+INSERT INTO `Papers` VALUES (101501,'BDIC1015J UNIVERSITY PHYSICS 1',2017,1015),(101502,'BDIC2008J  University Physics 1 Resit',2017,1015),(102501,'BDIC1025J Maths 1',2018,1025),(102502,'BDIC1025J Maths 2',2019,1025),(201101,'COMP2005J Programming Exam',2020,2011),(201102,'COMP2005J Programming Exam resit',2020,2011);
+/*!40000 ALTER TABLE `Papers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Person`
+--
+
+DROP TABLE IF EXISTS `Person`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Person` (
+  `PersonID` int NOT NULL,
+  `Name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`PersonID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Person`
+--
+
+LOCK TABLES `Person` WRITE;
+/*!40000 ALTER TABLE `Person` DISABLE KEYS */;
+INSERT INTO `Person` VALUES (10,'Yanru PING'),(20,'Fengyan LIU'),(30,'Sean Russel'),(210232330,'Daniel'),(210232340,'John Doe'),(210232350,'Emma Wilson'),(210232360,'William Jackson'),(210232370,'Ava Garcia'),(220123330,'Sarah'),(220123340,'Jane Smith'),(220123350,'Lucas Brown'),(220123360,'Olivia White'),(220123370,'Daniel Martinez'),(221022310,'David'),(221022320,'Robert Johnson'),(221022330,'Sophia Taylor'),(221022340,'James Harris'),(221022350,'Sophia Robinson'),(222011230,'Michael'),(222011240,'Julia Davis'),(222011250,'Benjamin Anderson'),(222011260,'Isabella Martin'),(222011270,'David Clark'),(223023210,'Emily'),(223023220,'Michael Miller'),(223023230,'Mia Thomas'),(223023240,'Ethan Thompson'),(223023250,'Emily Rodriguez');
+/*!40000 ALTER TABLE `Person` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Questions`
+--
+
+DROP TABLE IF EXISTS `Questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Questions` (
+  `QuestionID` int NOT NULL,
+  `PaperID` int DEFAULT NULL,
+  `Text` varchar(255) DEFAULT NULL,
+  `AnswerID` int DEFAULT NULL,
+  PRIMARY KEY (`QuestionID`),
+  KEY `PaperID` (`PaperID`),
+  KEY `AnswerID` (`AnswerID`),
+  CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`PaperID`) REFERENCES `Papers` (`PaperID`),
+  CONSTRAINT `questions_ibfk_2` FOREIGN KEY (`AnswerID`) REFERENCES `Answers` (`AnswerID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Questions`
+--
+
+LOCK TABLES `Questions` WRITE;
+/*!40000 ALTER TABLE `Questions` DISABLE KEYS */;
+INSERT INTO `Questions` VALUES (10150101,101501,'A car travels at a constant speed of 60 miles per hour. How far does it travel in 3 hours?',101501011),(10150102,101501,'What is the acceleration of an object that increases its velocity from 20 meters per second to 30 meters per second in 5 seconds?',101501021),(10150103,101501,'A block of mass 2 kilograms is lifted vertically with a force of 20 newtons. What is the acceleration of the block?',101501031),(10150104,101501,'A ball is thrown horizontally with a velocity of 15 meters per second from a height of 2 meters. How far does it travel horizontally before hitting the ground?',101501041),(10150105,101501,'Calculate the kinetic energy of a 5-kilogram object moving with a velocity of 10 meters per second.',101501051),(10150201,101502,'What is the gravitational potential energy of a 10-kilogram object located 5 meters above the ground?',101502011),(10150202,101502,'A spring with a spring constant of 200 newtons per meter is compressed by 0.1 meters. What is the potential energy stored in the spring?',101502021),(10150203,101502,'If the frequency of a wave is 50 hertz and its wavelength is 2 meters,',101502031),(10150204,101502,'An electric circuit has a resistance of 20 ohms and a current of 5 amperes flowing through it. What is the voltage across the circuit?',101502041),(10150205,101502,'A convex lens with a focal length of 20 centimeters forms a real image of an object placed 40 centimeters away from it. What is the magnification of the image?',101502051),(10250101,102501,'Lim(x->0)(sinx/sinax) = 5, evaluate a = ?',102501011),(10250102,102501,'Evaluate Lim(x->0)(x-1/2)/sin x = ?',102501021),(10250103,102501,'Find the antiderivative of the function 1/xln(x).',102501031),(10250104,102501,'Solve the equation that describes how a function changes: dy/dx+y=ex.',102501041),(10250105,102501,'Explore what happens to the function sin(3x)/x as x approaches 0.',102501051),(10250201,102502,'Find the derivative of  f(x)=x^2 +3x+2 at x=1',102502011),(10250202,102502,'Describe the behavior of the function f(x)= 1/x approaches positive infinity.',102502021);
+/*!40000 ALTER TABLE `Questions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `StudentPapers`
+--
+
+DROP TABLE IF EXISTS `StudentPapers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `StudentPapers` (
+  `StudentID` int DEFAULT NULL,
+  `PaperID` int DEFAULT NULL,
+  KEY `StudentID` (`StudentID`),
+  KEY `PaperID` (`PaperID`),
+  CONSTRAINT `studentpapers_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `Students` (`StudentID`),
+  CONSTRAINT `studentpapers_ibfk_2` FOREIGN KEY (`PaperID`) REFERENCES `Papers` (`PaperID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `StudentPapers`
+--
+
+LOCK TABLES `StudentPapers` WRITE;
+/*!40000 ALTER TABLE `StudentPapers` DISABLE KEYS */;
+INSERT INTO `StudentPapers` VALUES (21023233,201101),(22012333,101502),(22102231,101501),(22201123,102501),(22302321,102502),(21023234,201101),(22012334,101502),(22102232,101501),(22201124,102501),(22302322,102502),(21023235,201101),(22012335,101502),(22102233,101501),(22201125,102501),(22302323,102502),(21023236,201101),(22012336,101502),(22102234,101501),(22201126,102501),(22302324,102502),(21023237,201101),(22012337,101502),(22102235,101501),(22201127,102501),(22302325,102502);
+/*!40000 ALTER TABLE `StudentPapers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Students`
+--
+
+DROP TABLE IF EXISTS `Students`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Students` (
+  `StudentID` int NOT NULL,
+  `PersonID` int DEFAULT NULL,
+  PRIMARY KEY (`StudentID`),
+  KEY `PersonID` (`PersonID`),
+  CONSTRAINT `students_ibfk_1` FOREIGN KEY (`PersonID`) REFERENCES `Person` (`PersonID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Students`
+--
+
+LOCK TABLES `Students` WRITE;
+/*!40000 ALTER TABLE `Students` DISABLE KEYS */;
+INSERT INTO `Students` VALUES (21023233,210232330),(21023234,210232340),(21023235,210232350),(21023236,210232360),(21023237,210232370),(22012333,220123330),(22012334,220123340),(22012335,220123350),(22012336,220123360),(22012337,220123370),(22102231,221022310),(22102232,221022320),(22102233,221022330),(22102234,221022340),(22102235,221022350),(22201123,222011230),(22201124,222011240),(22201125,222011250),(22201126,222011260),(22201127,222011270),(22302321,223023210),(22302322,223023220),(22302323,223023230),(22302324,223023240),(22302325,223023250);
+/*!40000 ALTER TABLE `Students` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Subjects`
+--
+
+DROP TABLE IF EXISTS `Subjects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Subjects` (
+  `SubjectID` int NOT NULL,
+  `Name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`SubjectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Subjects`
+--
+
+LOCK TABLES `Subjects` WRITE;
+/*!40000 ALTER TABLE `Subjects` DISABLE KEYS */;
+INSERT INTO `Subjects` VALUES (1015,'University Physics'),(1025,'Advanced Mathematics'),(2011,'Object-Oriented Programming');
+/*!40000 ALTER TABLE `Subjects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_user`
+--
+
+DROP TABLE IF EXISTS `t_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `t_user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_user`
+--
+
+LOCK TABLES `t_user` WRITE;
+/*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
+INSERT INTO `t_user` VALUES (1,'slr','slr'),(2,'slr','slr'),(3,'slr','slr'),(4,'slr','slr'),(5,'slr','slr'),(6,'slr','slr'),(7,'slr','slr'),(8,'slr','slr'),(9,'slr','slr');
+/*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Teachers`
+--
+
+DROP TABLE IF EXISTS `Teachers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Teachers` (
+  `TeacherID` int NOT NULL,
+  `PersonID` int DEFAULT NULL,
+  PRIMARY KEY (`TeacherID`),
+  KEY `PersonID` (`PersonID`),
+  CONSTRAINT `teachers_ibfk_1` FOREIGN KEY (`PersonID`) REFERENCES `Person` (`PersonID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Teachers`
+--
+
+LOCK TABLES `Teachers` WRITE;
+/*!40000 ALTER TABLE `Teachers` DISABLE KEYS */;
+INSERT INTO `Teachers` VALUES (1,10),(2,20),(3,30);
+/*!40000 ALTER TABLE `Teachers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TeacherSubjects`
+--
+
+DROP TABLE IF EXISTS `TeacherSubjects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TeacherSubjects` (
+  `TeacherID` int DEFAULT NULL,
+  `SubjectID` int DEFAULT NULL,
+  KEY `TeacherID` (`TeacherID`),
+  KEY `SubjectID` (`SubjectID`),
+  CONSTRAINT `teachersubjects_ibfk_1` FOREIGN KEY (`TeacherID`) REFERENCES `Teachers` (`TeacherID`),
+  CONSTRAINT `teachersubjects_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `Subjects` (`SubjectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TeacherSubjects`
+--
+
+LOCK TABLES `TeacherSubjects` WRITE;
+/*!40000 ALTER TABLE `TeacherSubjects` DISABLE KEYS */;
+INSERT INTO `TeacherSubjects` VALUES (1,1025),(2,1015),(3,2011);
+/*!40000 ALTER TABLE `TeacherSubjects` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-05-31 21:04:19
