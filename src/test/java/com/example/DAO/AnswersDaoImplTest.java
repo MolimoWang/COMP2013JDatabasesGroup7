@@ -94,7 +94,7 @@ public class AnswersDaoImplTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown() throws SQLException {
         // Clean up the test data by deleting the test Answer object from the database
         answersDao.deleteById(1000);  // Changed to a larger number
         questionsDao.deleteById(1000);  // Also delete the test Question

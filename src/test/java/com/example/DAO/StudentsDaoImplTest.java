@@ -84,7 +84,7 @@ public class StudentsDaoImplTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown() throws SQLException {
         studentsDao.deleteById(1000);  // Changed to a larger number
         papersDao.deleteById(1000);  // Changed to a larger number
         subjectsDao.deleteById(1000);  // Changed to a larger number

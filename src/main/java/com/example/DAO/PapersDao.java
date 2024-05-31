@@ -10,7 +10,7 @@ public interface PapersDao {
     void insert(Paper paper) throws SQLException;
 
     // Method to delete a paper from the database by its ID
-    void deleteById(int paperId);
+    void deleteById(int paperId) throws SQLException;
 
     // Method to find a paper in the database by its ID
     Paper findById(int paperId);

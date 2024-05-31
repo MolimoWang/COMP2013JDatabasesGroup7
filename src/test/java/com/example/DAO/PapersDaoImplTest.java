@@ -42,7 +42,7 @@ public class PapersDaoImplTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown() throws SQLException {
         // Clean up the test data by deleting the test Paper and Subject objects from the database
         papersDao.deleteById(1000);  // Changed to a larger number
         subjectsDao.deleteById(1000);  // Changed to a larger number
@@ -65,7 +65,7 @@ public class PapersDaoImplTest {
     }
 
     @Test
-    public void testDeleteById() {
+    public void testDeleteById() throws SQLException {
         // Delete the inserted Paper object from the database
         papersDao.deleteById(1000);  // Changed to a larger number
 

@@ -16,67 +16,46 @@ public class PapersDaoImpl implements PapersDao {
     // Method to insert a new paper into the database
     @Override
     public void insert(Paper paper) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Papers (PaperID, Title, Year, SubjectID) VALUES (?, ?, ?, ?)");
+            conn = DatabaseConnection.getConnection();
+            ps = conn.prepareStatement("INSERT INTO Papers (PaperID, Title, Year, SubjectID) VALUES (?, ?, ?, ?)");
             ps.setInt(1, paper.getPaperId());
             ps.setString(2, paper.getTitle());
             ps.setInt(3, paper.getYear());
             ps.setInt(4, paper.getSubjectId());
             ps.executeUpdate();
-            ps.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } finally {
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
         }
     }
 
     // Method to delete a paper from the database by its ID
     @Override
-    public void deleteById(int paperId) {
+    public void deleteById(int paperId) throws SQLException {
         Connection conn = null;
         PreparedStatement psQuestions = null;
         PreparedStatement psPaper = null;
-
         try {
             conn = DatabaseConnection.getConnection();
-
-            // Start transaction
             conn.setAutoCommit(false);
-
-            // First delete the Questions associated with this Paper
             psQuestions = conn.prepareStatement("DELETE FROM Questions WHERE PaperID = ?");
             psQuestions.setInt(1, paperId);
             psQuestions.executeUpdate();
-
-            // Delete all records related to the paper from the StudentPapers table
             studentPapersDao.deleteByPaperId(paperId);
-
-            // Then delete the Paper
             psPaper = conn.prepareStatement("DELETE FROM Papers WHERE PaperID = ?");
             psPaper.setInt(1, paperId);
             psPaper.executeUpdate();
-
-            // Commit transaction
             conn.commit();
-        } catch (Exception e) {
-            if (conn != null) {
-                try {
-                    // Rollback transaction
-                    conn.rollback();
-                } catch (Exception rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-            e.printStackTrace();
+        } catch (SQLException e) {
+            if (conn != null) conn.rollback();
+            throw e;
         } finally {
-            try {
-                if (psQuestions != null) psQuestions.close();
-                if (psPaper != null) psPaper.close();
-                if (conn != null) conn.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            if (psQuestions != null) psQuestions.close();
+            if (psPaper != null) psPaper.close();
+            if (conn != null) conn.close();
         }
     }
 

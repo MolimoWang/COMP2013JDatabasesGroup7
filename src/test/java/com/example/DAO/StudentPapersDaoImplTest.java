@@ -63,7 +63,7 @@ class StudentPapersDaoImplTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws SQLException {
         studentPapersDao.deleteByStudentIdAndPaperId(testStudentId, testPaperId);
         studentsDao.deleteById(testStudentId);
         papersDao.deleteById(testPaperId);
