@@ -19,7 +19,8 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() {
-        return DatabaseConnection.getConnection("localhost:3306 ", "exampaperdb", "root", "5201314Zth!");
+        // Provide your database connection details here
+        return DatabaseConnection.getConnection("localhost:3306 ", "exampaperdb", "Your Username Here", "Your Password Here");
     }
 
     public static void main(String[] args) {
