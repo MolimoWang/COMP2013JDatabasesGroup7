@@ -20,10 +20,10 @@ class StudentPapersDaoImplTest {
     private PersonDaoImpl personDao;
     private SubjectsDaoImpl subjectsDao;
 
-    private int testStudentId = 1;
-    private int testPaperId = 1;
-    private int testPersonId = 1;
-    private int testSubjectId = 1;
+    private int testStudentId = 1000;  // Changed to a larger number
+    private int testPaperId = 1000;  // Changed to a larger number
+    private int testPersonId = 1000;  // Changed to a larger number
+    private int testSubjectId = 1000;  // Changed to a larger number
 
     @BeforeEach
     void setUp() throws SQLException {

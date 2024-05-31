@@ -10,91 +10,60 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonDaoImplTest {
-    private PersonDaoImpl personDao; // Assuming you've created this DAO
-    private Person person; // Create a Person object
+    private PersonDaoImpl personDao;
+    private Person person;
 
     @BeforeEach
     void setUp() {
-        // Initialize the DAO object
         personDao = new PersonDaoImpl();
-
-        // Create and insert a test Person object into the database
         person = new Person();
-        person.setPersonId(1);
+        person.setPersonId(1000);  // Changed to a larger number
         person.setName("Test Person");
         personDao.insert(person);
     }
 
     @AfterEach
     void tearDown() {
-        // Clean up the test data by deleting the test Person object from the database
-        personDao.deleteById(1);
+        personDao.deleteById(1000);  // Changed to a larger number
     }
 
     @Test
     void insert() {
-        // Retrieve the inserted Person object from the database
-        Person insertedPerson = personDao.findById(1);
-
-        // Assert that the retrieved Person object is not null
+        Person insertedPerson = personDao.findById(1000);  // Changed to a larger number
         assertNotNull(insertedPerson);
-
-        // Assert that the retrieved Person object has the expected properties
-        assertEquals(1, insertedPerson.getPersonId());
+        assertEquals(1000, insertedPerson.getPersonId());  // Changed to a larger number
         assertEquals("Test Person", insertedPerson.getName());
     }
 
     @Test
     void deleteById() {
-        // Delete the inserted Person object from the database
-        personDao.deleteById(1);
-
-        // Try to retrieve the deleted Person object from the database
-        Person deletedPerson = personDao.findById(1);
-
-        // Assert that the deleted Person object cannot be retrieved (is null)
+        personDao.deleteById(1000);  // Changed to a larger number
+        Person deletedPerson = personDao.findById(1000);  // Changed to a larger number
         assertNull(deletedPerson);
     }
 
     @Test
     void findById() {
-        // Retrieve the inserted Person object from the database
-        Person foundPerson = personDao.findById(1);
-
-        // Assert that the retrieved Person object is not null
+        Person foundPerson = personDao.findById(1000);  // Changed to a larger number
         assertNotNull(foundPerson);
-
-        // Assert that the retrieved Person object has the expected properties
-        assertEquals(1, foundPerson.getPersonId());
+        assertEquals(1000, foundPerson.getPersonId());  // Changed to a larger number
         assertEquals("Test Person", foundPerson.getName());
     }
 
     @Test
     void findAll() {
-        // Retrieve all Person objects from the database
         List<Person> persons = personDao.findAll();
-
-        // Assert that the retrieved list of Person objects is not empty
         assertFalse(persons.isEmpty());
-
-        // Assert that the retrieved list of Person objects contains the inserted Person object
-        assertTrue(persons.stream().anyMatch(p -> p.getPersonId() == 1));
+        assertTrue(persons.stream().anyMatch(p -> p.getPersonId() == 1000));  // Changed to a larger number
     }
 
     @Test
     void update() {
-        // Update the inserted Person object in the database
         person.setName("Updated Person");
         personDao.update(person);
-
-        // Retrieve the updated Person object from the database
-        Person updatedPerson = personDao.findById(1);
-
-        // Assert that the retrieved Person object is not null
+        Person updatedPerson = personDao.findById(1000);  // Changed to a larger number
         assertNotNull(updatedPerson);
-
-        // Assert that the retrieved Person object has the updated properties
-        assertEquals(1, updatedPerson.getPersonId());
+        assertEquals(1000, updatedPerson.getPersonId());  // Changed to a larger number
         assertEquals("Updated Person", updatedPerson.getName());
     }
 }

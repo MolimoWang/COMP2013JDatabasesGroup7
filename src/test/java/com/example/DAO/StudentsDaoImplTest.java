@@ -25,95 +25,69 @@ public class StudentsDaoImplTest {
 
     @BeforeEach
     public void setUp() throws SQLException {
-        // Initialize the DAO objects
         studentsDao = new StudentsDaoImpl();
         papersDao = new PapersDaoImpl();
         subjectsDao = new SubjectsDaoImpl();
-        personDao = new PersonDaoImpl();  // Assuming you have a PersonsDaoImpl class
+        personDao = new PersonDaoImpl();
 
-        // Create and insert a test Subject object into the database
         subject = new Subject();
-        subject.setSubjectId(1);
+        subject.setSubjectId(1000);  // Changed to a larger number
         subject.setName("Test Subject");
         subjectsDao.insert(subject);
 
-        // Create and insert a test Paper object into the database
         paper = new Paper();
-        paper.setPaperId(1);
+        paper.setPaperId(1000);  // Changed to a larger number
         paper.setTitle("Test Paper Title");
         paper.setYear(2022);
-        paper.setSubjectId(1);  // This should match the SubjectID of the inserted Subject object
+        paper.setSubjectId(1000);  // Changed to a larger number
         papersDao.insert(paper);
 
-        // Create and insert a test Person object into the database
         person = new Person();
-        person.setPersonId(1);
+        person.setPersonId(1000);  // Changed to a larger number
         person.setName("Test Person");
-        personDao.insert(person);  // This should be done before inserting a Student
+        personDao.insert(person);
 
-        // Create and insert a test Student object into the database
         student = new Student();
-        student.setStudentId(1);
-        student.setPersonId(1);  // This should match the PersonID of the inserted Person object
+        student.setStudentId(1000);  // Changed to a larger number
+        student.setPersonId(1000);  // Changed to a larger number
         studentsDao.insert(student);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        // Clean up the test data by deleting the test Student, Paper, Subject, and Person objects from the database
-        studentsDao.deleteById(1);
-        papersDao.deleteById(1);
-        subjectsDao.deleteById(1);
-        personDao.deleteById(1);  // This should be done after deleting a Student
     }
 
     @Test
     void insert() {
-        // Retrieve the inserted Student object from the database
-        Student insertedStudent = studentsDao.findById(1);
-
-        // Assert that the retrieved Student object is not null
+        Student insertedStudent = studentsDao.findById(1000);  // Changed to a larger number
         assertNotNull(insertedStudent);
-
-        // Assert that the retrieved Student object has the expected properties
-        assertEquals(1, insertedStudent.getStudentId());
-        assertEquals(1, insertedStudent.getPersonId());
+        assertEquals(1000, insertedStudent.getStudentId());  // Changed to a larger number
+        assertEquals(1000, insertedStudent.getPersonId());  // Changed to a larger number
     }
 
     @Test
     void deleteById() {
-        // Delete the inserted Student object from the database
-        studentsDao.deleteById(1);
-
-        // Try to retrieve the deleted Student object from the database
-        Student deletedStudent = studentsDao.findById(1);
-
-        // Assert that the deleted Student object cannot be retrieved (is null)
+        studentsDao.deleteById(1000);  // Changed to a larger number
+        Student deletedStudent = studentsDao.findById(1000);  // Changed to a larger number
         assertNull(deletedStudent);
     }
 
     @Test
     void findById() {
-        // Retrieve the inserted Student object from the database
-        Student foundStudent = studentsDao.findById(1);
-
-        // Assert that the retrieved Student object is not null
+        Student foundStudent = studentsDao.findById(1000);  // Changed to a larger number
         assertNotNull(foundStudent);
-
-        // Assert that the retrieved Student object has the expected properties
-        assertEquals(1, foundStudent.getStudentId());
-        assertEquals(1, foundStudent.getPersonId());
+        assertEquals(1000, foundStudent.getStudentId());  // Changed to a larger number
+        assertEquals(1000, foundStudent.getPersonId());  // Changed to a larger number
     }
 
     @Test
     void findAll() {
-        // Retrieve all Student objects from the database
         List<Student> students = studentsDao.findAll();
-
-        // Assert that the retrieved list of Student objects is not empty
         assertFalse(students.isEmpty());
+        assertTrue(students.stream().anyMatch(s -> s.getStudentId() == 1000));  // Changed to a larger number
+    }
 
-        // Assert that the retrieved list of Student objects contains the inserted Student object
-        assertTrue(students.stream().anyMatch(s -> s.getStudentId() == 1));
+    @AfterEach
+    public void tearDown() {
+        studentsDao.deleteById(1000);  // Changed to a larger number
+        papersDao.deleteById(1000);  // Changed to a larger number
+        subjectsDao.deleteById(1000);  // Changed to a larger number
+        personDao.deleteById(1000);  // Changed to a larger number
     }
 }
