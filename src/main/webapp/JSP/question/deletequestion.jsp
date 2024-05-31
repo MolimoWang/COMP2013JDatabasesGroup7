@@ -42,7 +42,9 @@
                         out.println("<p class='text-center'>Question deleted successfully.</p>");
                     } catch (NumberFormatException e) {
                         out.println("<p class='text-center text-danger'>Invalid input format. Please enter a valid Question ID.</p>");
-                    }
+                    } catch (Exception e) {
+                        out.println("<p class='text-center text-danger'>Error occurred while deleting the question. Please try again later.</p>");
+                        e.printStackTrace();
                 } else {
                     out.println("<p class='text-center text-danger'>Please fill out the Question ID field.</p>");
                 }
